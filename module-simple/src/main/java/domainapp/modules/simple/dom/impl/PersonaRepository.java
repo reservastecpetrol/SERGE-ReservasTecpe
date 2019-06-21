@@ -52,17 +52,17 @@ public class PersonaRepository {
         return q.setParameter("nombre", nombre)
                 .executeList();
     }
-
-
     public static class CreateDomainEvent extends ActionDomainEvent<SimpleObjects> {}
     @Action(domainEvent = SimpleObjects.CreateDomainEvent.class)
     @MemberOrder(sequence = "3")
     public Persona create(
-            @ParameterLayout(named="Nombre")
-            final String nombre ,
-            @ParameterLayout(named="Apellido")
-            final String apellido) {
-        return repositoryService.persist(new Persona(nombre,apellido));
+            @ParameterLayout(named="Nombre") final String nombre,
+            @ParameterLayout(named="Apellido")final String apellido,
+            @ParameterLayout(named="Direccion")final String direccion,
+            @ParameterLayout(named="Telefono") final String telefono
+    )
+    {
+        return repositoryService.persist(new Persona(nombre,apellido,direccion,telefono));
     }
 
 

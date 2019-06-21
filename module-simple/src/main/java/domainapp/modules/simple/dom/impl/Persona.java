@@ -92,16 +92,18 @@ public class Persona implements Comparable<Persona> {
     @javax.jdo.annotations.Column()
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
-    private int telefono;
+    private String telefono;
 
     @javax.jdo.annotations.Column()
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
     private Date fechaNacimiento;
 
-    Persona(String nombre,String apellido){
+    Persona(String nombre,String apellido,String direccion,String telefono){
         this.nombre=nombre;
         this.apellido=apellido;
+        this.direccion=direccion;
+        this.telefono=telefono;
     }
 
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "nombre")
@@ -122,6 +124,22 @@ public class Persona implements Comparable<Persona> {
         setApellido(apellido);
         return this;
     }
+    @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "direccion")
+    public Persona updateDireccion(
+            @Parameter(maxLength = 40)
+            @ParameterLayout(named = "Direccion")
+            final String direccion) {
+        setDireccion(direccion);
+        return this;
+    }
+    @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "telefono")
+    public Persona updateTelefono(
+            @Parameter(maxLength = 40)
+            @ParameterLayout(named = "Telefono")
+            final String telefono) {
+        setTelefono(telefono);
+        return this;
+    }
 
     public String default0UpdateNombre() {
         return getNombre();
@@ -137,6 +155,12 @@ public class Persona implements Comparable<Persona> {
 
     public TranslatableString validate0UpdateApellido(final String apellido) {
         return apellido != null && apellido.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
+    }
+    public TranslatableString validate0UpdateDireccion(final String direccion) {
+        return direccion != null && direccion.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
+    }
+    public TranslatableString validate0UpdateTelefono(final String telefono) {
+        return telefono != null && telefono.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
     }
 
     @Action(semantics = NON_IDEMPOTENT_ARE_YOU_SURE)
