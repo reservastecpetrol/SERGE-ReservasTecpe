@@ -97,13 +97,38 @@ public class Persona implements Comparable<Persona> {
     @javax.jdo.annotations.Column()
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
-    private Date fechaNacimiento;
+    private String email;
 
-    Persona(String nombre,String apellido,String direccion,String telefono){
+    @javax.jdo.annotations.Column()
+    @lombok.NonNull
+    @Property(editing = Editing.ENABLED)
+    private String dni;
+    //@javax.jdo.annotations.Column()
+    //@lombok.NonNull
+    // @Property(editing = Editing.ENABLED)
+    // private Date fechaNacimiento;
+
+    //listado de Jerarquias dropdown menu
+    private ListaJerarquias jerarquia;
+
+    @javax.jdo.annotations.Column(allowsNull="true")
+    @lombok.NonNull
+    @Property(editing = Editing.ENABLED)
+    public ListaJerarquias getJerarquia() {
+        return jerarquia;
+    }
+    public void setJerarquias(final ListaJerarquias jerarquia) {
+        this.jerarquia = jerarquia;
+    }
+
+    Persona(String nombre,String apellido,String direccion,String telefono,String email,String dni,ListaJerarquias jerarquias){
         this.nombre=nombre;
         this.apellido=apellido;
         this.direccion=direccion;
         this.telefono=telefono;
+        this.email=email;
+        this.dni=dni;
+        this.jerarquia=jerarquias;
     }
 
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "nombre")
@@ -140,6 +165,31 @@ public class Persona implements Comparable<Persona> {
         setTelefono(telefono);
         return this;
     }
+    @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "email")
+    public Persona updateEmail(
+            @Parameter(maxLength = 40)
+            @ParameterLayout(named = "Email")
+            final String email) {
+        setEmail(email);
+        return this;
+    }
+    @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "dni")
+    public Persona updateDni(
+            @Parameter(maxLength = 40)
+            @ParameterLayout(named = "Dni")
+            final String dni) {
+        setEmail(dni);
+        return this;
+    }
+    @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "jerarquia")
+    public ListaJerarquias updateJerarquia(
+            @Parameter(maxLength = 40)
+            @ParameterLayout(named = "Jerarquias")
+            final ListaJerarquias jerarquia) {
+        setJerarquias(jerarquia);
+        return jerarquia;
+    }
+
 
     public String default0UpdateNombre() {
         return getNombre();
@@ -162,6 +212,7 @@ public class Persona implements Comparable<Persona> {
     public TranslatableString validate0UpdateTelefono(final String telefono) {
         return telefono != null && telefono.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
     }
+
 
     @Action(semantics = NON_IDEMPOTENT_ARE_YOU_SURE)
     public void delete() {

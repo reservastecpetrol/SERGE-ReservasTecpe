@@ -59,10 +59,13 @@ public class PersonaRepository {
             @ParameterLayout(named="Nombre") final String nombre,
             @ParameterLayout(named="Apellido")final String apellido,
             @ParameterLayout(named="Direccion")final String direccion,
-            @ParameterLayout(named="Telefono") final String telefono
-    )
+            @ParameterLayout(named="Telefono") final String telefono,
+            @ParameterLayout(named="Email") final String email,
+            @ParameterLayout(named="Dni") final String dni,
+            @ParameterLayout(named="Jerarquia")ListaJerarquias jerarquias
+                )
     {
-        return repositoryService.persist(new Persona(nombre,apellido,direccion,telefono));
+        return repositoryService.persist(new Persona(nombre,apellido,direccion,telefono,email,dni,jerarquias));
     }
 
 

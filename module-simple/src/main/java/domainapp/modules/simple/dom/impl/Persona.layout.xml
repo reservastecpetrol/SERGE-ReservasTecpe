@@ -27,7 +27,9 @@
                                 </cpt:property>
                                 <cpt:property id="direccion" namedEscaped="true"/>
                                 <cpt:property id="telefono" namedEscaped="true"/>
-                                <cpt:property id="fechaNacimiento" namedEscaped="true"/>
+                                <cpt:property id="jerarquia" namedEscaped="true"/>
+                                <cpt:property id="email" namedEscaped="true"/>
+                                <cpt:property id="dni" namedEscaped="true"/>
                             </cpt:fieldSet>
                         </bs3:col>
                     </bs3:row>
