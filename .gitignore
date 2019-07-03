@@ -40,3 +40,12 @@ pom.xml.versionsBackup
 
 rebel.xml
 translations.pot
+
+application/pom.xml
+application/src/main/java/domainapp/application/manifest/isis-non-changing.properties
+module-simple/pom.xml
+module-simple/src/main/java/domainapp/modules/simple/SimpleModuleManifest.java
+webapp/pom.xml
+webapp/src/main/webapp/WEB-INF/isis.properties
+
+
