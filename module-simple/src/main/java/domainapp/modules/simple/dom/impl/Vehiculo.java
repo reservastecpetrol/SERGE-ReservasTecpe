@@ -10,17 +10,26 @@ import javax.jdo.annotations.Unique;
 import javax.jdo.annotations.Version;
 import javax.jdo.annotations.VersionStrategy;
 
+import com.google.common.collect.ComparisonChain;
+
+import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.DomainObjectLayout;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.Parameter;
+import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
+import org.apache.isis.applib.annotation.Publishing;
 import org.apache.isis.applib.annotation.Title;
+import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 
 import lombok.AccessLevel;
+import static org.apache.isis.applib.annotation.CommandReification.ENABLED;
+import static org.apache.isis.applib.annotation.SemanticsOf.IDEMPOTENT;
 
 @PersistenceCapable(
         identityType = IdentityType.DATASTORE,
@@ -56,6 +65,7 @@ import lombok.AccessLevel;
 @DomainObjectLayout(
         bookmarking = BookmarkPolicy.AS_ROOT
 )
+@lombok.Getter @lombok.Setter
 public class Vehiculo implements Comparable<Vehiculo> {
 
     @javax.jdo.annotations.Column(allowsNull = "false", length = 40)
@@ -100,30 +110,127 @@ public class Vehiculo implements Comparable<Vehiculo> {
     @Property(editing = Editing.ENABLED)
     private String estado;
 
-    public Vehiculo(String matr,String marc,String col,String mod,boolean comb,boolean seg,String ubic,String est){
-        this.matricula=matr;
-        this.marca=marc;
-        this.color=col;
-        this.modelo=mod;
-        this.combustible=comb;
-        this.seguro=seg;
-        this.ubicacion=ubic;
-        this.estado=est;
+    public Vehiculo(String matricula,String marca,String color,String modelo,boolean combustible,boolean seguro,String ubicacion,String estado){
+        this.matricula=matricula;
+        this.marca=marca;
+        this.color=color;
+        this.modelo=modelo;
+        this.combustible=combustible;
+        this.seguro=seguro;
+        this.ubicacion=ubicacion;
+        this.estado=estado;
+    }
+
+    @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "matricula")
+    public Vehiculo updateMatricula(
+            @Parameter(maxLength = 40)
+            @ParameterLayout(named = "Matricula")
+            final String matricula) {
+        setMatricula(matricula);
+        return this;
     }
 
 
-    //region > compareTo, toString
-    @Override
+    @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "marca")
+    public Vehiculo updateMarca(
+            @Parameter(maxLength = 40)
+            @ParameterLayout(named = "Marca")
+            final String marca) {
+        setMarca(marca);
+        return this;
+    }
+    @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "modelo")
+    public Vehiculo updateModelo(
+            @Parameter(maxLength = 40)
+            @ParameterLayout(named = "Modelo")
+            final String modelo) {
+        setModelo(modelo);
+        return this;
+    }
+    @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "color")
+    public Vehiculo updateColor(
+            @Parameter(maxLength = 40)
+            @ParameterLayout(named = "Color")
+            final String color) {
+        setColor(color);
+        return this;
+    }
+    @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "combustible")
+    public Vehiculo updateCombustible(
+            @ParameterLayout(named = "Combustible")
+            final boolean combustible) {
+        setCombustible(combustible);
+        return this;
+    }
 
-    public int compareTo(final Vehiculo other) {
-        return org.apache.isis.applib.util.ObjectContracts.compare(this, other, "matricula");
+    @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "seguro")
+    public Vehiculo updateSeguro(
+            @ParameterLayout(named = "Seguro")
+            final boolean seguro) {
+        setSeguro(seguro);
+        return this;
+    }
+
+
+    @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith ="ubicacion")
+    public Vehiculo updateUbicacion(
+            @Parameter(maxLength = 40)
+            @ParameterLayout(named = "Ubicacion")
+            final String ubicacion) {
+        setUbicacion(ubicacion);
+        return this;
+    }
+
+    @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith ="estado")
+    public Vehiculo updateEstado(
+            @Parameter(maxLength = 40)
+            @ParameterLayout(named = "estado")
+            final String estado) {
+        setEstado(estado);
+        return this;
+    }
+
+
+    public String default0UpdateMatricula() {
+        return getMatricula();
+    }
+
+    public TranslatableString validate0UpdateMatricula(final String matricula) {
+        return matricula != null && matricula.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
+    }
+
+    public String default0UpdateMarca() {
+        return getMarca();
+    }
+
+    public TranslatableString validate0UpdateMarca(final String marca) {
+        return marca != null && marca.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
+    }
+    public TranslatableString validate0UpdateColor(final String color) {
+        return color != null && color.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
+    }
+    public TranslatableString validate0UpdateModelo(final String modelo) {
+        return modelo != null && modelo.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
+    }
+
+    public TranslatableString validate0UpdateUbicacion(final String ubicacion) {
+        return ubicacion != null && ubicacion.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
+    }
+
+    public TranslatableString validate0UpdateEstado(final String estado) {
+        return estado != null && estado.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
     }
 
     @Override
     public String toString() {
-        return org.apache.isis.applib.util.ObjectContracts.toString(this, "matricula");
+        return getMatricula()+" "+getMarca();
     }
-    //endregion
+
+    public int compareTo(final Vehiculo other) {
+        return ComparisonChain.start()
+                .compare(this.getMatricula(), other.getMatricula())
+                .result();
+    }
 
     @javax.inject.Inject
     @javax.jdo.annotations.NotPersistent
