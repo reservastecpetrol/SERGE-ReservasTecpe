@@ -30,6 +30,7 @@ import org.apache.isis.applib.services.title.TitleService;
 import lombok.AccessLevel;
 import static org.apache.isis.applib.annotation.CommandReification.ENABLED;
 import static org.apache.isis.applib.annotation.SemanticsOf.IDEMPOTENT;
+import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE;
 
 @PersistenceCapable(
         identityType = IdentityType.DATASTORE,
@@ -219,6 +220,13 @@ public class Vehiculo implements Comparable<Vehiculo> {
 
     public TranslatableString validate0UpdateEstado(final String estado) {
         return estado != null && estado.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
+    }
+
+    @Action(semantics = NON_IDEMPOTENT_ARE_YOU_SURE)
+    public void delete() {
+        final String title = titleService.titleOf(this);
+        messageService.informUser(String.format("'%s' deleted", title));
+        repositoryService.remove(this);
     }
 
     @Override
