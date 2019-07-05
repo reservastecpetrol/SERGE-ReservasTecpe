@@ -49,3 +49,7 @@ webapp/pom.xml
 webapp/src/main/webapp/WEB-INF/isis.properties
 
 
+webapp/src/main/webapp/WEB-INF/isis.properties
+*.properties
+webapp/src/main/webapp/WEB-INF/isis.properties
+*.properties
