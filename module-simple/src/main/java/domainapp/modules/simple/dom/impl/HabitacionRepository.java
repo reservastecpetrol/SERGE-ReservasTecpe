@@ -32,7 +32,7 @@ public class HabitacionRepository {
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     @MemberOrder(sequence = "1")
-    public List<Habitacion> listAll() {
+    public List<Habitacion> MostrarTodos() {
         return repositoryService.allInstances(Habitacion.class);
     }
 
@@ -40,7 +40,7 @@ public class HabitacionRepository {
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     @MemberOrder(sequence = "2")
-    public List<Habitacion> findByName(
+    public List<Habitacion> Buscar(
             @ParameterLayout(named="Nombre")
             final String nombre
     ) {
