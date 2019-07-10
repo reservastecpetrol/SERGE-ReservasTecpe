@@ -23,13 +23,13 @@
             <mb3:named>Simple Objects</mb3:named>
             <mb3:section>
                 <mb3:serviceAction objectType="simple.SimpleObjectMenu" id="create">
-                    <cpt:named>Create</cpt:named>
+                    <cpt:named>Nuevo</cpt:named>
                 </mb3:serviceAction>
                 <mb3:serviceAction objectType="simple.SimpleObjectMenu" id="findByName">
-                    <cpt:named>Find By Name</cpt:named>
+                    <cpt:named>Buscar por nombre</cpt:named>
                 </mb3:serviceAction>
                 <mb3:serviceAction objectType="simple.SimpleObjectMenu" id="listAll">
-                    <cpt:named>List All</cpt:named>
+                    <cpt:named>Listar Todo</cpt:named>
                 </mb3:serviceAction>
             </mb3:section>
         </mb3:menu>
@@ -54,7 +54,7 @@
                     <cpt:named>Crear</cpt:named>
                 </mb3:serviceAction>
                 <mb3:serviceAction objectType="simple.SimpleVehiculoMenu" id="findByMatricula">
-                    <cpt:named>Find By Matricula</cpt:named>
+                    <cpt:named>Buscar por Matricula</cpt:named>
                 </mb3:serviceAction>
                 <mb3:serviceAction objectType="simple.SimpleVehiculoMenu" id="listAll">
                     <cpt:named>Listar Todos</cpt:named>
