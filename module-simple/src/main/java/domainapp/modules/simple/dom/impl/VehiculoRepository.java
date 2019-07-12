@@ -39,7 +39,7 @@ public class VehiculoRepository {
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     @MemberOrder(sequence = "2")
-    public List<Vehiculo> findByMatricula(
+    public List<Vehiculo> findPorMatricula(
             @ParameterLayout(named="Matricula")
             final String matricula
     ) {
