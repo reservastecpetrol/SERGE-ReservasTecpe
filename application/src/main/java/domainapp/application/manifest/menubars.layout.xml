@@ -53,7 +53,7 @@
                 <mb3:serviceAction objectType="simple.SimpleVehiculoMenu" id="create">
                     <cpt:named>Crear</cpt:named>
                 </mb3:serviceAction>
-                <mb3:serviceAction objectType="simple.SimpleVehiculoMenu" id="findByMatricula">
+                <mb3:serviceAction objectType="simple.SimpleVehiculoMenu" id="findPorMatricula">
                     <cpt:named>Buscar por Matricula</cpt:named>
                 </mb3:serviceAction>
                 <mb3:serviceAction objectType="simple.SimpleVehiculoMenu" id="listarTodos">
