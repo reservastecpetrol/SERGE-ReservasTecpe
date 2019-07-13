@@ -32,7 +32,7 @@ public class PersonaRepository {
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     @MemberOrder(sequence = "1")
-    public List<Persona> listAll() {
+    public List<Persona> listarTodos() {
         return repositoryService.allInstances(Persona.class);
     }
 
