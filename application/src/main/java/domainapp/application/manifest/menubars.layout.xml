@@ -67,7 +67,7 @@
                 <mb3:serviceAction objectType="simple.SimpleHabitacionMenu" id="create">
                     <cpt:named>Crear</cpt:named>
                 </mb3:serviceAction>
-                <mb3:serviceAction objectType="simple.simple.HabitacionMenu" id="Buscar">
+                <mb3:serviceAction objectType="simple.simple.HabitacionMenu" id="findPorNombre">
                     <cpt:named>Buscar por Numero</cpt:named>
                 </mb3:serviceAction>
                 <mb3:serviceAction objectType="simple.simple.HabitacionMenu" id="listarTodos">
