@@ -32,7 +32,7 @@ public class HabitacionRepository {
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     @MemberOrder(sequence = "1")
-    public List<Habitacion> MostrarTodos() {
+    public List<Habitacion> listarTodos() {
         return repositoryService.allInstances(Habitacion.class);
     }
 
