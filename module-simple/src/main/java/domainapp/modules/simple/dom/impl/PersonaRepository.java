@@ -40,7 +40,7 @@ public class PersonaRepository {
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     @MemberOrder(sequence = "2")
-    public List<Persona> findByName(
+    public List<Persona> findPorNombre(
             @ParameterLayout(named="Nombre")
             final String nombre
     ) {
