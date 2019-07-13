@@ -42,7 +42,7 @@
                 <mb3:serviceAction objectType="simple.SimplePersonaMenu" id="findByName">
                     <cpt:named>Find By Nombre</cpt:named>
                 </mb3:serviceAction>
-                <mb3:serviceAction objectType="simple.SimplePersonaMenu" id="listAll">
+                <mb3:serviceAction objectType="simple.SimplePersonaMenu" id="listarTodos">
                     <cpt:named>Listar Todos</cpt:named>
                 </mb3:serviceAction>
             </mb3:section>
