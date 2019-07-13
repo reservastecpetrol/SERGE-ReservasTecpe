@@ -44,7 +44,7 @@ public class HomePageViewModel {
      */
 
     public List<Persona> getObjects() {
-        return personaRepository.listAll();
+        return personaRepository.listarTodos();
     }
 
 
