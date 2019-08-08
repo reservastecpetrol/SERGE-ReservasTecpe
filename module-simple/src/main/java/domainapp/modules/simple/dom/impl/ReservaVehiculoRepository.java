@@ -32,7 +32,7 @@ public class ReservaVehiculoRepository {
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     @MemberOrder(sequence = "1")
-    public java.util.List<ReservaVehiculo> listAll() {
+    public java.util.List<ReservaVehiculo> listarTodos() {
         return container.allInstances(ReservaVehiculo.class);
     }
 
