@@ -39,7 +39,7 @@ public class ReservaVehiculoRepository {
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     @MemberOrder(sequence = "2")
-    public ReservaVehiculo findByFechaReserva(
+    public ReservaVehiculo findPorFechaReserva(
             final String fechaReserva
     ) {
         return container.uniqueMatch(
