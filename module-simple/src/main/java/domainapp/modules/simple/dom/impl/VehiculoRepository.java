@@ -12,6 +12,7 @@ import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
+import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
@@ -52,6 +53,22 @@ public class VehiculoRepository {
                 .executeList();
     }
 
+    @Programmatic
+    public List<Vehiculo> listarVehiculosPorEstado(
+            @ParameterLayout(named="Estado")
+            final String estado
+    ) {
+        TypesafeQuery<Vehiculo> tq = isisJdoSupport.newTypesafeQuery(Vehiculo.class);
+        final QVehiculo cand = QVehiculo.candidate();
+
+        List<Vehiculo> vehiculos = tq.filter(
+                cand.estado.startsWith(tq.stringParameter("estado")))
+                .setParameter("estado",estado).executeList();
+
+        return vehiculos;
+    }
+
+
     public static class CreateDomainEvent extends ActionDomainEvent<SimpleObjects> {}
     @Action(domainEvent = SimpleObjects.CreateDomainEvent.class)
     @MemberOrder(sequence = "3")
@@ -68,7 +85,6 @@ public class VehiculoRepository {
     {
         return repositoryService.persist(new Vehiculo(matricula,marca,color,modelo,combustible,seguro,ubicacion,estado));
     }
-
 
     @javax.inject.Inject
     RepositoryService repositoryService;
