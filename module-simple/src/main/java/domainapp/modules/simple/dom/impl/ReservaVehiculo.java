@@ -12,12 +12,19 @@ import javax.jdo.annotations.Unique;
 import javax.jdo.annotations.Version;
 import javax.jdo.annotations.VersionStrategy;
 
+import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.DomainObjectLayout;
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.Title;
+import org.apache.isis.applib.services.message.MessageService;
+import org.apache.isis.applib.services.repository.RepositoryService;
+import org.apache.isis.applib.services.title.TitleService;
+
+import lombok.AccessLevel;
+import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE;
 
 @PersistenceCapable(
         identityType = IdentityType.DATASTORE,
@@ -96,6 +103,12 @@ public class ReservaVehiculo implements Comparable<ReservaVehiculo> {
         this.estado=estado;
     }
 
+    @Action(semantics = NON_IDEMPOTENT_ARE_YOU_SURE)
+    public void delete() {
+        final String title = titleService.titleOf(this);
+        messageService.informUser(String.format("'%s' deleted", title));
+        repositoryService.remove(this);
+    }
 
     //region > compareTo, toString
     @Override
@@ -108,5 +121,21 @@ public class ReservaVehiculo implements Comparable<ReservaVehiculo> {
         return org.apache.isis.applib.util.ObjectContracts.toString(this, "fechaReserva");
     }
     //endregion
+
+    @javax.inject.Inject
+    @javax.jdo.annotations.NotPersistent
+    @lombok.Getter(AccessLevel.NONE) @lombok.Setter(AccessLevel.NONE)
+    RepositoryService repositoryService;
+
+    @javax.inject.Inject
+    @javax.jdo.annotations.NotPersistent
+    @lombok.Getter(AccessLevel.NONE) @lombok.Setter(AccessLevel.NONE)
+    TitleService titleService;
+
+    @javax.inject.Inject
+    @javax.jdo.annotations.NotPersistent
+    @lombok.Getter(AccessLevel.NONE) @lombok.Setter(AccessLevel.NONE)
+    MessageService messageService;
+
 
 }
