@@ -16,6 +16,9 @@
                     <bs3:row>
                         <bs3:col span="12">
                             <cpt:fieldSet name="General">
+                                <cpt:action id="delete">
+                                    <cpt:describedAs>Deletes this object from the persistent datastore</cpt:describedAs>
+                                </cpt:action>
                                 <cpt:property id="fechaReserva" namedEscaped="true">
                                 </cpt:property>
                                 <cpt:property id="fechaInicio" namedEscaped="true">
