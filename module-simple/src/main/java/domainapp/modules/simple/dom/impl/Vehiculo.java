@@ -109,10 +109,10 @@ public class Vehiculo implements Comparable<Vehiculo> {
     @Property(editing = Editing.ENABLED)
     private String ubicacion;
 
-    @javax.jdo.annotations.Column(allowsNull = "true", length = 40)
+    @javax.jdo.annotations.Column(allowsNull = "true")
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
-    private String estado;
+    private String estado; //DISPONIBLE|| OCUPADO || REPARACION || INACTIVO
 
     public Vehiculo(String matricula,String marca,String color,String modelo,boolean combustible,boolean seguro,String ubicacion,String estado){
         this.matricula=matricula;
@@ -223,6 +223,21 @@ public class Vehiculo implements Comparable<Vehiculo> {
 
     public TranslatableString validate0UpdateEstado(final String estado) {
         return estado != null && estado.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
+    }
+
+    public void ocupado()
+    {
+        estado = "OCUPADO";
+    }
+
+    public void reparacion()
+    {
+        estado = "REPARACION";
+    }
+
+    public void inactivo()
+    {
+        estado = "INACTIVO";
     }
 
     @Action(semantics = NON_IDEMPOTENT_ARE_YOU_SURE)
