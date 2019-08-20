@@ -1,7 +1,8 @@
 package domainapp.modules.simple.dom.impl;
 
 import java.util.Collection;
-import java.util.Date;
+
+import org.joda.time.LocalDate;
 
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
@@ -40,7 +41,7 @@ public class ReservaVehiculoRepository {
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     @MemberOrder(sequence = "2")
     public ReservaVehiculo findPorFechaReserva(
-            final String fechaReserva
+            final LocalDate fechaReserva
     ) {
         return container.uniqueMatch(
                 new org.apache.isis.applib.query.QueryDefault<>(
@@ -50,23 +51,62 @@ public class ReservaVehiculoRepository {
     }
 
     @Programmatic
-    public Collection<Vehiculo> choices4Create() {
-        return vehiculoRepository.listarVehiculosPorEstado("Disponible");
+    public Collection<Persona> choices2Create() {
+        return personaRepository.listarTodos();
+    }
+
+    @Programmatic
+    public String validate0Create(final LocalDate fechaInicio){
+
+        String validacion="";
+
+        if (fechaInicio.isBefore(LocalDate.now())) {
+              validacion="Una Reserva no puede empezar en el pasado";
+        }
+
+        return validacion;
+    }
+
+    @Programmatic
+    public String validate1Create(final LocalDate fechaInicio,final LocalDate fechaFin){
+
+        String validacion="";
+
+        if (fechaFin.isBefore(LocalDate.now())) {
+            validacion="Una Reserva no puede finalizar en el pasado";
+        }else {
+            if (fechaFin.isBefore(fechaInicio)) {
+                validacion = "Una Reserva no puede finalizar antes de la fecha de Inicio";
+            }
+        }
+
+        return validacion;
     }
 
     public static class CreateDomainEvent extends ActionDomainEvent<SimpleObjects> {}
     @Action(domainEvent = SimpleObjects.CreateDomainEvent.class)
     @MemberOrder(sequence = "3")
     public ReservaVehiculo create(
-            @ParameterLayout(named="Fecha Reserva") final Date fechaReserva,
-            @ParameterLayout(named="Fecha Inicio")final Date fechaInicio,
-            @ParameterLayout(named="Fecha Fin")final Date fechaFin,
-            @ParameterLayout(named="Persona") final Persona persona,
-            @ParameterLayout(named="Vehiculo") final Vehiculo vehiculo,
-            @ParameterLayout(named="Estado")final String estado
+
+            @ParameterLayout(named="Fecha Inicio")final LocalDate fechaInicio,
+            @ParameterLayout(named="Fecha Fin")final LocalDate fechaFin,
+            @ParameterLayout(named="Persona")final Persona persona
     )
     {
-        return repositoryService.persist(new ReservaVehiculo(fechaReserva,fechaInicio,fechaFin,persona,vehiculo,estado));
+        ReservaVehiculo reservaVehiculo=new ReservaVehiculo();
+
+        Vehiculo vehiculo=vehiculoRepository.listarVehiculosPorEstado("DISPONIBLE").get(0);
+
+        vehiculo.ocupado();
+
+        reservaVehiculo.setFechaReserva(LocalDate.now());
+        reservaVehiculo.setFechaInicio(fechaInicio);
+        reservaVehiculo.setFechaFin(fechaFin);
+        reservaVehiculo.setPersona(persona);
+        reservaVehiculo.setVehiculo(vehiculo);
+        reservaVehiculo.setEstado("ACTIVA");
+
+        return repositoryService.persist(reservaVehiculo);
     }
 
     @javax.inject.Inject
@@ -79,5 +119,9 @@ public class ReservaVehiculoRepository {
     org.apache.isis.applib.DomainObjectContainer container;
 
     @javax.inject.Inject
+    PersonaRepository personaRepository;
+
+    @javax.inject.Inject
     VehiculoRepository vehiculoRepository;
+
 }
