@@ -1,16 +1,16 @@
 package domainapp.modules.simple.dom.impl;
 
-import java.util.Date;
-
 import javax.jdo.annotations.DatastoreIdentity;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.Queries;
 import javax.jdo.annotations.Query;
-import javax.jdo.annotations.Unique;
 import javax.jdo.annotations.Version;
 import javax.jdo.annotations.VersionStrategy;
+
+import org.joda.time.LocalDate;
 
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
@@ -29,7 +29,8 @@ import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_Y
 @PersistenceCapable(
         identityType = IdentityType.DATASTORE,
         schema = "simple",
-        table = "ReservaVehiculo"
+        table = "ReservaVehiculo",
+        detachable="true"
 )
 @DatastoreIdentity(
         strategy = IdGeneratorStrategy.IDENTITY,
@@ -53,7 +54,7 @@ import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_Y
                         + "FROM domainapp.modules.simple.dom.impl.ReservaVehiculo "
                         + "WHERE fechaReserva == :fechaReserva ")
 })
-@Unique(name = "ReservaVehiculo_fechaReserva_UNQ", members = { "fechaReserva" })
+//@Unique(name = "ReservaVehiculo_fechaReserva_UNQ", members = { "fechaReserva" })
 @DomainObject(
         editing = Editing.DISABLED
 )
@@ -63,38 +64,44 @@ import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_Y
 @lombok.Getter @lombok.Setter
 public class ReservaVehiculo implements Comparable<ReservaVehiculo> {
 
-    @javax.jdo.annotations.Column()
+    //, CalendarEventable
+
+    @javax.jdo.annotations.Column(allowsNull = "false")
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
-    @Title(prepend = "Fecha: ")
-    private Date fechaReserva;
+    @Title(prepend = "Reserva: ")
+    private LocalDate fechaReserva;
 
-    @javax.jdo.annotations.Column()
+    @javax.jdo.annotations.Column(allowsNull = "false")
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
-    private Date fechaInicio;
+    private LocalDate fechaInicio;
 
-    @javax.jdo.annotations.Column()
+    @javax.jdo.annotations.Column(allowsNull = "false")
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
-    private Date fechaFin;
+    private LocalDate fechaFin;
 
-    @javax.jdo.annotations.Column(name="PERSONA_ID")
+    @javax.jdo.annotations.Column(allowsNull = "false",name="PERSONA_ID")
+    @Persistent(defaultFetchGroup="true")
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
     private Persona persona;
 
-    @javax.jdo.annotations.Column(name="VEHICULO_ID")
+    @javax.jdo.annotations.Column(allowsNull = "false",name="VEHICULO_ID")
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
     private Vehiculo vehiculo;
 
-    @javax.jdo.annotations.Column(allowsNull = "true", length = 40)
+    @javax.jdo.annotations.Column(allowsNull = "false")
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
-    private String estado;
+    private String estado;//ACTIVA | CANCELADA | ARRIBADA
 
-    public ReservaVehiculo(Date fechaReserva,Date fechaInicio,Date fechaFin,Persona persona,Vehiculo vehiculo,String estado){
+
+    public ReservaVehiculo(){}
+
+    public ReservaVehiculo(LocalDate fechaReserva,LocalDate fechaInicio,LocalDate fechaFin,Persona persona,Vehiculo vehiculo,String estado){
         this.fechaReserva=fechaReserva;
         this.fechaInicio=fechaInicio;
         this.fechaFin=fechaFin;
@@ -102,6 +109,39 @@ public class ReservaVehiculo implements Comparable<ReservaVehiculo> {
         this.vehiculo=vehiculo;
         this.estado=estado;
     }
+
+    public void cancelar()
+    {
+        estado = "CANCELADA";
+    }
+
+    public void arribar()
+    {
+        estado = "ARRIBADA";
+    }
+
+    /*
+    @Programmatic
+    @Override
+    public String getCalendarName() {
+
+        return  getPersona().getJerarquia().name();
+    }
+
+    @Programmatic
+    public String getNotes() {
+
+        return persona.getNombre() + persona.getApellido();
+
+    }
+
+    @Programmatic
+    @Override
+    public CalendarEvent toCalendarEvent() {
+
+        return new CalendarEvent(getFechaInicio().toDateTimeAtStartOfDay(), getCalendarName(), getNotes());
+    }
+   */
 
     @Action(semantics = NON_IDEMPOTENT_ARE_YOU_SURE)
     public void delete() {
