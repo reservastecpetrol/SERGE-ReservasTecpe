@@ -1,6 +1,7 @@
 package domainapp.modules.simple.dom.impl;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.datanucleus.query.typesafe.TypesafeQuery;
 
@@ -11,6 +12,7 @@ import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
+import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.SemanticsOf;
@@ -73,16 +75,32 @@ public class VehiculoRepository {
     @Action(domainEvent = SimpleObjects.CreateDomainEvent.class)
     @MemberOrder(sequence = "3")
     public Vehiculo create(
+            @Parameter(
+                    regexPattern = "[A-Za-z]{3}\\d{3}",
+                    regexPatternFlags = Pattern.CASE_INSENSITIVE,
+                    regexPatternReplacement = "Ingrese dato correcto"
+            )
             @ParameterLayout(named="Matricula") final String matricula,
             @ParameterLayout(named="Marca")final String marca,
+            @Parameter(
+                    regexPattern = "[A-Za-z ]+",
+                    regexPatternFlags = Pattern.CASE_INSENSITIVE,
+                    regexPatternReplacement = "Ingrese dato correcto"
+            )
             @ParameterLayout(named="Color")final String color,
+            @Parameter(
+                    regexPattern = "\\w[@&:\\-\\,\\.\\+ \\w]*",
+                    regexPatternFlags = Pattern.CASE_INSENSITIVE,
+                    regexPatternReplacement = "Ingrese dato correcto"
+            )
             @ParameterLayout(named="Modelo") final String modelo,
             @ParameterLayout(named="Combustible") final boolean combustible,
             @ParameterLayout(named="Seguro") final boolean seguro,
-            @ParameterLayout(named="Ubicacion")final String ubicacion,
-            @ParameterLayout(named="Estado")final String estado
+            @ParameterLayout(named="Ubicacion")final String ubicacion
     )
     {
+        String estado="DISPONIBLE";
+
         return repositoryService.persist(new Vehiculo(matricula,marca,color,modelo,combustible,seguro,ubicacion,estado));
     }
 
