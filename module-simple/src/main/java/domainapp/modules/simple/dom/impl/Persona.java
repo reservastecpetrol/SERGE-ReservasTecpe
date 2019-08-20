@@ -1,7 +1,5 @@
 package domainapp.modules.simple.dom.impl;
 
-import java.util.Date;
-
 import javax.jdo.annotations.DatastoreIdentity;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
@@ -69,7 +67,7 @@ import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_Y
         bookmarking = BookmarkPolicy.AS_ROOT
 )
 @lombok.Getter @lombok.Setter
-@lombok.RequiredArgsConstructor
+//@lombok.RequiredArgsConstructor
 public class Persona implements Comparable<Persona> {
 
     @javax.jdo.annotations.Column(allowsNull = "false", length = 40)
@@ -89,7 +87,7 @@ public class Persona implements Comparable<Persona> {
     @Property(editing = Editing.ENABLED)
     private String direccion;
 
-    @javax.jdo.annotations.Column()
+    @javax.jdo.annotations.Column(allowsNull = "true", length =10)
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
     private String telefono;
@@ -99,21 +97,23 @@ public class Persona implements Comparable<Persona> {
     @Property(editing = Editing.ENABLED)
     private String email;
 
-    @javax.jdo.annotations.Column()
+    @javax.jdo.annotations.Column(allowsNull = "true", length = 8)
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
     private String dni;
+
     //@javax.jdo.annotations.Column()
     //@lombok.NonNull
     // @Property(editing = Editing.ENABLED)
     // private Date fechaNacimiento;
 
-    //listado de Jerarquias dropdown menu
-    private ListaJerarquias jerarquia;
 
+    //listado de Jerarquias dropdown menu
     @javax.jdo.annotations.Column(allowsNull="true")
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
+    private ListaJerarquias jerarquia;
+
     public ListaJerarquias getJerarquia() {
         return jerarquia;
     }
