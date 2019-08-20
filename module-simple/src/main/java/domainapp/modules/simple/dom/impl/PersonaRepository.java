@@ -1,6 +1,7 @@
 package domainapp.modules.simple.dom.impl;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.datanucleus.query.typesafe.TypesafeQuery;
 
@@ -11,6 +12,7 @@ import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
+import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
@@ -56,11 +58,41 @@ public class PersonaRepository {
     @Action(domainEvent = SimpleObjects.CreateDomainEvent.class)
     @MemberOrder(sequence = "3")
     public Persona create(
+            @Parameter(
+                    regexPattern = "[A-Za-z ]+",
+                    regexPatternFlags = Pattern.CASE_INSENSITIVE,
+                    regexPatternReplacement = "Ingrese dato correcto"
+            )
             @ParameterLayout(named="Nombre") final String nombre,
+            @Parameter(
+                    regexPattern = "[A-Za-z ]+",
+                    regexPatternFlags = Pattern.CASE_INSENSITIVE,
+                    regexPatternReplacement = "Ingrese dato correcto"
+            )
             @ParameterLayout(named="Apellido")final String apellido,
+            @Parameter(
+                    regexPattern = "[A-Za-z ]+[0-9]+",
+                    regexPatternFlags = Pattern.CASE_INSENSITIVE,
+                    regexPatternReplacement = "Ingrese dato correcto"
+            )
             @ParameterLayout(named="Direccion")final String direccion,
+            @Parameter(
+                    regexPattern = "[0-9]+",
+                    regexPatternFlags = Pattern.CASE_INSENSITIVE,
+                    regexPatternReplacement = "Ingrese dato correcto"
+            )
             @ParameterLayout(named="Telefono") final String telefono,
+            @Parameter(
+                    regexPattern = "(\\w+\\.)*\\w+@(\\w+\\.)+[A-Za-z]+",
+                    regexPatternFlags = Pattern.CASE_INSENSITIVE,
+                    regexPatternReplacement = "Ingrese una dirección de correo electrónico válida (contienen un símbolo '@') -"
+            )
             @ParameterLayout(named="Email") final String email,
+            @Parameter(
+                    regexPattern = "[0-9]+",
+                    regexPatternFlags = Pattern.CASE_INSENSITIVE,
+                    regexPatternReplacement = "Ingrese dato correcto"
+            )
             @ParameterLayout(named="Dni") final String dni,
             @ParameterLayout(named="Jerarquia")ListaJerarquias jerarquias
                 )
