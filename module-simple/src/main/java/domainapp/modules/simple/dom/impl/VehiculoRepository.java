@@ -76,7 +76,7 @@ public class VehiculoRepository {
     @MemberOrder(sequence = "3")
     public Vehiculo create(
             @Parameter(
-                    regexPattern = "[A-Za-z]{3}\\d{3}",
+                    regexPattern = "[a-z]{2} [0-9]{3} [a-z]{2}",
                     regexPatternFlags = Pattern.CASE_INSENSITIVE,
                     regexPatternReplacement = "Ingrese dato correcto"
             )
