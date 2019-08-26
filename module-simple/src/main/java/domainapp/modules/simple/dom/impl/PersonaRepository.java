@@ -29,8 +29,22 @@ import org.apache.isis.applib.services.repository.RepositoryService;
         menuOrder = "10"
 )
 
+/**
+ * Esta clase es el servicio de dominio de la clase Persona
+ * que define los metodos
+ * que van a aparecer en el menu del sistema
+ *
+ * @author Francisco Bellani
+ *
+ */
 public class PersonaRepository {
 
+    /**
+     * Este metodo lista todos las personas que hay registradas
+     * en el sistema
+     *
+     * @return List<Persona>
+     */
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     @MemberOrder(sequence = "1")
@@ -39,6 +53,13 @@ public class PersonaRepository {
     }
 
 
+    /**
+     * Este metodo permite encontrar una Persona en particular
+     * dado un nombre
+     *
+     * @param nombre
+     * @return List<Persona>
+     */
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     @MemberOrder(sequence = "2")
@@ -54,9 +75,27 @@ public class PersonaRepository {
         return q.setParameter("nombre", nombre)
                 .executeList();
     }
+
+
     public static class CreateDomainEvent extends ActionDomainEvent<SimpleObjects> {}
     @Action(domainEvent = SimpleObjects.CreateDomainEvent.class)
     @MemberOrder(sequence = "3")
+    /**
+     * Este metodo permite crear la entidad de dominio Persona
+     * con los datos que va a ingresar el usuario
+     *
+     *
+     * @param nombre
+     * @param apellido
+     * @param direccion
+     * @param telefono
+     * @param email
+     * @param dni
+     * @param jerarquias
+     *
+     *
+     * @return Persona
+     */
     public Persona create(
             @Parameter(
                     regexPattern = "[A-Za-z ]+",
@@ -97,7 +136,7 @@ public class PersonaRepository {
             @ParameterLayout(named="Jerarquia")ListaJerarquias jerarquias
                 )
     {
-        return repositoryService.persist(new Persona(nombre,apellido,direccion,telefono,email,dni,jerarquias));
+        return repositoryService.persist(new Persona(nombre.toUpperCase(),apellido.toUpperCase(),direccion.toUpperCase(),telefono,email,dni,jerarquias));
     }
 
 

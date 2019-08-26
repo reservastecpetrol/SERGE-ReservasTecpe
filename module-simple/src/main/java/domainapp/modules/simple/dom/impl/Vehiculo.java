@@ -34,6 +34,7 @@ import static org.apache.isis.applib.annotation.CommandReification.ENABLED;
 import static org.apache.isis.applib.annotation.SemanticsOf.IDEMPOTENT;
 import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE;
 
+
 @PersistenceCapable(
         identityType = IdentityType.DATASTORE,
         schema = "simple",
@@ -70,50 +71,84 @@ import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_Y
 )
 @lombok.Getter @lombok.Setter
 @XmlJavaTypeAdapter(PersistentEntityAdapter.class)
+/**
+ * Esta clase define la entidad de dominio Vehiculo
+ * con todas sus propiedades.
+ * Ademas de metodos que realizan
+ * Validacion de propiedades
+ * Actualizacion de propiedades
+ * Eliminar una entidad de Vehiculo
+ * Un metodo Constructor
+ *Metodos para modificar los estados de la entidad Vehiculo
+ *
+ *
+ * @author Cintia Millacura
+ *
+ */
 public class Vehiculo implements Comparable<Vehiculo> {
+
+    //Definicion de las propiedades de la entidad Vehiculo
 
     @javax.jdo.annotations.Column(allowsNull = "false", length = 40)
     @lombok.NonNull
     @Property() // editing disabled by default, see isis.properties
     @Title(prepend = "Vehiculo: ")
-    private String matricula;
+    private String matricula; //esta variable hace referencia a la matricula de la entidad Vehiculo
 
     @javax.jdo.annotations.Column(allowsNull = "true", length = 40)
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
-    private String marca;
+    private String marca; // esta variable hace referencia a la marca de la entidad Vehiculo
 
     @javax.jdo.annotations.Column(allowsNull = "true", length = 40)
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
-    private String color;
+    private String color; // esta variable hace referencia al color de la entidad Vehiculo
 
     @javax.jdo.annotations.Column(allowsNull = "true", length = 40)
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
-    private String modelo;
+    private String modelo; // esta variable hace referencia al modelo de la entidad Vehiculo
 
     @javax.jdo.annotations.Column()
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
-    private boolean combustible;
+    private boolean combustible; // esta variable booleana hace referencia a si la entidad Vehiculo cuenta con combustible
 
     @javax.jdo.annotations.Column()
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
-    private boolean seguro;
+    private boolean seguro; // esta variable booleana hace referencia a si la entidad Vehiculo cuenta con seguro
 
 
     @javax.jdo.annotations.Column(allowsNull = "true", length = 40)
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
-    private String ubicacion;
+    private String ubicacion; //esta variable hace referencia a la ubicacion de la entidad Vehiculo
+
 
     @javax.jdo.annotations.Column(allowsNull = "true")
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
-    private String estado; //DISPONIBLE|| OCUPADO || REPARACION || INACTIVO
+    // esta variable hace referencia al estado en el que se encuentra la entidad Vehiculo
+    // los cuales pueden ser :
+    // DISPONIBLE|| OCUPADO || REPARACION || INACTIVO
+    private String estado;
 
+
+    /**
+    *Este es un metodo constructor
+    *
+    *@param matricula -valor ingresado por el usuario
+     *@param marca -valor ingresado por el usuario
+     *@param color  -valor ingresado por el usuario
+     *@param modelo  -valor ingresado por el usuario
+     *@param combustible -valor ingresado por el usuario
+     *@param seguro -valor ingresado por el usuario
+     *@param ubicacion -valor ingresado por el usuario
+     *@param estado  -valor definido en el codigo
+    *
+    */
     public Vehiculo(String matricula,String marca,String color,String modelo,boolean combustible,boolean seguro,String ubicacion,String estado){
         this.matricula=matricula;
         this.marca=marca;
@@ -125,6 +160,14 @@ public class Vehiculo implements Comparable<Vehiculo> {
         this.estado=estado;
     }
 
+
+    /**
+     *
+     * Este metodo realiza la actualizacion de la variable matricula
+     *
+     * @param matricula
+     * @return Vehiculo
+     */
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "matricula")
     public Vehiculo updateMatricula(
             @Parameter(maxLength = 40)
@@ -135,6 +178,13 @@ public class Vehiculo implements Comparable<Vehiculo> {
     }
 
 
+    /**
+     *
+     * Este metodo realiza la actualizacion de la variable marca
+     *
+     * @param marca
+     * @return Vehiculo
+     */
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "marca")
     public Vehiculo updateMarca(
             @Parameter(maxLength = 40)
@@ -143,6 +193,15 @@ public class Vehiculo implements Comparable<Vehiculo> {
         setMarca(marca);
         return this;
     }
+
+
+    /**
+     *
+     * Este metodo realiza la actualizacion de la variable modelo
+     *
+     * @param modelo
+     * @return Vehiculo
+     */
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "modelo")
     public Vehiculo updateModelo(
             @Parameter(maxLength = 40)
@@ -151,6 +210,15 @@ public class Vehiculo implements Comparable<Vehiculo> {
         setModelo(modelo);
         return this;
     }
+
+
+    /**
+     *
+     * Este metodo realiza la actualizacion de la variable color
+     *
+     * @param color
+     * @return Vehiculo
+     */
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "color")
     public Vehiculo updateColor(
             @Parameter(maxLength = 40)
@@ -159,6 +227,15 @@ public class Vehiculo implements Comparable<Vehiculo> {
         setColor(color);
         return this;
     }
+
+
+    /**
+     *
+     * Este metodo realiza la actualizacion de la variable combustible
+     *
+     * @param combustible
+     * @return Vehiculo
+     */
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "combustible")
     public Vehiculo updateCombustible(
             @ParameterLayout(named = "Combustible")
@@ -167,6 +244,14 @@ public class Vehiculo implements Comparable<Vehiculo> {
         return this;
     }
 
+
+    /**
+     *
+     * Este metodo realiza la actualizacion de la variable seguro
+     *
+     * @param seguro
+     * @return Vehiculo
+     */
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "seguro")
     public Vehiculo updateSeguro(
             @ParameterLayout(named = "Seguro")
@@ -176,6 +261,13 @@ public class Vehiculo implements Comparable<Vehiculo> {
     }
 
 
+    /**
+     *
+     * Este metodo realiza la actualizacion de la variable ubicacion
+     *
+     * @param ubicacion
+     * @return Vehiculo
+     */
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith ="ubicacion")
     public Vehiculo updateUbicacion(
             @Parameter(maxLength = 40)
@@ -185,6 +277,13 @@ public class Vehiculo implements Comparable<Vehiculo> {
         return this;
     }
 
+
+    /**
+     * Este metodo realiza la actualizacion de la variable estado
+     *
+     * @param estado
+     * @return Vehiculo
+     */
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith ="estado")
     public Vehiculo updateEstado(
             @Parameter(maxLength = 40)
@@ -199,6 +298,14 @@ public class Vehiculo implements Comparable<Vehiculo> {
         return getMatricula();
     }
 
+
+    /**
+     * Este metodo realiza la validacion de la variable matricula
+     * de forma que el usuario no ingrese un signo de exclamacion
+     *
+     * @param matricula
+     * @return TranslatableString
+     */
     public TranslatableString validate0UpdateMatricula(final String matricula) {
         return matricula != null && matricula.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
     }
@@ -207,45 +314,104 @@ public class Vehiculo implements Comparable<Vehiculo> {
         return getMarca();
     }
 
+
+    /**
+     * Este metodo realiza la validacion de la variable marca
+     * de forma que el usuario no ingrese un signo de exclamacion
+     *
+     * @param marca
+     * @return TranslatableString
+     */
     public TranslatableString validate0UpdateMarca(final String marca) {
         return marca != null && marca.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
     }
+
+
+    /**
+     * Este metodo realiza la validacion de la variable color
+     * de forma que el usuario no ingrese un signo de exclamacion
+     *
+     * @param color
+     * @return TranslatableString
+     */
     public TranslatableString validate0UpdateColor(final String color) {
         return color != null && color.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
     }
+
+
+    /**
+     * Este metodo realiza la validacion de la variable modelo
+     * de forma que el usuario no ingrese un signo de exclamacion
+     *
+     * @param modelo
+     * @return TranslatableString
+     */
     public TranslatableString validate0UpdateModelo(final String modelo) {
         return modelo != null && modelo.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
     }
 
+
+    /**
+     * Este metodo realiza la validacion de la variable ubicacion
+     * de forma que el usuario no ingrese un signo de exclamacion
+     *
+     * @param ubicacion
+     * @return TranslatableString
+     */
     public TranslatableString validate0UpdateUbicacion(final String ubicacion) {
         return ubicacion != null && ubicacion.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
     }
 
+
+    /**
+     * Este metodo realiza la validacion de la variable estado
+     * de forma que el usuario no ingrese un signo de exclamacion
+     *
+     * @param estado
+     * @return TranslatableString
+     */
     public TranslatableString validate0UpdateEstado(final String estado) {
         return estado != null && estado.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
     }
 
+
+    /**
+     * Este metodo cambia el valor de la variable estado a OCUPADO
+     */
     public void ocupado()
     {
         estado = "OCUPADO";
     }
 
+
+    /**
+     * Este metodo cambia el valor de la variable estado a REPARACIÓN
+     */
     public void reparacion()
     {
         estado = "REPARACION";
     }
 
+
+    /**
+     * Este metodo cambia el valor de la variable estado a INACTIVO
+     */
     public void inactivo()
     {
         estado = "INACTIVO";
     }
 
+
+    /**
+     * Este metodo permite eliminar la entidad de Vehiculo
+     */
     @Action(semantics = NON_IDEMPOTENT_ARE_YOU_SURE)
     public void delete() {
         final String title = titleService.titleOf(this);
         messageService.informUser(String.format("'%s' deleted", title));
         repositoryService.remove(this);
     }
+
 
     @Override
     public String toString() {
@@ -257,6 +423,8 @@ public class Vehiculo implements Comparable<Vehiculo> {
                 .compare(this.getMatricula(), other.getMatricula())
                 .result();
     }
+
+
 
     @javax.inject.Inject
     @javax.jdo.annotations.NotPersistent

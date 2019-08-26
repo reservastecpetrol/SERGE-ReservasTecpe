@@ -30,8 +30,23 @@ import org.apache.isis.applib.services.repository.RepositoryService;
         menuOrder = "10"
 )
 
+/**
+ *
+ * Esta clase es el servicio de dominio de la clase Vehiculo
+ * que define los metodos
+ * que van a aparecer en el menu del sistema
+ *
+ *@author Cintia Millacura
+ *
+ */
 public class VehiculoRepository {
 
+    /**
+     * Este metodo lista todos los Vehiculos que hay cargados
+     * en el sistema
+     *
+     * @return List<Vehiculo>
+     */
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     @MemberOrder(sequence = "1")
@@ -39,6 +54,15 @@ public class VehiculoRepository {
         return repositoryService.allInstances(Vehiculo.class);
     }
 
+
+    /**
+     * Este metodo permite encontrar un Vehiculo en particular
+     * dada una matricula que es la que identifica de manera
+     * unica a cada Vehiculo
+     *
+     * @param matricula
+     * @return List<Vehiculo>
+     */
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     @MemberOrder(sequence = "2")
@@ -55,6 +79,14 @@ public class VehiculoRepository {
                 .executeList();
     }
 
+
+    /**
+     * Este metodo permite recuperar en una lista todos los Vehiculos
+     * dado un estado en particular
+     *
+     * @param estado
+     * @return List<Vehiculo>
+     */
     @Programmatic
     public List<Vehiculo> listarVehiculosPorEstado(
             @ParameterLayout(named="Estado")
@@ -74,6 +106,21 @@ public class VehiculoRepository {
     public static class CreateDomainEvent extends ActionDomainEvent<SimpleObjects> {}
     @Action(domainEvent = SimpleObjects.CreateDomainEvent.class)
     @MemberOrder(sequence = "3")
+    /**
+     * Este metodo permite crear la entidad de dominio Vehiculo
+     * con los datos que va a ingresar el usuario
+     *
+     *
+     * @param matricula
+     * @param marca
+     * @param color
+     * @param modelo
+     * @param combustible
+     * @param seguro
+     * @param ubicacion
+     *
+     * @return Vehiculo
+     */
     public Vehiculo create(
             @Parameter(
                     regexPattern = "[A-Za-z]{3}\\d{3}",
@@ -101,7 +148,7 @@ public class VehiculoRepository {
     {
         String estado="DISPONIBLE";
 
-        return repositoryService.persist(new Vehiculo(matricula,marca,color,modelo,combustible,seguro,ubicacion,estado));
+        return repositoryService.persist(new Vehiculo(matricula.toUpperCase(),marca.toUpperCase(),color.toUpperCase(),modelo.toUpperCase(),combustible,seguro,ubicacion.toUpperCase(),estado));
     }
 
     @javax.inject.Inject

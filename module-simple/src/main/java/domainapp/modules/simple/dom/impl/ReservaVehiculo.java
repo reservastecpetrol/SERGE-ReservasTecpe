@@ -62,45 +62,80 @@ import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_Y
         bookmarking = BookmarkPolicy.AS_ROOT
 )
 @lombok.Getter @lombok.Setter
+
+/**
+ * Esta clase define la entidad de dominio ReservaVehiculo
+ * mediante la cual un usuario puede realizar la reserva de un
+ * Vehiculo dada una fecha de Inicio
+ * En la misma se definen todas sus propiedades y metodos.
+ * Entre los cuales encontramos metodos Constructores,para eliminar un objeto
+ * y metodos para modificar el estado de la reserva.
+ *
+ * @see vehiculo.Vehiculo
+ * @see persona.Persona
+ *
+ *  @author Cintia Millacura
+ *
+ */
 public class ReservaVehiculo implements Comparable<ReservaVehiculo> {
 
     //, CalendarEventable
+
+    //Definicion de las propiedades de la entidad ReservaVehiculo
 
     @javax.jdo.annotations.Column(allowsNull = "false")
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
     @Title(prepend = "Reserva: ")
-    private LocalDate fechaReserva;
+    private LocalDate fechaReserva; //esta variable hace referencia a la fecha en que se realiza la reserva
 
     @javax.jdo.annotations.Column(allowsNull = "false")
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
-    private LocalDate fechaInicio;
+    private LocalDate fechaInicio; //esta variable hace referencia a la fecha de inicio en la cual se va a hacer uso de la reserva
 
     @javax.jdo.annotations.Column(allowsNull = "false")
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
-    private LocalDate fechaFin;
+    private LocalDate fechaFin; //esta variable hace referencia a la fecha en la que se va a dar fin a la reserva
 
     @javax.jdo.annotations.Column(allowsNull = "false",name="PERSONA_ID")
     @Persistent(defaultFetchGroup="true")
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
-    private Persona persona;
+    private Persona persona; //esta variable hace referencia al usuario que va a hacer uso de la reserva
 
     @javax.jdo.annotations.Column(allowsNull = "false",name="VEHICULO_ID")
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
-    private Vehiculo vehiculo;
+    private Vehiculo vehiculo; //esta variable hace referencia al Vehiculo que va a ser reservado por el usuario
 
     @javax.jdo.annotations.Column(allowsNull = "false")
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
-    private String estado;//ACTIVA | CANCELADA | ARRIBADA
+    // esta variable hace referencia al estado en el que se encuentra la reserva realizada por el usuario
+    // los cuales pueden ser :
+    //ACTIVA | CANCELADA | ARRIBADA
+    private String estado;
 
 
+    /**
+     * Este es un metodo constructor por defecto
+     *
+     */
     public ReservaVehiculo(){}
 
+
+    /**
+     * Este es un metodo constructor con parametros
+     *
+     * @param fechaReserva -valor definido en el codigo
+     * @param fechaInicio -valor ingresado por el usuario
+     * @param fechaFin -valor ingresado por el usuario
+     * @param persona -valor ingresado por el usuario
+     * @param vehiculo -valor definido en el codigo
+     * @param estado -valor definido en el codigo
+     */
     public ReservaVehiculo(LocalDate fechaReserva,LocalDate fechaInicio,LocalDate fechaFin,Persona persona,Vehiculo vehiculo,String estado){
         this.fechaReserva=fechaReserva;
         this.fechaInicio=fechaInicio;
@@ -110,15 +145,26 @@ public class ReservaVehiculo implements Comparable<ReservaVehiculo> {
         this.estado=estado;
     }
 
+    /**
+     * Este es el metodo que cambia el valor del estado de la reserva a CANCELADA
+     * en el caso que el usuario ya no quiera realizar la reserva
+     */
     public void cancelar()
     {
         estado = "CANCELADA";
     }
 
+    /**
+     * Este es el metodo que cambia el valor del estado de la reserva a ARRIBADA
+     * en el caso que el usuario ya este haciendo uso de la reserva
+     */
     public void arribar()
     {
         estado = "ARRIBADA";
     }
+
+
+    //Definicion de los metodos para poder hacer uso del Calendario
 
     /*
     @Programmatic
@@ -143,6 +189,10 @@ public class ReservaVehiculo implements Comparable<ReservaVehiculo> {
     }
    */
 
+
+    /**
+     * Este metodo permite eliminar la entidad de ReservaVehiculo del sistema
+     */
     @Action(semantics = NON_IDEMPOTENT_ARE_YOU_SURE)
     public void delete() {
         final String title = titleService.titleOf(this);
