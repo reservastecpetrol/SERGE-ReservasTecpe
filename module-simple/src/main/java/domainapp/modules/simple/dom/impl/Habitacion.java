@@ -160,6 +160,32 @@ public class Habitacion implements Comparable<Habitacion> {
         return estado != null && estado.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
     }
 
+    /**
+     * Este metodo cambia el valor de la variable estado a OCUPADO
+     */
+    public void ocupado()
+    {
+        estado = "OCUPADO";
+    }
+
+
+    /**
+     * Este metodo cambia el valor de la variable estado a REPARACIÓN
+     */
+    public void reparacion()
+    {
+        estado = "REPARACION";
+    }
+
+
+    /**
+     * Este metodo cambia el valor de la variable estado a INACTIVO
+     */
+    public void inactivo()
+    {
+        estado = "INACTIVO";
+    }
+
     @Action(semantics = NON_IDEMPOTENT_ARE_YOU_SURE)
     public void delete() {
         final String title = titleService.titleOf(this);

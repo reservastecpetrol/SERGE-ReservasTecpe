@@ -1,6 +1,7 @@
 package domainapp.modules.simple.dom.impl;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.datanucleus.query.typesafe.TypesafeQuery;
 
@@ -11,7 +12,9 @@ import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
+import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
+import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
@@ -52,6 +55,31 @@ public class HabitacionRepository {
         return q.setParameter("nombre", nombre)
                 .executeList();
     }
+
+
+    /**
+     * Este metodo permite recuperar en una lista todos los Vehiculos
+     * dado un estado en particular
+     *
+     * @param estado
+     * @return List<Vehiculo>
+     */
+    @Programmatic
+    public List<Habitacion> listarHabitacionesPorEstado(
+            @ParameterLayout(named="Estado")
+            final String estado
+    ) {
+        TypesafeQuery<Habitacion> tq = isisJdoSupport.newTypesafeQuery(Habitacion.class);
+        final QHabitacion cand = QHabitacion.candidate();
+
+        List<Habitacion> habitacion = tq.filter(
+                cand.estado.startsWith(tq.stringParameter("estado")))
+                .setParameter("estado",estado).executeList();
+
+        return habitacion;
+    }
+
+
     public static class CreateDomainEvent extends ActionDomainEvent<SimpleObjects> {}
     @Action(domainEvent = SimpleObjects.CreateDomainEvent.class)
     @MemberOrder(sequence = "3")
