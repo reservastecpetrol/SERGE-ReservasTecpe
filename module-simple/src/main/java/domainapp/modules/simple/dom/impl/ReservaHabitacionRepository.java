@@ -24,7 +24,7 @@ import org.apache.isis.applib.services.repository.RepositoryService;
         repositoryFor = ReservaHabitacion.class
 )
 @DomainServiceLayout(
-        named = "Reservas",
+        named = "Reservas Habitacion",
         menuOrder = "10"
 )
 
