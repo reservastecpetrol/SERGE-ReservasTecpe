@@ -125,7 +125,7 @@ public class VehiculoRepository {
             @Parameter(
                     regexPattern = "[a-z]{2} [0-9]{3} [a-z]{2}",
                     regexPatternFlags = Pattern.CASE_INSENSITIVE,
-                    regexPatternReplacement = "Ingrese dato correcto"
+                    regexPatternReplacement = "Ingrese formato AB 123 CD"
             )
             @ParameterLayout(named="Matricula") final String matricula,
             @ParameterLayout(named="Marca")final String marca,
