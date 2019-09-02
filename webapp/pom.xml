@@ -128,6 +128,13 @@
             <artifactId>postgresql</artifactId>
             <version>42.2.5</version>
         </dependency>
+        <dependency>
+            <groupId>org.isisaddons.wicket.fullcalendar2</groupId>
+            <artifactId>isis-wicket-fullcalendar2-cpt</artifactId>
+            <version>1.17.0</version>
+            <scope>test</scope>
+        </dependency>
+
 
     </dependencies>
 

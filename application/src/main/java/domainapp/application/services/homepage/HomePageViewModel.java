@@ -23,9 +23,16 @@ import java.util.List;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Nature;
 import org.apache.isis.applib.services.i18n.TranslatableString;
+import org.apache.isis.applib.annotation.CollectionLayout;
+import org.apache.isis.applib.annotation.HomePage;
+import org.apache.isis.applib.annotation.ViewModel;
 
 import domainapp.modules.simple.dom.impl.Persona;
 import domainapp.modules.simple.dom.impl.PersonaRepository;
+import domainapp.modules.simple.dom.impl.ReservaVehiculo;
+import domainapp.modules.simple.dom.impl.ReservaVehiculoRepository;
+import domainapp.modules.simple.dom.impl.Vehiculo;
+import domainapp.modules.simple.dom.impl.VehiculoRepository;
 
 @DomainObject(
         nature = Nature.VIEW_MODEL,
@@ -33,21 +40,30 @@ import domainapp.modules.simple.dom.impl.PersonaRepository;
 )
 public class HomePageViewModel {
 
-    public TranslatableString title() {
-        return TranslatableString.tr("{num} personas", "num", getObjects().size());
+
+
+    public List<ReservaVehiculo> getReservas() {
+        return reservaVehiculoRepository.listarTodos();
     }
 
-    /*
-    public List<SimpleObject> getObjects() {
-        return simpleObjects.listAll();
-    }
-     */
 
+    //region titulo
+    public String title() {
+        if (getReservas().size() > 1) {
+            return "Cargue Usuario y Vehiculo primero para realizar una reserva";
+        } else {
+            return getReservas().size() + " reservas";
+        }
+
+
+
+
+    }
     public List<Persona> getObjects() {
         return personaRepository.listarTodos();
     }
-
-
     @javax.inject.Inject
     PersonaRepository personaRepository;
+    ReservaVehiculo reservaVehiculoRepository;
+    Vehiculo VehiculoRepository;
 }

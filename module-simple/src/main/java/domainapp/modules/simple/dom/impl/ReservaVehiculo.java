@@ -22,6 +22,9 @@ import org.apache.isis.applib.annotation.Title;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
+import org.apache.isis.applib.annotation.Programmatic;
+import org.isisaddons.wicket.fullcalendar2.cpt.applib.CalendarEvent;
+import org.isisaddons.wicket.fullcalendar2.cpt.applib.CalendarEventable;
 
 import lombok.AccessLevel;
 import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE;
@@ -74,7 +77,7 @@ import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_Y
  * @see vehiculo.Vehiculo
  * @see persona.Persona
  *
- *  @author Cintia Millacura
+ *  @author
  *
  */
 public class ReservaVehiculo implements Comparable<ReservaVehiculo> {
@@ -166,9 +169,9 @@ public class ReservaVehiculo implements Comparable<ReservaVehiculo> {
 
     //Definicion de los metodos para poder hacer uso del Calendario
 
-    /*
+
     @Programmatic
-    @Override
+    //@Override
     public String getCalendarName() {
 
         return  getPersona().getJerarquia().name();
@@ -182,12 +185,12 @@ public class ReservaVehiculo implements Comparable<ReservaVehiculo> {
     }
 
     @Programmatic
-    @Override
+    //@Override
     public CalendarEvent toCalendarEvent() {
 
         return new CalendarEvent(getFechaInicio().toDateTimeAtStartOfDay(), getCalendarName(), getNotes());
     }
-   */
+
 
 
     /**
