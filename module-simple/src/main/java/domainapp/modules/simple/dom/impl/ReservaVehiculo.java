@@ -77,12 +77,10 @@ import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_Y
  * @see vehiculo.Vehiculo
  * @see persona.Persona
  *
- *  @author
+ * @author Cintia Millacura
  *
  */
-public class ReservaVehiculo implements Comparable<ReservaVehiculo> {
-
-    //, CalendarEventable
+public class ReservaVehiculo implements Comparable<ReservaVehiculo>, CalendarEventable {
 
     //Definicion de las propiedades de la entidad ReservaVehiculo
 
@@ -171,7 +169,7 @@ public class ReservaVehiculo implements Comparable<ReservaVehiculo> {
 
 
     @Programmatic
-    //@Override
+    @Override
     public String getCalendarName() {
 
         return  getPersona().getJerarquia().name();
@@ -185,7 +183,7 @@ public class ReservaVehiculo implements Comparable<ReservaVehiculo> {
     }
 
     @Programmatic
-    //@Override
+    @Override
     public CalendarEvent toCalendarEvent() {
 
         return new CalendarEvent(getFechaInicio().toDateTimeAtStartOfDay(), getCalendarName(), getNotes());
