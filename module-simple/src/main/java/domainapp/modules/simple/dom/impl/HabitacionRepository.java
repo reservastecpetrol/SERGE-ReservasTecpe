@@ -1,7 +1,6 @@
 package domainapp.modules.simple.dom.impl;
 
 import java.util.List;
-import java.util.regex.Pattern;
 
 import org.datanucleus.query.typesafe.TypesafeQuery;
 
@@ -12,7 +11,6 @@ import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
-import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.SemanticsOf;
@@ -86,10 +84,11 @@ public class HabitacionRepository {
     public Habitacion create(
             @ParameterLayout(named="Nombre") final String nombre,
             @ParameterLayout(named="Ubicacion")final String ubicacion,
-            @ParameterLayout(named="Estado")final String estado,
             @ParameterLayout(named="Categoria")ListaHabitaciones categoria
     )
     {
+        String estado="DISPONIBLE";
+
         return repositoryService.persist(new Habitacion(nombre,ubicacion,categoria,estado));
     }
 
