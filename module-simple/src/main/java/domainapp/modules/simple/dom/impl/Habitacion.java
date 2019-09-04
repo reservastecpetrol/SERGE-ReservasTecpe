@@ -163,27 +163,27 @@ public class Habitacion implements Comparable<Habitacion> {
     /**
      * Este metodo cambia el valor de la variable estado a OCUPADO
      */
-    public void ocupado()
+    public void ocupada()
     {
-        estado = "OCUPADO";
+        estado = "OCUPADA";
     }
 
 
     /**
      * Este metodo cambia el valor de la variable estado a REPARACIÓN
      */
-    public void reparacion()
+    public void limpieza()
     {
-        estado = "REPARACION";
+        estado = "LIMPIEZA";
     }
 
 
     /**
      * Este metodo cambia el valor de la variable estado a INACTIVO
      */
-    public void inactivo()
+    public void inactiva()
     {
-        estado = "INACTIVO";
+        estado = "INACTIVA";
     }
 
     @Action(semantics = NON_IDEMPOTENT_ARE_YOU_SURE)
