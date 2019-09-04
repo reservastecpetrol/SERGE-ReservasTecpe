@@ -157,7 +157,7 @@ public class ReservaHabitacionRepository {
 
         Habitacion habitacion=habitacionRepository.listarHabitacionesPorEstado("DISPONIBLE").get(0);
 
-        habitacion.ocupado();
+        habitacion.ocupada();
 
         reservaHabitacion.setFechaReserva(LocalDate.now());
         reservaHabitacion.setFechaInicio(fechaInicio);
