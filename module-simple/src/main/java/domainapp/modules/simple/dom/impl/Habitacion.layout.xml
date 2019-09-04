@@ -25,8 +25,12 @@
                                 <cpt:property id="ubicacion" namedEscaped="true">
                                     <cpt:action id="updateUbicacion" promptStyle="INLINE"/>
                                 </cpt:property>
-                                <cpt:property id="estado" namedEscaped="true"/>
-                                <cpt:property id="categoria" namedEscaped="true"/>
+                                <cpt:property id="estado" namedEscaped="true">
+                                    <cpt:action id="updateEstado" promptStyle="INLINE"/>
+                                </cpt:property>
+                                <cpt:property id="categoria" namedEscaped="true">
+                                    <cpt:action id="updateCategoria" promptStyle="INLINE"/>
+                                </cpt:property>
                             </cpt:fieldSet>
                         </bs3:col>
                     </bs3:row>
