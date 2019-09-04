@@ -25,7 +25,7 @@
                                 </cpt:property>
                                 <cpt:property id="fechaFin" namedEscaped="true">
                                 </cpt:property>
-                                <cpt:property id="Habitacion" namedEscaped="true">
+                                <cpt:property id="habitacion" namedEscaped="true">
                                 </cpt:property>
                                 <cpt:property id="persona" namedEscaped="true">
                                 </cpt:property>
