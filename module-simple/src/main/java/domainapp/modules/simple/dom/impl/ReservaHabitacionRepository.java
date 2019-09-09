@@ -29,11 +29,11 @@ import org.apache.isis.applib.services.repository.RepositoryService;
 )
 
 /**
- * Esta clase es el servicio de dominio de la clase ReservaVehiculo
+ * Esta clase es el servicio de dominio de la clase ReservaHabitacion
  * que define los metodos
  * que van a aparecer en el menu del sistema
  *
- * @author Cintia Millacura
+ * @author Francisco Bellani
  */
 public class ReservaHabitacionRepository {
 
@@ -41,10 +41,10 @@ public class ReservaHabitacionRepository {
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     @MemberOrder(sequence = "1")
     /**
-     * Este metodo lista todas las reservas de vehiculos que hay cargados
+     * Este metodo lista todas las reservas de habitaciones que hay cargados
      * en el sistema
      *
-     * @return List<ReservaVehiculo>
+     * @return List<ReservaHabitacion>
      */
     public java.util.List<ReservaHabitacion> listarTodos() {
         return container.allInstances(ReservaHabitacion.class);
@@ -55,11 +55,11 @@ public class ReservaHabitacionRepository {
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     @MemberOrder(sequence = "2")
     /**
-     * Este metodo permite encontrar una reserva de vehiculo en particular
+     * Este metodo permite encontrar una reserva de habitacion en particular
      * dada una fecha de reserva
      *
      * @param fechaReseva
-     * @return ReservaVehiculo
+     * @return ReservaHabitacion
      */
     public ReservaHabitacion findPorFechaReserva(
             final LocalDate fechaReserva
@@ -137,7 +137,7 @@ public class ReservaHabitacionRepository {
     @Action(domainEvent = SimpleObjects.CreateDomainEvent.class)
     @MemberOrder(sequence = "3")
     /**
-     * Este metodo permite crear la entidad de dominio ReservaVehiculo
+     * Este metodo permite crear la entidad de dominio ReservaHabitacion
      * con los datos que va a ingresar el usuario
      *
      * @param fechaInicio
