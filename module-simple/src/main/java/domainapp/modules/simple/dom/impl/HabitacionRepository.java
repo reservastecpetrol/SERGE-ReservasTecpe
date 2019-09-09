@@ -28,8 +28,23 @@ import org.apache.isis.applib.services.repository.RepositoryService;
         menuOrder = "10"
 )
 
+/**
+ *
+ * Esta clase es el servicio de dominio de la clase Habitacion
+ * que define los metodos
+ * que van a aparecer en el menu del sistema
+ *
+ *@author Francisco Bellani
+ *
+ */
 public class HabitacionRepository {
 
+    /**
+     * Este metodo lista todos las Habitaciones que hay cargados
+     * en el sistema
+     *
+     * @return List<Habitacion>
+     */
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     @MemberOrder(sequence = "1")
@@ -38,6 +53,14 @@ public class HabitacionRepository {
     }
 
 
+    /**
+     * Este metodo permite encontrar una Habitacion en particular
+     * dado un numero que identifica de manera
+     * unica a cada Habitacion
+     *
+     * @param nombre
+     * @return List<Habitacion>
+     */
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     @MemberOrder(sequence = "2")
@@ -56,11 +79,11 @@ public class HabitacionRepository {
 
 
     /**
-     * Este metodo permite recuperar en una lista todos los Vehiculos
+     * Este metodo permite recuperar en una lista todos las Habitaciones
      * dado un estado en particular
      *
      * @param estado
-     * @return List<Vehiculo>
+     * @return List<Habitacion>
      */
     @Programmatic
     public List<Habitacion> listarHabitacionesPorEstado(
@@ -81,6 +104,17 @@ public class HabitacionRepository {
     public static class CreateDomainEvent extends ActionDomainEvent<SimpleObjects> {}
     @Action(domainEvent = SimpleObjects.CreateDomainEvent.class)
     @MemberOrder(sequence = "3")
+    /**
+     * Este metodo permite crear la entidad de dominio Habitacion
+     * con los datos que va a ingresar el usuario
+     *
+     * @param nombre
+     * @param ubicacion
+     * @param categoris
+     *
+     * @return Habitacion
+     *
+     */
     public Habitacion create(
             @ParameterLayout(named="Nombre") final String nombre,
             @ParameterLayout(named="Ubicacion")final String ubicacion,
