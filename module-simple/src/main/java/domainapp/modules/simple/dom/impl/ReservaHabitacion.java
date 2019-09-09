@@ -54,6 +54,7 @@ import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_Y
                         + "FROM domainapp.modules.simple.dom.impl.ReservaHabitacion "
                         + "WHERE fechaReserva == :fechaReserva ")
 })
+//Se comenta de forma que permita realizar varias reservas en una misma fecha
 //@Unique(name = "ReservaVehiculo_fechaReserva_UNQ", members = { "fechaReserva" })
 @DomainObject(
         editing = Editing.DISABLED
@@ -64,24 +65,24 @@ import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_Y
 @lombok.Getter @lombok.Setter
 
 /**
- * Esta clase define la entidad de dominio ReservaVehiculo
- * mediante la cual un usuario puede realizar la reserva de un
- * Vehiculo dada una fecha de Inicio
+ * Esta clase define la entidad de dominio ReservaHabitacion
+ * mediante la cual un usuario puede realizar la reserva de una
+ * Habitacion dada una fecha de Inicio
  * En la misma se definen todas sus propiedades y metodos.
  * Entre los cuales encontramos metodos Constructores,para eliminar un objeto
  * y metodos para modificar el estado de la reserva.
  *
- * @see vehiculo.Vehiculo
+ * @see vehiculo.Habitacion
  * @see persona.Persona
  *
- *  @author Cintia Millacura
+ *  @author Francisco Bellani
  *
  */
-public class ReservaHabitacion implements Comparable<ReservaHabitacion> {
+public class ReservaHabitacion implements Comparable<ReservaHabitacion>  {
 
-    //, CalendarEventable
+    //,CalendarEventable
 
-    //Definicion de las propiedades de la entidad ReservaVehiculo
+    //Definicion de las propiedades de la entidad ReservaHabitacion
 
     @javax.jdo.annotations.Column(allowsNull = "false")
     @lombok.NonNull
@@ -133,7 +134,7 @@ public class ReservaHabitacion implements Comparable<ReservaHabitacion> {
      * @param fechaInicio -valor ingresado por el usuario
      * @param fechaFin -valor ingresado por el usuario
      * @param persona -valor ingresado por el usuario
-     * @param vehiculo -valor definido en el codigo
+     * @param habitacion -valor ingresado por el usuario
      * @param estado -valor definido en el codigo
      */
     public ReservaHabitacion(LocalDate fechaReserva,LocalDate fechaInicio,LocalDate fechaFin,Persona persona,Habitacion habitacion,String estado){
@@ -145,6 +146,7 @@ public class ReservaHabitacion implements Comparable<ReservaHabitacion> {
         this.estado=estado;
     }
 
+
     /**
      * Este es el metodo que cambia el valor del estado de la reserva a CANCELADA
      * en el caso que el usuario ya no quiera realizar la reserva
@@ -153,6 +155,7 @@ public class ReservaHabitacion implements Comparable<ReservaHabitacion> {
     {
         estado = "CANCELADA";
     }
+
 
     /**
      * Este es el metodo que cambia el valor del estado de la reserva a ARRIBADA
@@ -163,10 +166,10 @@ public class ReservaHabitacion implements Comparable<ReservaHabitacion> {
         estado = "ARRIBADA";
     }
 
+     /*
+    //Se implememento la interfaz CalendarEventable y se definen los metodos
+    //que deben ser implementados para poder hacer uso del Calendario
 
-    //Definicion de los metodos para poder hacer uso del Calendario
-
-    /*
     @Programmatic
     @Override
     public String getCalendarName() {
@@ -187,11 +190,12 @@ public class ReservaHabitacion implements Comparable<ReservaHabitacion> {
 
         return new CalendarEvent(getFechaInicio().toDateTimeAtStartOfDay(), getCalendarName(), getNotes());
     }
-   */
 
+
+    */
 
     /**
-     * Este metodo permite eliminar la entidad de ReservaVehiculo del sistema
+     * Este metodo permite eliminar la entidad de ReservaHabitacion del sistema
      */
     @Action(semantics = NON_IDEMPOTENT_ARE_YOU_SURE)
     public void delete() {
