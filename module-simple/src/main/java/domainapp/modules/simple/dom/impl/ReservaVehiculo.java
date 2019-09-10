@@ -57,6 +57,7 @@ import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_Y
                         + "FROM domainapp.modules.simple.dom.impl.ReservaVehiculo "
                         + "WHERE fechaReserva == :fechaReserva ")
 })
+//Se comenta de forma que permita realizar varias reservas en una misma fecha
 //@Unique(name = "ReservaVehiculo_fechaReserva_UNQ", members = { "fechaReserva" })
 @DomainObject(
         editing = Editing.DISABLED
@@ -165,7 +166,8 @@ public class ReservaVehiculo implements Comparable<ReservaVehiculo>, CalendarEve
     }
 
 
-    //Definicion de los metodos para poder hacer uso del Calendario
+    //Se implememento la interfaz CalendarEventable y se definen los metodos
+    //que deben ser implementados para poder hacer uso del Calendario
 
 
     @Programmatic
@@ -178,7 +180,7 @@ public class ReservaVehiculo implements Comparable<ReservaVehiculo>, CalendarEve
     @Programmatic
     public String getNotes() {
 
-        return persona.getNombre() + persona.getApellido();
+        return persona.getNombre()+" "+ persona.getApellido();
 
     }
 
