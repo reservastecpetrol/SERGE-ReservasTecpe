@@ -25,11 +25,27 @@
                                 <cpt:property id="apellido" namedEscaped="true">
                                     <cpt:action id="updateApellido" promptStyle="INLINE"/>
                                 </cpt:property>
-                                <cpt:property id="direccion" namedEscaped="true"/>
-                                <cpt:property id="telefono" namedEscaped="true"/>
-                                <cpt:property id="jerarquia" namedEscaped="true"/>
-                                <cpt:property id="email" namedEscaped="true"/>
-                                <cpt:property id="dni" namedEscaped="true"/>
+                                <cpt:property id="direccion" namedEscaped="true">
+                                    <cpt:action id="updateDireccion" promptStyle="INLINE"/>
+                                </cpt:property>
+                                <cpt:property id="telefono" namedEscaped="true">
+                                    <cpt:action id="updateTelefono" promptStyle="INLINE"/>
+                                </cpt:property>
+                                <cpt:property id="jerarquia" namedEscaped="true">
+                                    <cpt:action id="updateJerarquia" promptStyle="INLINE"/>
+                                </cpt:property>
+                                <cpt:property id="email" namedEscaped="true">
+                                    <cpt:action id="updateEmail" promptStyle="INLINE"/>
+                                </cpt:property>
+                                <cpt:property id="userName" namedEscaped="true">
+                                    <cpt:action id="updateUserName" promptStyle="INLINE"/>
+                                </cpt:property>
+                                <cpt:property id="password" namedEscaped="true">
+                                    <cpt:action id="updatePassword" promptStyle="INLINE"/>
+                                </cpt:property>
+                                <cpt:property id="dni" namedEscaped="true">
+                                    <cpt:action id="updateDni" promptStyle="INLINE"/>
+                                </cpt:property>
                             </cpt:fieldSet>
                         </bs3:col>
                     </bs3:row>
