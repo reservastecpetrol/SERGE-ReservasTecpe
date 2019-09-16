@@ -111,16 +111,20 @@ public class Persona implements Comparable<Persona> {
     @Property(editing = Editing.ENABLED)
     private String email; //esta variable hace referencia a la direccion de email de la entidad Persona
 
+    @javax.jdo.annotations.Column(allowsNull = "false", length = 40)
+    @lombok.NonNull
+    @Property(editing = Editing.ENABLED)
+    private String userName; //esta variable hace referencia al nombre de usuario que va a identificar a la entidad Persona
+
+    @javax.jdo.annotations.Column(allowsNull = "false", length = 40)
+    @lombok.NonNull
+    @Property(editing = Editing.ENABLED)
+    private String password; //esta variable hace referencia a la direccion de email de la entidad Persona
+
     @javax.jdo.annotations.Column(allowsNull = "true", length = 8)
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
     private String dni; //esta variable hace referencia al numero de documento (DNI) de la entidad Persona
-
-    //@javax.jdo.annotations.Column()
-    //@lombok.NonNull
-    // @Property(editing = Editing.ENABLED)
-    // private Date fechaNacimiento;
-
 
     //listado de Jerarquias dropdown menu
     @javax.jdo.annotations.Column(allowsNull="true")
@@ -143,15 +147,19 @@ public class Persona implements Comparable<Persona> {
      * @param direccion
      * @param telefono
      * @param email
+     * @param userName
+     * @param password
      * @param dni
      * @param jerarquias
      */
-    Persona(String nombre,String apellido,String direccion,String telefono,String email,String dni,ListaJerarquias jerarquias){
+    Persona(String nombre,String apellido,String direccion,String telefono,String email,String userName,String password,String dni,ListaJerarquias jerarquias){
         this.nombre=nombre;
         this.apellido=apellido;
         this.direccion=direccion;
         this.telefono=telefono;
         this.email=email;
+        this.userName=userName;
+        this.password=password;
         this.dni=dni;
         this.jerarquia=jerarquias;
     }
@@ -228,6 +236,38 @@ public class Persona implements Comparable<Persona> {
             @ParameterLayout(named = "Email")
             final String email) {
         setEmail(email);
+        return this;
+    }
+
+
+    /**
+     * Este metodo realiza la actualizacion de la variable userName de la entidad Persona
+     *
+     * @param userName
+     * @return Persona
+     */
+    @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "userName")
+    public Persona updateuserName(
+            @Parameter(maxLength = 40)
+            @ParameterLayout(named = "UserName")
+            final String userName) {
+        setPassword(userName);
+        return this;
+    }
+
+
+    /**
+     * Este metodo realiza la actualizacion de la variable password de la entidad Persona
+     *
+     * @param password
+     * @return Persona
+     */
+    @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "password")
+    public Persona updatePassword(
+            @Parameter(maxLength = 40)
+            @ParameterLayout(named = "Password")
+            final String password) {
+        setPassword(password);
         return this;
     }
 
