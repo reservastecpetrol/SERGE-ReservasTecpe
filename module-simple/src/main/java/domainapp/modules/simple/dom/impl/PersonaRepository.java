@@ -128,6 +128,13 @@ public class PersonaRepository {
             )
             @ParameterLayout(named="Email") final String email,
             @Parameter(
+                    regexPattern = "[A-Za-z ]+",
+                    regexPatternFlags = Pattern.CASE_INSENSITIVE,
+                    regexPatternReplacement = "Ingrese dato correcto"
+            )
+            @ParameterLayout(named="UserName")final String userName,
+            @ParameterLayout(named="Password") final String password,
+            @Parameter(
                     regexPattern = "[0-9]+",
                     regexPatternFlags = Pattern.CASE_INSENSITIVE,
                     regexPatternReplacement = "Ingrese dato correcto"
@@ -136,7 +143,7 @@ public class PersonaRepository {
             @ParameterLayout(named="Jerarquia")ListaJerarquias jerarquias
                 )
     {
-        return repositoryService.persist(new Persona(nombre.toUpperCase(),apellido.toUpperCase(),direccion.toUpperCase(),telefono,email,dni,jerarquias));
+        return repositoryService.persist(new Persona(nombre.toUpperCase(),apellido.toUpperCase(),direccion.toUpperCase(),telefono,userName.toUpperCase(),password.toUpperCase(),email,dni,jerarquias));
     }
 
 
