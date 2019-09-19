@@ -31,9 +31,7 @@
                                 <cpt:property id="telefono" namedEscaped="true">
                                     <cpt:action id="updateTelefono" promptStyle="INLINE"/>
                                 </cpt:property>
-                                <cpt:property id="jerarquia" namedEscaped="true">
-                                    <cpt:action id="updateJerarquia" promptStyle="INLINE"/>
-                                </cpt:property>
+
                                 <cpt:property id="email" namedEscaped="true">
                                     <cpt:action id="updateEmail" promptStyle="INLINE"/>
                                 </cpt:property>
@@ -45,6 +43,9 @@
                                 </cpt:property>
                                 <cpt:property id="dni" namedEscaped="true">
                                     <cpt:action id="updateDni" promptStyle="INLINE"/>
+                                </cpt:property>
+                                <cpt:property id="jerarquia" namedEscaped="true">
+                                    <cpt:action id="updateJerarquia" promptStyle="INLINE"/>
                                 </cpt:property>
                             </cpt:fieldSet>
                         </bs3:col>
