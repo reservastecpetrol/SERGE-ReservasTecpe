@@ -96,12 +96,12 @@ public class Persona implements Comparable<Persona> {
     @Title()
     private String apellido; //esta variable hace referencia al apellido de la entidad Persona
 
-    @javax.jdo.annotations.Column(allowsNull = "true", length = 40)
+    @javax.jdo.annotations.Column(allowsNull = "false", length = 40)
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
     private String direccion; //esta variable hace referencia a la dirección de la entidad Persona
 
-    @javax.jdo.annotations.Column(allowsNull = "true", length =10)
+    @javax.jdo.annotations.Column(allowsNull = "false", length =10)
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
     private String telefono; //esta variable hace referencia al telefono de la entidad Persona
@@ -121,13 +121,13 @@ public class Persona implements Comparable<Persona> {
     @Property(editing = Editing.ENABLED)
     private String password; //esta variable hace referencia a la direccion de email de la entidad Persona
 
-    @javax.jdo.annotations.Column(allowsNull = "true", length = 8)
+    @javax.jdo.annotations.Column(allowsNull ="false", length = 8)
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
     private String dni; //esta variable hace referencia al numero de documento (DNI) de la entidad Persona
 
     //listado de Jerarquias dropdown menu
-    @javax.jdo.annotations.Column(allowsNull="true")
+    @javax.jdo.annotations.Column(allowsNull="false")
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
     private ListaJerarquias jerarquia; //esta variable hace referencia al tipo de jerarquia de la entidad Persona
