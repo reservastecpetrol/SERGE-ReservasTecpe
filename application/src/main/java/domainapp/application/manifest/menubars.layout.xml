@@ -84,6 +84,9 @@
                 <mb3:serviceAction objectType="simple.SimpleReservaVehiculoMenu" id="findPorFechaReserva">
                     <cpt:named>Buscar por Fecha</cpt:named>
                 </mb3:serviceAction>
+                <mb3:serviceAction objectType="simple.SimpleReservaVehiculoMenu" id="listarReservasPorPersona">
+                    <cpt:named>Listar Reservas Por Persona</cpt:named>
+                </mb3:serviceAction>
                 <mb3:serviceAction objectType="simple.SimpleReservaVehiculoMenu" id="listarTodos">
                     <cpt:named>Listar Todos</cpt:named>
                 </mb3:serviceAction>
