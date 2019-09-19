@@ -200,6 +200,7 @@ public class ReservaVehiculo implements Comparable<ReservaVehiculo>, CalendarEve
     public void delete() {
         final String title = titleService.titleOf(this);
         messageService.informUser(String.format("'%s' deleted", title));
+        this.vehiculo.disponible();
         repositoryService.remove(this);
     }
 
