@@ -403,6 +403,15 @@ public class Vehiculo implements Comparable<Vehiculo> {
 
 
     /**
+     * Este metodo cambia el valor de la variable estado a DISPONIBLE
+     */
+    public void disponible()
+    {
+        estado = "DISPONIBLE";
+    }
+
+
+    /**
      * Este metodo permite eliminar la entidad de Vehiculo
      */
     @Action(semantics = NON_IDEMPOTENT_ARE_YOU_SURE)
