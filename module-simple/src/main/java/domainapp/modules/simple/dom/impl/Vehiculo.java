@@ -95,17 +95,17 @@ public class Vehiculo implements Comparable<Vehiculo> {
     @Title(prepend = "Vehiculo: ")
     private String matricula; //esta variable hace referencia a la matricula de la entidad Vehiculo
 
-    @javax.jdo.annotations.Column(allowsNull = "true", length = 40)
+    @javax.jdo.annotations.Column(allowsNull = "false", length = 40)
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
     private String marca; // esta variable hace referencia a la marca de la entidad Vehiculo
 
-    @javax.jdo.annotations.Column(allowsNull = "true", length = 40)
+    @javax.jdo.annotations.Column(allowsNull = "false", length = 40)
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
     private String color; // esta variable hace referencia al color de la entidad Vehiculo
 
-    @javax.jdo.annotations.Column(allowsNull = "true", length = 40)
+    @javax.jdo.annotations.Column(allowsNull = "false", length = 40)
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
     private String modelo; // esta variable hace referencia al modelo de la entidad Vehiculo
@@ -121,13 +121,13 @@ public class Vehiculo implements Comparable<Vehiculo> {
     private boolean seguro; // esta variable booleana hace referencia a si la entidad Vehiculo cuenta con seguro
 
 
-    @javax.jdo.annotations.Column(allowsNull = "true", length = 40)
+    @javax.jdo.annotations.Column(allowsNull = "false", length = 40)
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
     private String ubicacion; //esta variable hace referencia a la ubicacion de la entidad Vehiculo
 
 
-    @javax.jdo.annotations.Column(allowsNull = "true")
+    @javax.jdo.annotations.Column(allowsNull = "false")
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
     // esta variable hace referencia al estado en el que se encuentra la entidad Vehiculo
