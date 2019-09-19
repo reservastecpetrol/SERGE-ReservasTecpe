@@ -92,7 +92,7 @@ public class Habitacion implements Comparable<Habitacion> {
     @Title(prepend = "Habitacion: ")
     private String nombre;  //esta variable hace referencia al numero que identifica a la entidad Habitacion
 
-    @javax.jdo.annotations.Column(allowsNull = "true", length = 40)
+    @javax.jdo.annotations.Column(allowsNull = "false", length = 40)
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
     private String ubicacion;   //esta variable hace referencia a la ubicacion en que se encuentra la entidad Habitacion
