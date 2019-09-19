@@ -1,7 +1,9 @@
 package domainapp.modules.simple.dom.impl;
 
 import java.util.Collection;
+import java.util.List;
 
+import org.datanucleus.query.typesafe.TypesafeQuery;
 import org.joda.time.LocalDate;
 
 import org.apache.isis.applib.annotation.Action;
@@ -50,10 +52,52 @@ public class ReservaVehiculoRepository {
         return container.allInstances(ReservaVehiculo.class);
     }
 
+    @Programmatic
+    /**
+     * Este metodo lista todos los usuarios que hay en el sistema de
+     * forma que el administrador seleccione a uno en especifico
+     *
+     * @return Collection<Persona>
+     *
+     */
+    public Collection<Persona> choices0ListarReservasPorPersona() {
+        return personaRepository.listarTodos();
+    }
 
+    /**
+     * Este metodo permite encontrar todas las reservas
+     * realizadas por un usuario en particular
+     *
+     * @param persona
+     * @return List<ReservaVehiculo>
+     */
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     @MemberOrder(sequence = "2")
+    public List<ReservaVehiculo> listarReservasPorPersona(
+            @ParameterLayout(named="Persona")
+            final Persona persona
+    ) {
+
+        List<ReservaVehiculo> reservas;
+
+        TypesafeQuery<ReservaVehiculo> q = isisJdoSupport.newTypesafeQuery(ReservaVehiculo.class);
+
+        final QReservaVehiculo cand = QReservaVehiculo.candidate();
+
+        reservas= q.filter(
+                cand.persona.dni.eq(q.stringParameter("dniIngresado")))
+                .setParameter("dniIngresado",persona.getDni())
+                .executeList();
+
+        return reservas;
+    }
+
+
+
+    @Action(semantics = SemanticsOf.SAFE)
+    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    @MemberOrder(sequence = "3")
     /**
      * Este metodo permite encontrar una reserva de vehiculo en particular
      * dada una fecha de reserva
@@ -135,7 +179,7 @@ public class ReservaVehiculoRepository {
 
     public static class CreateDomainEvent extends ActionDomainEvent<SimpleObjects> {}
     @Action(domainEvent = SimpleObjects.CreateDomainEvent.class)
-    @MemberOrder(sequence = "3")
+    @MemberOrder(sequence = "4")
     /**
      * Este metodo permite crear la entidad de dominio ReservaVehiculo
      * con los datos que va a ingresar el usuario
