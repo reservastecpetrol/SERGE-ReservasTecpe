@@ -143,7 +143,7 @@ public class PersonaRepository {
             @ParameterLayout(named="Jerarquia")ListaJerarquias jerarquias
                 )
     {
-        return repositoryService.persist(new Persona(nombre.toUpperCase(),apellido.toUpperCase(),direccion.toUpperCase(),telefono,userName.toUpperCase(),password.toUpperCase(),email,dni,jerarquias));
+        return repositoryService.persist(new Persona(nombre.toUpperCase(),apellido.toUpperCase(),direccion.toUpperCase(),telefono,email,userName.toUpperCase(),password.toUpperCase(),dni,jerarquias));
     }
 
 
