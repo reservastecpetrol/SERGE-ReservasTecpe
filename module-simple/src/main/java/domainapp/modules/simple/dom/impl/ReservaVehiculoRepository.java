@@ -99,20 +99,27 @@ public class ReservaVehiculoRepository {
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     @MemberOrder(sequence = "3")
     /**
-     * Este metodo permite encontrar una reserva de vehiculo en particular
+     * Este metodo permite listar todas las reservas de vehiculos
      * dada una fecha de reserva
      *
      * @param fechaReseva
-     * @return ReservaVehiculo
+     * @return List<ReservaVehiculo>
      */
-    public ReservaVehiculo findPorFechaReserva(
+    public List<ReservaVehiculo> findPorFechaReserva(
+            @ParameterLayout(named="Fecha Reserva")
             final LocalDate fechaReserva
     ) {
-        return container.uniqueMatch(
-                new org.apache.isis.applib.query.QueryDefault<>(
-                        ReservaVehiculo.class,
-                        "findByFechaReserva",
-                        "fechaReserva", fechaReserva));
+        List<ReservaVehiculo> reservas;
+
+        TypesafeQuery<ReservaVehiculo> q = isisJdoSupport.newTypesafeQuery(ReservaVehiculo.class);
+
+        final QReservaVehiculo cand = QReservaVehiculo.candidate();
+
+        reservas = q.filter(
+                cand.fechaReserva.eq(q.stringParameter("fecha")))
+                .setParameter("fecha",fechaReserva)
+                .executeList();
+        return reservas;
     }
 
 
