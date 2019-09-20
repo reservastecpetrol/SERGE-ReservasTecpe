@@ -6,7 +6,6 @@ import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Queries;
 import javax.jdo.annotations.Query;
-import javax.jdo.annotations.Unique;
 import javax.jdo.annotations.Version;
 import javax.jdo.annotations.VersionStrategy;
 
@@ -59,7 +58,8 @@ import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_Y
                         + "FROM domainapp.modules.simple.dom.impl.Persona "
                         + "WHERE nombre == :nombre ")
 })
-@Unique(name = "Persona_nombre_UNQ", members = { "nombre" })
+//Se comenta de forma que permita crear personas con el mismo nombre
+//@Unique(name = "Persona_nombre_UNQ", members = { "nombre" })
 @DomainObject(
         editing = Editing.DISABLED
 )
