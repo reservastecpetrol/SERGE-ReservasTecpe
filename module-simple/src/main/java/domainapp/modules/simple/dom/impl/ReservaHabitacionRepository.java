@@ -1,7 +1,9 @@
 package domainapp.modules.simple.dom.impl;
 
 import java.util.Collection;
+import java.util.List;
 
+import org.datanucleus.query.typesafe.TypesafeQuery;
 import org.joda.time.LocalDate;
 
 import org.apache.isis.applib.annotation.Action;
@@ -55,20 +57,27 @@ public class ReservaHabitacionRepository {
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     @MemberOrder(sequence = "2")
     /**
-     * Este metodo permite encontrar una reserva de habitacion en particular
+     * Este metodo permite listar todas las reservas de habitaciones
      * dada una fecha de reserva
      *
      * @param fechaReseva
-     * @return ReservaHabitacion
+     * @return List<ReservaHabitacion>
      */
-    public ReservaHabitacion findPorFechaReserva(
+    public List<ReservaHabitacion> findPorFechaReserva(
+            @ParameterLayout(named="Fecha Reserva")
             final LocalDate fechaReserva
     ) {
-        return container.uniqueMatch(
-                new org.apache.isis.applib.query.QueryDefault<>(
-                        ReservaHabitacion.class,
-                        "findByFechaReserva",
-                        "fechaReserva", fechaReserva));
+        List<ReservaHabitacion> reservas;
+
+        TypesafeQuery<ReservaHabitacion> q = isisJdoSupport.newTypesafeQuery(ReservaHabitacion.class);
+
+        final QReservaHabitacion cand = QReservaHabitacion.candidate();
+
+        reservas = q.filter(
+                cand.fechaReserva.eq(q.stringParameter("fecha")))
+                .setParameter("fecha",fechaReserva)
+                .executeList();
+        return reservas;
     }
 
 
