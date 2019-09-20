@@ -72,7 +72,7 @@ public class PersonaRepository {
         q = q.filter(
                 cand.nombre.indexOf(q.stringParameter("nombre")).ne(-1)
         );
-        return q.setParameter("nombre", nombre)
+        return q.setParameter("nombre", nombre.toUpperCase())
                 .executeList();
     }
 
