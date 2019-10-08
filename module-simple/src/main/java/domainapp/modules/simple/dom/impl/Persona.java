@@ -111,16 +111,6 @@ public class Persona implements Comparable<Persona> {
     @Property(editing = Editing.ENABLED)
     private String email; //esta variable hace referencia a la direccion de email de la entidad Persona
 
-    @javax.jdo.annotations.Column(allowsNull = "false", length = 40)
-    @lombok.NonNull
-    @Property(editing = Editing.ENABLED)
-    private String userName; //esta variable hace referencia al nombre de usuario que va a identificar a la entidad Persona
-
-    @javax.jdo.annotations.Column(allowsNull = "false", length = 40)
-    @lombok.NonNull
-    @Property(editing = Editing.ENABLED)
-    private String password; //esta variable hace referencia a la direccion de email de la entidad Persona
-
     @javax.jdo.annotations.Column(allowsNull ="false", length = 8)
     @lombok.NonNull
     @Property(editing = Editing.ENABLED)
@@ -147,19 +137,15 @@ public class Persona implements Comparable<Persona> {
      * @param direccion
      * @param telefono
      * @param email
-     * @param userName
-     * @param password
      * @param dni
      * @param jerarquias
      */
-    Persona(String nombre,String apellido,String direccion,String telefono,String email,String userName,String password,String dni,ListaJerarquias jerarquias){
+    Persona(String nombre,String apellido,String direccion,String telefono,String email,String dni,ListaJerarquias jerarquias){
         this.nombre=nombre;
         this.apellido=apellido;
         this.direccion=direccion;
         this.telefono=telefono;
         this.email=email;
-        this.userName=userName;
-        this.password=password;
         this.dni=dni;
         this.jerarquia=jerarquias;
     }
