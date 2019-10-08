@@ -225,38 +225,7 @@ public class Persona implements Comparable<Persona> {
         return this;
     }
 
-
-    /**
-     * Este metodo realiza la actualizacion de la variable userName de la entidad Persona
-     *
-     * @param userName
-     * @return Persona
-     */
-    @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "userName")
-    public Persona updateuserName(
-            @Parameter(maxLength = 40)
-            @ParameterLayout(named = "UserName")
-            final String userName) {
-        setPassword(userName);
-        return this;
-    }
-
-
-    /**
-     * Este metodo realiza la actualizacion de la variable password de la entidad Persona
-     *
-     * @param password
-     * @return Persona
-     */
-    @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "password")
-    public Persona updatePassword(
-            @Parameter(maxLength = 40)
-            @ParameterLayout(named = "Password")
-            final String password) {
-        setPassword(password);
-        return this;
-    }
-
+    
     /**
      * Este metodo realiza la actualizacion de la variable dni de la entidad Persona
      *
