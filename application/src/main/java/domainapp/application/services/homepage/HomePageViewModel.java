@@ -26,8 +26,8 @@ import org.apache.isis.applib.annotation.Programmatic;
 
 import domainapp.modules.simple.dom.impl.Persona;
 import domainapp.modules.simple.dom.impl.PersonaRepository;
-import domainapp.modules.simple.dom.impl.ReservaVehiculo;
-import domainapp.modules.simple.dom.impl.ReservaVehiculoRepository;
+import domainapp.modules.simple.dom.impl.ReservaHabitacion;
+import domainapp.modules.simple.dom.impl.ReservaHabitacionRepository;
 
 @DomainObject(
         nature = Nature.VIEW_MODEL,
@@ -36,13 +36,13 @@ import domainapp.modules.simple.dom.impl.ReservaVehiculoRepository;
 public class HomePageViewModel {
 
 
-    public List<ReservaVehiculo> getReservas() {
-        return reservaVehiculoRepository.listarTodos();
+    public List<ReservaHabitacion> getReservas() {
+        return reservaHabitacionRepository.listarTodos();
     }
 
     public String title() {
         if (getReservas().size() < 1) {
-            return "Cargue Usuario y Vehiculo primero para realizar una reserva";
+            return "Cargue Usuario y Habitacion primero para realizar una reserva";
         } else {
             return getReservas().size() + " reservas";
         }
@@ -59,5 +59,5 @@ public class HomePageViewModel {
     PersonaRepository personaRepository;
 
     @javax.inject.Inject
-    ReservaVehiculoRepository reservaVehiculoRepository;
+    ReservaHabitacionRepository reservaHabitacionRepository;
 }
