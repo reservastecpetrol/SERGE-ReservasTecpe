@@ -17,11 +17,15 @@ import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.DomainObjectLayout;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.Title;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
+
+import org.isisaddons.wicket.fullcalendar2.cpt.applib.CalendarEvent;
+import org.isisaddons.wicket.fullcalendar2.cpt.applib.CalendarEventable;
 
 import lombok.AccessLevel;
 import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE;
@@ -78,9 +82,7 @@ import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_Y
  *  @author Francisco Bellani
  *
  */
-public class ReservaHabitacion implements Comparable<ReservaHabitacion>  {
-
-    //,CalendarEventable
+public class ReservaHabitacion implements Comparable<ReservaHabitacion>,CalendarEventable {
 
     //Definicion de las propiedades de la entidad ReservaHabitacion
 
@@ -166,7 +168,7 @@ public class ReservaHabitacion implements Comparable<ReservaHabitacion>  {
         estado = "ARRIBADA";
     }
 
-     /*
+
     //Se implememento la interfaz CalendarEventable y se definen los metodos
     //que deben ser implementados para poder hacer uso del Calendario
 
@@ -190,9 +192,6 @@ public class ReservaHabitacion implements Comparable<ReservaHabitacion>  {
 
         return new CalendarEvent(getFechaInicio().toDateTimeAtStartOfDay(), getCalendarName(), getNotes());
     }
-
-
-    */
 
     /**
      * Este metodo permite eliminar la entidad de ReservaHabitacion del sistema
