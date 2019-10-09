@@ -52,6 +52,20 @@ public class HabitacionRepository {
         return repositoryService.allInstances(Habitacion.class);
     }
 
+    /**
+     * Este metodo lista todas las Habitaciones Disponibles que hay cargados
+     * en el sistema
+     *
+     * @return List<Habitacion>
+     */
+    @Action(semantics = SemanticsOf.SAFE)
+    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    @MemberOrder(sequence = "2")
+    public List<Habitacion> listarHabitacionesDisponibles() {
+
+        return this.listarHabitacionesPorEstado("DISPONIBLE");
+    }
+
 
     /**
      * Este metodo permite encontrar una Habitacion en particular
@@ -63,7 +77,7 @@ public class HabitacionRepository {
      */
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    @MemberOrder(sequence = "2")
+    @MemberOrder(sequence = "3")
     public List<Habitacion> findPorNombre(
             @ParameterLayout(named="Nombre")
             final String nombre
@@ -103,7 +117,7 @@ public class HabitacionRepository {
 
     public static class CreateDomainEvent extends ActionDomainEvent<SimpleObjects> {}
     @Action(domainEvent = SimpleObjects.CreateDomainEvent.class)
-    @MemberOrder(sequence = "3")
+    @MemberOrder(sequence = "4")
     /**
      * Este metodo permite crear la entidad de dominio Habitacion
      * con los datos que va a ingresar el usuario
