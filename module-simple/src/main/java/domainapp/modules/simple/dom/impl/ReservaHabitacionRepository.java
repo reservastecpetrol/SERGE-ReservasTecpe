@@ -18,7 +18,10 @@ import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
+import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
+
+import lombok.AccessLevel;
 
 @DomainService(
         nature = NatureOfService.VIEW_MENU_ONLY,
@@ -205,9 +208,8 @@ public class ReservaHabitacionRepository {
      * @param fechaFin
      * @param persona
      *
-     * @return ReservaVehiculo
      */
-    public ReservaHabitacion create(
+    public void create(
 
             @ParameterLayout(named="Fecha Inicio")final LocalDate fechaInicio,
             @ParameterLayout(named="Fecha Fin")final LocalDate fechaFin,
@@ -216,18 +218,29 @@ public class ReservaHabitacionRepository {
     {
         ReservaHabitacion reservaHabitacion=new ReservaHabitacion();
 
-        Habitacion habitacion=habitacionRepository.listarHabitacionesPorEstado("DISPONIBLE").get(0);
+        int i=habitacionRepository.listarHabitacionesPorEstado("DISPONIBLE").size();
 
-        habitacion.ocupada();
+        if(i>=1) {
 
-        reservaHabitacion.setFechaReserva(LocalDate.now());
-        reservaHabitacion.setFechaInicio(fechaInicio);
-        reservaHabitacion.setFechaFin(fechaFin);
-        reservaHabitacion.setPersona(persona);
-        reservaHabitacion.setHabitacion(habitacion);
-        reservaHabitacion.setEstado("ACTIVA");
+            Habitacion habitacion=habitacionRepository.listarHabitacionesPorEstado("DISPONIBLE").get(0);
 
-        return repositoryService.persist(reservaHabitacion);
+            habitacion.ocupada();
+
+            reservaHabitacion.setFechaReserva(LocalDate.now());
+            reservaHabitacion.setFechaInicio(fechaInicio);
+            reservaHabitacion.setFechaFin(fechaFin);
+            reservaHabitacion.setPersona(persona);
+            reservaHabitacion.setHabitacion(habitacion);
+            reservaHabitacion.setEstado("ACTIVA");
+
+            repositoryService.persist(reservaHabitacion);
+
+
+        }else {
+            String mensaje="No hay Habitaciones Disponibles";
+            messageService.informUser(mensaje);
+        }
+
     }
 
     @javax.inject.Inject
@@ -244,5 +257,10 @@ public class ReservaHabitacionRepository {
 
     @javax.inject.Inject
     HabitacionRepository habitacionRepository;
+
+    @javax.inject.Inject
+    @javax.jdo.annotations.NotPersistent
+    @lombok.Getter(AccessLevel.NONE) @lombok.Setter(AccessLevel.NONE)
+    MessageService messageService;
 
 }
