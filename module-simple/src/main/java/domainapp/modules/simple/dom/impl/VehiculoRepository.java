@@ -59,7 +59,7 @@ public class VehiculoRepository {
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     @MemberOrder(sequence = "1")
-    public List<Vehiculo> listarTodos() {
+    public List<Vehiculo> listarVehiculos() {
         return repositoryService.allInstances(Vehiculo.class);
     }
 
