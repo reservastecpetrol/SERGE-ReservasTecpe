@@ -105,7 +105,7 @@ public class PersonaRepository {
      *
      * @return Persona
      */
-    public Persona create(
+    public Persona crearPersona(
             @Parameter(
                     regexPattern = "[A-Za-z ]+",
                     regexPatternFlags = Pattern.CASE_INSENSITIVE,
