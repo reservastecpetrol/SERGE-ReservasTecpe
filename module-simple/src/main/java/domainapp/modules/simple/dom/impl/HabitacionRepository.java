@@ -40,6 +40,15 @@ import org.apache.isis.applib.services.repository.RepositoryService;
 public class HabitacionRepository {
 
     /**
+     * Identificacion del nombre del icono que aparecera en la UI
+     *
+     * @return String
+     */
+    public String iconName() {
+        return "Habitacion";
+    }
+
+    /**
      * Este metodo lista todos las Habitaciones que hay cargados
      * en el sistema
      *
