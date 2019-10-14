@@ -104,7 +104,7 @@ public class VehiculoRepository {
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     @MemberOrder(sequence = "4")
-    public List<Vehiculo> findPorMatricula(
+    public List<Vehiculo> buscarVehiculoPorMatricula(
             @ParameterLayout(named="Matricula")
             final String matricula
     ) {
