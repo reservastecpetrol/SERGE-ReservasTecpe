@@ -75,7 +75,7 @@ public class ReservaHabitacionRepository {
      *
      */
     public Collection<Persona> choices0ListarReservasPorPersona() {
-        return personaRepository.listarTodos();
+        return personaRepository.listarPersonas();
     }
 
     /**
@@ -170,7 +170,7 @@ public class ReservaHabitacionRepository {
      *
      */
     public Collection<Persona> choices2Create() {
-        return personaRepository.listarTodos();
+        return personaRepository.listarPersonas();
     }
 
 
