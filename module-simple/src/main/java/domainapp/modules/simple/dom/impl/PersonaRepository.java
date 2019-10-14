@@ -40,6 +40,15 @@ import org.apache.isis.applib.services.repository.RepositoryService;
 public class PersonaRepository {
 
     /**
+     * Identificacion del nombre del icono que aparecera en la UI
+     *
+     * @return String
+     */
+    public String iconName() {
+        return "Persona";
+    }
+
+    /**
      * Este metodo lista todos las personas que hay registradas
      * en el sistema
      *
