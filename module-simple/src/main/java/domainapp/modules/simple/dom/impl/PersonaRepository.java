@@ -72,7 +72,7 @@ public class PersonaRepository {
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     @MemberOrder(sequence = "2")
-    public List<Persona> findPorNombre(
+    public List<Persona> buscarPersonaPorNombre(
             @ParameterLayout(named="Nombre")
             final String nombre
     ) {
