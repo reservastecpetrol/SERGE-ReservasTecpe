@@ -18,7 +18,10 @@ import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
+import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
+
+import lombok.AccessLevel;
 
 @DomainService(
         nature = NatureOfService.VIEW_MENU_ONLY,
@@ -227,9 +230,8 @@ public class ReservaVehiculoRepository {
      * @param fechaFin
      * @param persona
      *
-     * @return ReservaVehiculo
      */
-    public ReservaVehiculo create(
+    public void create(
 
             @ParameterLayout(named="Fecha Inicio")final LocalDate fechaInicio,
             @ParameterLayout(named="Fecha Fin")final LocalDate fechaFin,
@@ -238,18 +240,28 @@ public class ReservaVehiculoRepository {
     {
         ReservaVehiculo reservaVehiculo=new ReservaVehiculo();
 
-        Vehiculo vehiculo=vehiculoRepository.listarVehiculosPorEstado("DISPONIBLE").get(0);
+        int i=vehiculoRepository.listarVehiculosPorEstado("DISPONIBLE").size();
 
-        vehiculo.ocupado();
+        if(i>=1) {
 
-        reservaVehiculo.setFechaReserva(LocalDate.now());
-        reservaVehiculo.setFechaInicio(fechaInicio);
-        reservaVehiculo.setFechaFin(fechaFin);
-        reservaVehiculo.setPersona(persona);
-        reservaVehiculo.setVehiculo(vehiculo);
-        reservaVehiculo.setEstado("ACTIVA");
+            Vehiculo vehiculo = vehiculoRepository.listarVehiculosPorEstado("DISPONIBLE").get(0);
 
-        return repositoryService.persist(reservaVehiculo);
+            vehiculo.ocupado();
+
+            reservaVehiculo.setFechaReserva(LocalDate.now());
+            reservaVehiculo.setFechaInicio(fechaInicio);
+            reservaVehiculo.setFechaFin(fechaFin);
+            reservaVehiculo.setPersona(persona);
+            reservaVehiculo.setVehiculo(vehiculo);
+            reservaVehiculo.setEstado("ACTIVA");
+
+            repositoryService.persist(reservaVehiculo);
+
+        }else {
+            String mensaje="No hay Vehiculos Disponibles";
+            messageService.informUser(mensaje);
+        }
+
     }
 
     @javax.inject.Inject
@@ -266,5 +278,10 @@ public class ReservaVehiculoRepository {
 
     @javax.inject.Inject
     VehiculoRepository vehiculoRepository;
+
+    @javax.inject.Inject
+    @javax.jdo.annotations.NotPersistent
+    @lombok.Getter(AccessLevel.NONE) @lombok.Setter(AccessLevel.NONE)
+    MessageService messageService;
 
 }
