@@ -84,6 +84,16 @@ import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_Y
  */
 public class ReservaHabitacion implements Comparable<ReservaHabitacion>,CalendarEventable {
 
+    /**
+     * Identificacion del nombre del icono que aparecera en la UI
+     *
+     * @return String
+     */
+    public String iconName() {
+        return "Reserva";
+    }
+
+
     //Definicion de las propiedades de la entidad ReservaHabitacion
 
     @javax.jdo.annotations.Column(allowsNull = "false")
