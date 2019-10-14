@@ -79,6 +79,21 @@ public class VehiculoRepository {
     }
 
     /**
+     * Este metodo lista todos los Vehiculos Ocupados que hay cargados
+     * en el sistema
+     *
+     * @return List<Vehiculo>
+     */
+    @Action(semantics = SemanticsOf.SAFE)
+    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    @MemberOrder(sequence = "3")
+    public List<Vehiculo> listarVehiculosOcupados() {
+
+        return this.listarVehiculosPorEstado("OCUPADO");
+    }
+
+
+    /**
      * Este metodo permite encontrar un Vehiculo en particular
      * dada una matricula que es la que identifica de manera
      * unica a cada Vehiculo
@@ -88,7 +103,7 @@ public class VehiculoRepository {
      */
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    @MemberOrder(sequence = "3")
+    @MemberOrder(sequence = "4")
     public List<Vehiculo> findPorMatricula(
             @ParameterLayout(named="Matricula")
             final String matricula
@@ -128,7 +143,7 @@ public class VehiculoRepository {
 
     public static class CreateDomainEvent extends ActionDomainEvent<SimpleObjects> {}
     @Action(domainEvent = SimpleObjects.CreateDomainEvent.class)
-    @MemberOrder(sequence = "4")
+    @MemberOrder(sequence = "5")
     /**
      * Este metodo permite crear la entidad de dominio Vehiculo
      * con los datos que va a ingresar el usuario
