@@ -84,6 +84,15 @@ import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_Y
  */
 public class Habitacion implements Comparable<Habitacion> {
 
+    /**
+     * Identificacion del nombre del icono que aparecera en la UI
+     *
+     * @return String
+     */
+    public String iconName() {
+        return "Habitacion";
+    }
+
     //Definicion de las propiedades de la entidad Habitacion
 
     @javax.jdo.annotations.Column(allowsNull = "false", length = 40)
