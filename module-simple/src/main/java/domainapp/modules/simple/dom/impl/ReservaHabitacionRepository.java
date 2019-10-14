@@ -112,6 +112,30 @@ public class ReservaHabitacionRepository {
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     @MemberOrder(sequence = "3")
     /**
+     * Este metodo lista todas las reservas de habitaciones que hay cargados
+     * en el sistema en el dia de la fecha
+     *
+     * @return List<ReservaHabitacion>
+     */
+    public List<ReservaHabitacion> listarReservasDeHoy() {
+
+        List<ReservaHabitacion> reservas;
+
+        TypesafeQuery<ReservaHabitacion> q = isisJdoSupport.newTypesafeQuery(ReservaHabitacion.class);
+
+        final QReservaHabitacion cand = QReservaHabitacion.candidate();
+
+        reservas = q.filter(
+                cand.fechaInicio.eq(LocalDate.now()))
+                .executeList();
+        return reservas;
+    }
+
+
+    @Action(semantics = SemanticsOf.SAFE)
+    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    @MemberOrder(sequence = "4")
+    /**
      * Este metodo permite listar todas las reservas de habitaciones
      * dada una fecha de reserva
      *
@@ -199,7 +223,7 @@ public class ReservaHabitacionRepository {
 
     public static class CreateDomainEvent extends ActionDomainEvent<SimpleObjects> {}
     @Action(domainEvent = SimpleObjects.CreateDomainEvent.class)
-    @MemberOrder(sequence = "4")
+    @MemberOrder(sequence = "5")
     /**
      * Este metodo permite crear la entidad de dominio ReservaHabitacion
      * con los datos que va a ingresar el usuario
