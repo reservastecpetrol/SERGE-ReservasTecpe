@@ -82,6 +82,15 @@ import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_Y
  */
 public class Persona implements Comparable<Persona> {
 
+    /**
+     * Identificacion del nombre del icono que aparecera en la UI
+     *
+     * @return String
+     */
+    public String iconName() {
+        return "Persona";
+    }
+
     //Definicion de las propiedades de la entidad Persona
 
     @javax.jdo.annotations.Column(allowsNull = "false", length = 40)
