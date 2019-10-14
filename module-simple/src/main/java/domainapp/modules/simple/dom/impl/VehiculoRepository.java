@@ -159,7 +159,7 @@ public class VehiculoRepository {
      *
      * @return Vehiculo
      */
-    public Vehiculo create(
+    public Vehiculo crearVehiculo(
             @Parameter(
                     regexPattern = "[a-z]{2} [0-9]{3} [a-z]{2}",
                     regexPatternFlags = Pattern.CASE_INSENSITIVE,
