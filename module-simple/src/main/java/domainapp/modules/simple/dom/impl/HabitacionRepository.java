@@ -151,7 +151,7 @@ public class HabitacionRepository {
      * @return Habitacion
      *
      */
-    public Habitacion create(
+    public Habitacion crearHabitacion(
             @ParameterLayout(named="Nombre") final String nombre,
             @ParameterLayout(named="Ubicacion")final String ubicacion,
             @ParameterLayout(named="Categoria")ListaHabitaciones categoria
