@@ -100,7 +100,7 @@ public class HabitacionRepository {
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     @MemberOrder(sequence = "4")
-    public List<Habitacion> findPorNombre(
+    public List<Habitacion> buscarHabitacionPorNombre(
             @ParameterLayout(named="Nombre")
             final String nombre
     ) {
