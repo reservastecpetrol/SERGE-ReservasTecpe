@@ -61,7 +61,7 @@ public class ReservaHabitacionRepository {
      *
      * @return List<ReservaHabitacion>
      */
-    public java.util.List<ReservaHabitacion> listarTodos() {
+    public java.util.List<ReservaHabitacion> listarReservasDeHabitaciones() {
         return container.allInstances(ReservaHabitacion.class);
     }
 
