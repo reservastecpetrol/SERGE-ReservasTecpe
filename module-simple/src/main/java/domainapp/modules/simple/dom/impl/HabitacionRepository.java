@@ -16,7 +16,10 @@ import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
+import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
+
+import lombok.AccessLevel;
 
 @DomainService(
         nature = NatureOfService.VIEW_MENU_ONLY,
@@ -136,6 +139,19 @@ public class HabitacionRepository {
         return habitacion;
     }
 
+    @Programmatic
+    public Habitacion verificarHabitacion(String nombre){
+
+        TypesafeQuery<Habitacion> q = isisJdoSupport.newTypesafeQuery(Habitacion.class);
+        final QHabitacion cand = QHabitacion.candidate();
+
+        q= q.filter(
+                cand.nombre.eq(q.stringParameter("nombreIngresado"))
+        );
+        return  q.setParameter("nombreIngresado",nombre)
+                .executeUnique();
+    }
+
 
     public static class CreateDomainEvent extends ActionDomainEvent<SimpleObjects> {}
     @Action(domainEvent = SimpleObjects.CreateDomainEvent.class)
@@ -151,17 +167,28 @@ public class HabitacionRepository {
      * @return Habitacion
      *
      */
-    public Habitacion crearHabitacion(
+    public void crearHabitacion(
             @ParameterLayout(named="Nombre") final String nombre,
             @ParameterLayout(named="Ubicacion")final String ubicacion,
             @ParameterLayout(named="Categoria")ListaHabitaciones categoria
     )
     {
-        String estado="DISPONIBLE";
 
-        return repositoryService.persist(new Habitacion(nombre,ubicacion,categoria,estado));
+        if (verificarHabitacion(nombre.toUpperCase())==null) {
+            String estado="DISPONIBLE";
+
+            repositoryService.persist(new Habitacion(nombre.toUpperCase(),ubicacion.toUpperCase(),categoria,estado));
+
+        }else{
+            String mensaje="Esta Habitacion ya se encuentra cargada en el sistema!";
+            messageService.informUser(mensaje);
+        }
     }
 
+    @javax.inject.Inject
+    @javax.jdo.annotations.NotPersistent
+    @lombok.Getter(AccessLevel.NONE) @lombok.Setter(AccessLevel.NONE)
+    MessageService messageService;
 
     @javax.inject.Inject
     RepositoryService repositoryService;
