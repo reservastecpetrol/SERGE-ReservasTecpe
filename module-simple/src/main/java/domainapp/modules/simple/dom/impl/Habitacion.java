@@ -284,7 +284,7 @@ public class Habitacion implements Comparable<Habitacion> {
     @Action(semantics = NON_IDEMPOTENT_ARE_YOU_SURE)
     public void delete() {
         final String title = titleService.titleOf(this);
-        messageService.informUser(String.format("'%s' deleted", title));
+        messageService.informUser(String.format("'%s' FUE ELIMINADA", title));
         repositoryService.remove(this);
     }
 
