@@ -231,7 +231,7 @@ public class ReservaVehiculoRepository {
      * @param persona
      *
      */
-    public void create(
+    public void crearReserva(
 
             @ParameterLayout(named="Fecha Inicio")final LocalDate fechaInicio,
             @ParameterLayout(named="Fecha Fin")final LocalDate fechaFin,
