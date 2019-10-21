@@ -140,7 +140,7 @@ public class ReservaVehiculoRepository {
      * @param fechaReseva
      * @return List<ReservaVehiculo>
      */
-    public List<ReservaVehiculo> findPorFechaReserva(
+    public List<ReservaVehiculo> buscarReservasPorFechaDeReserva(
             @ParameterLayout(named="Fecha Reserva")
             final LocalDate fechaReserva
     ) {
