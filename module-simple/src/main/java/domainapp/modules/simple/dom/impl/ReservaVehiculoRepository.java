@@ -60,7 +60,7 @@ public class ReservaVehiculoRepository {
      *
      * @return List<ReservaVehiculo>
      */
-    public java.util.List<ReservaVehiculo> listarTodos() {
+    public java.util.List<ReservaVehiculo> listarReservasDeVehiculos() {
         return container.allInstances(ReservaVehiculo.class);
     }
 
