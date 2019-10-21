@@ -18,7 +18,10 @@ import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
+import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
+
+import lombok.AccessLevel;
 
 @DomainService(
         nature = NatureOfService.VIEW_MENU_ONLY,
@@ -140,6 +143,18 @@ public class VehiculoRepository {
         return vehiculos;
     }
 
+    @Programmatic
+    public Vehiculo verificarVehiculo(String matricula){
+
+        TypesafeQuery<Vehiculo> q = isisJdoSupport.newTypesafeQuery(Vehiculo.class);
+        final QVehiculo cand = QVehiculo.candidate();
+
+        q= q.filter(
+                cand.matricula.eq(q.stringParameter("matriculaIngresada"))
+        );
+        return  q.setParameter("matriculaIngresada",matricula)
+                .executeUnique();
+    }
 
     public static class CreateDomainEvent extends ActionDomainEvent<SimpleObjects> {}
     @Action(domainEvent = SimpleObjects.CreateDomainEvent.class)
@@ -159,7 +174,7 @@ public class VehiculoRepository {
      *
      * @return Vehiculo
      */
-    public Vehiculo crearVehiculo(
+    public void crearVehiculo(
             @Parameter(
                     regexPattern = "[a-z]{2} [0-9]{3} [a-z]{2}",
                     regexPatternFlags = Pattern.CASE_INSENSITIVE,
@@ -184,10 +199,22 @@ public class VehiculoRepository {
             @ParameterLayout(named="Ubicacion")final String ubicacion
     )
     {
-        String estado="DISPONIBLE";
 
-        return repositoryService.persist(new Vehiculo(matricula.toUpperCase(),marca.toUpperCase(),color.toUpperCase(),modelo.toUpperCase(),combustible,seguro,ubicacion.toUpperCase(),estado));
+        if (verificarVehiculo(matricula.toUpperCase())==null) {
+            String estado="DISPONIBLE";
+
+            repositoryService.persist(new Vehiculo(matricula.toUpperCase(),marca.toUpperCase(),color.toUpperCase(),modelo.toUpperCase(),combustible,seguro,ubicacion.toUpperCase(),estado));
+
+        }else{
+            String mensaje="Este Vehiculo ya se encuentra cargado en el sistema!";
+            messageService.informUser(mensaje);
+        }
     }
+
+    @javax.inject.Inject
+    @javax.jdo.annotations.NotPersistent
+    @lombok.Getter(AccessLevel.NONE) @lombok.Setter(AccessLevel.NONE)
+    MessageService messageService;
 
     @javax.inject.Inject
     RepositoryService repositoryService;
