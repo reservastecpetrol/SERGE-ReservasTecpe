@@ -142,7 +142,7 @@ public class ReservaHabitacionRepository {
      * @param fechaReseva
      * @return List<ReservaHabitacion>
      */
-    public List<ReservaHabitacion> findPorFechaReserva(
+    public List<ReservaHabitacion> buscarReservaPorFechaReserva(
             @ParameterLayout(named="Fecha Reserva")
             final LocalDate fechaReserva
     ) {
