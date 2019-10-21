@@ -9,7 +9,6 @@ import javax.jdo.annotations.Query;
 import javax.jdo.annotations.Unique;
 import javax.jdo.annotations.Version;
 import javax.jdo.annotations.VersionStrategy;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.google.common.collect.ComparisonChain;
 
@@ -27,7 +26,6 @@ import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
-import org.apache.isis.schema.utils.jaxbadapters.PersistentEntityAdapter;
 
 import lombok.AccessLevel;
 import static org.apache.isis.applib.annotation.CommandReification.ENABLED;
@@ -70,7 +68,6 @@ import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_Y
         bookmarking = BookmarkPolicy.AS_ROOT
 )
 @lombok.Getter @lombok.Setter
-@XmlJavaTypeAdapter(PersistentEntityAdapter.class)
 /**
  * Esta clase define la entidad de dominio Vehiculo
  * con todas sus propiedades.
@@ -425,7 +422,7 @@ public class Vehiculo implements Comparable<Vehiculo> {
     @Action(semantics = NON_IDEMPOTENT_ARE_YOU_SURE)
     public void delete() {
         final String title = titleService.titleOf(this);
-        messageService.informUser(String.format("'%s' deleted", title));
+        messageService.informUser(String.format("'%s' FUE ELIMINADO", title));
         repositoryService.remove(this);
     }
 
