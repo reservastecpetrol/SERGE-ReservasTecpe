@@ -37,7 +37,7 @@ public class HomePageViewModel {
 
 
     public List<ReservaHabitacion> getReservas() {
-        return reservaHabitacionRepository.listarTodos();
+        return reservaHabitacionRepository.listarReservasDeHabitaciones();
     }
 
     public String title() {
@@ -51,7 +51,7 @@ public class HomePageViewModel {
 
     @Programmatic
     public List<Persona> getObjects() {
-        return personaRepository.listarTodos();
+        return personaRepository.listarPersonas();
     }
 
 
