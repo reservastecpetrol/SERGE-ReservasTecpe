@@ -14,10 +14,14 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
+import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
+import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
+
+import lombok.AccessLevel;
 
 @DomainService(
         nature = NatureOfService.VIEW_MENU_ONLY,
@@ -86,6 +90,20 @@ public class PersonaRepository {
     }
 
 
+    @Programmatic
+    public Persona verificarUsuario(String dni){
+
+        TypesafeQuery<Persona> q = isisJdoSupport.newTypesafeQuery(Persona.class);
+        final QPersona cand = QPersona.candidate();
+
+        q= q.filter(
+                cand.dni.eq(q.stringParameter("dniIngresado"))
+        );
+        return  q.setParameter("dniIngresado",dni)
+                .executeUnique();
+    }
+
+
     public static class CreateDomainEvent extends ActionDomainEvent<SimpleObjects> {}
     @Action(domainEvent = SimpleObjects.CreateDomainEvent.class)
     @MemberOrder(sequence = "3")
@@ -105,7 +123,7 @@ public class PersonaRepository {
      *
      * @return Persona
      */
-    public Persona crearPersona(
+    public void crearPersona(
             @Parameter(
                     regexPattern = "[A-Za-z ]+",
                     regexPatternFlags = Pattern.CASE_INSENSITIVE,
@@ -145,9 +163,22 @@ public class PersonaRepository {
             @ParameterLayout(named="Jerarquia")ListaJerarquias jerarquias
                 )
     {
-        return repositoryService.persist(new Persona(nombre.toUpperCase(),apellido.toUpperCase(),direccion.toUpperCase(),telefono,email,dni,jerarquias));
+        if (verificarUsuario(dni)==null) {
+            repositoryService.persist(
+                    new Persona(nombre.toUpperCase(), apellido.toUpperCase(), direccion.toUpperCase(), telefono, email,
+                            dni, jerarquias));
+
+        }else{
+            String mensaje="Este Usuario ya se encuentra cargado en el sistema!";
+            messageService.informUser(mensaje);
+        }
     }
 
+
+    @javax.inject.Inject
+    @javax.jdo.annotations.NotPersistent
+    @lombok.Getter(AccessLevel.NONE) @lombok.Setter(AccessLevel.NONE)
+    MessageService messageService;
 
     @javax.inject.Inject
     RepositoryService repositoryService;
