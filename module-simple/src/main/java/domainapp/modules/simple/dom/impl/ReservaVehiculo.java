@@ -160,6 +160,7 @@ public class ReservaVehiculo implements Comparable<ReservaVehiculo>, CalendarEve
      * Este es el metodo que cambia el valor del estado de la reserva a CANCELADA
      * en el caso que el usuario ya no quiera realizar la reserva
      */
+    @Action
     public void cancelar()
     {
         estado = "CANCELADA";
