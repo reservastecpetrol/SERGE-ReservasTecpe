@@ -66,6 +66,18 @@ public class ReservaHabitacionRepository {
     }
 
     /**
+     * Este metodo lista todos las Reservas Activas que hay cargados
+     * en el sistema
+     *
+     * @return List<ReservaHabitacion>
+     */
+    @Programmatic
+    public List<ReservaHabitacion> listarReservasActivas() {
+        return this.listarReservasPorEstado("ACTIVA");
+    }
+
+
+    /**
      * Este metodo permite recuperar en una lista todos las reservas realizadas
      * dado un estado en particular
      *
