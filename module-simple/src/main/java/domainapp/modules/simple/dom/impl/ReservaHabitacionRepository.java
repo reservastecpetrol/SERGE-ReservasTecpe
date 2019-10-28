@@ -65,6 +65,28 @@ public class ReservaHabitacionRepository {
         return container.allInstances(ReservaHabitacion.class);
     }
 
+    /**
+     * Este metodo permite recuperar en una lista todos las reservas realizadas
+     * dado un estado en particular
+     *
+     * @param estado
+     * @return List<ReservaHabitacion>
+     */
+    @Programmatic
+    public List<ReservaHabitacion> listarReservasPorEstado(
+            @ParameterLayout(named="Estado")
+            final String estado
+    ) {
+        TypesafeQuery<ReservaHabitacion> tq = isisJdoSupport.newTypesafeQuery(ReservaHabitacion.class);
+        final QReservaVehiculo cand = QReservaVehiculo.candidate();
+
+        List<ReservaHabitacion> reservas = tq.filter(
+                cand.estado.startsWith(tq.stringParameter("estado")))
+                .setParameter("estado",estado).executeList();
+
+        return reservas;
+    }
+
 
     @Programmatic
     /**
