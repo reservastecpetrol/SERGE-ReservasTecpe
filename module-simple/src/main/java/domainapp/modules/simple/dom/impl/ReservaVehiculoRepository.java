@@ -167,7 +167,7 @@ public class ReservaVehiculoRepository {
      * @return Collection<Persona>
      *
      */
-    public Collection<Persona> choices2Create() {
+    public Collection<Persona> choices2CrearReserva() {
         return personaRepository.listarPersonas();
     }
 
@@ -180,7 +180,7 @@ public class ReservaVehiculoRepository {
      * @param fechaInicio
      * @return String
      */
-    public String validate0Create(final LocalDate fechaInicio){
+    public String validate0CrearReserva(final LocalDate fechaInicio){
 
         String validacion="";
 
@@ -202,7 +202,7 @@ public class ReservaVehiculoRepository {
      * @return String
      *
      */
-    public String validate1Create(final LocalDate fechaInicio,final LocalDate fechaFin){
+    public String validate1CrearReserva(final LocalDate fechaInicio,final LocalDate fechaFin){
 
         String validacion="";
 
