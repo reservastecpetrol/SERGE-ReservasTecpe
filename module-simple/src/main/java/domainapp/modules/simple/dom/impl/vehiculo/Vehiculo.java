@@ -27,6 +27,7 @@ import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 
+import domainapp.modules.simple.dom.impl.enums.EstadoVehiculo;
 import lombok.AccessLevel;
 import static org.apache.isis.applib.annotation.CommandReification.ENABLED;
 import static org.apache.isis.applib.annotation.SemanticsOf.IDEMPOTENT;
@@ -139,7 +140,7 @@ public class Vehiculo implements Comparable<Vehiculo> {
     // esta variable hace referencia al estado en el que se encuentra la entidad Vehiculo
     // los cuales pueden ser :
     // DISPONIBLE|| OCUPADO || REPARACION || INACTIVO
-    private String estado;
+    private EstadoVehiculo estado;
 
     /**
     *Este es un metodo constructor
@@ -154,7 +155,7 @@ public class Vehiculo implements Comparable<Vehiculo> {
      *@param estado  -valor definido en el codigo
     *
     */
-    public Vehiculo(String matricula,String marca,String color,String modelo,boolean combustible,boolean seguro,String ubicacion,String estado){
+    public Vehiculo(String matricula,String marca,String color,String modelo,boolean combustible,boolean seguro,String ubicacion,EstadoVehiculo estado){
         this.matricula=matricula;
         this.marca=marca;
         this.color=color;
@@ -293,7 +294,7 @@ public class Vehiculo implements Comparable<Vehiculo> {
     public Vehiculo updateEstado(
             @Parameter(maxLength = 40)
             @ParameterLayout(named = "estado")
-            final String estado) {
+            final EstadoVehiculo estado) {
         setEstado(estado);
         return this;
     }
@@ -378,43 +379,6 @@ public class Vehiculo implements Comparable<Vehiculo> {
     public TranslatableString validate0UpdateEstado(final String estado) {
         return estado != null && estado.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
     }
-
-
-    /**
-     * Este metodo cambia el valor de la variable estado a OCUPADO
-     */
-    public void ocupado()
-    {
-        estado = "OCUPADO";
-    }
-
-
-    /**
-     * Este metodo cambia el valor de la variable estado a REPARACIÓN
-     */
-    public void reparacion()
-    {
-        estado = "REPARACION";
-    }
-
-
-    /**
-     * Este metodo cambia el valor de la variable estado a INACTIVO
-     */
-    public void inactivo()
-    {
-        estado = "INACTIVO";
-    }
-
-
-    /**
-     * Este metodo cambia el valor de la variable estado a DISPONIBLE
-     */
-    public void disponible()
-    {
-        estado = "DISPONIBLE";
-    }
-
 
     /**
      * Este metodo permite eliminar la entidad de Vehiculo
