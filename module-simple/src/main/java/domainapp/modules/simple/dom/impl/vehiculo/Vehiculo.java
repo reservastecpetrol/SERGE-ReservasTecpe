@@ -368,18 +368,6 @@ public class Vehiculo implements Comparable<Vehiculo> {
         return ubicacion != null && ubicacion.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
     }
 
-
-    /**
-     * Este metodo realiza la validacion de la variable estado
-     * de forma que el usuario no ingrese un signo de exclamacion
-     *
-     * @param estado
-     * @return TranslatableString
-     */
-    public TranslatableString validate0UpdateEstado(final String estado) {
-        return estado != null && estado.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
-    }
-
     /**
      * Este metodo permite eliminar la entidad de Vehiculo
      */
