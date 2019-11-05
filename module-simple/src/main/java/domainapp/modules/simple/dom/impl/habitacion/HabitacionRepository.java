@@ -19,8 +19,9 @@ import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 
-import domainapp.modules.simple.dom.impl.enums.ListaHabitaciones;
 import domainapp.modules.simple.dom.impl.SimpleObjects;
+import domainapp.modules.simple.dom.impl.enums.EstadoHabitacion;
+import domainapp.modules.simple.dom.impl.enums.ListaHabitaciones;
 import lombok.AccessLevel;
 
 @DomainService(
@@ -77,7 +78,7 @@ public class HabitacionRepository {
     @MemberOrder(sequence = "2")
     public List<Habitacion> listarHabitacionesDisponibles() {
 
-        return this.listarHabitacionesPorEstado("DISPONIBLE");
+        return this.listarHabitacionesPorEstado(EstadoHabitacion.DISPONIBLE);
     }
 
     /**
@@ -91,7 +92,7 @@ public class HabitacionRepository {
     @MemberOrder(sequence = "3")
     public List<Habitacion> listarHabitacionesOcupadas() {
 
-        return this.listarHabitacionesPorEstado("OCUPADA");
+        return this.listarHabitacionesPorEstado(EstadoHabitacion.OCUPADA);
     }
 
     /**
@@ -129,13 +130,13 @@ public class HabitacionRepository {
     @Programmatic
     public List<Habitacion> listarHabitacionesPorEstado(
             @ParameterLayout(named="Estado")
-            final String estado
+            final EstadoHabitacion estado
     ) {
         TypesafeQuery<Habitacion> tq = isisJdoSupport.newTypesafeQuery(Habitacion.class);
         final QHabitacion cand = QHabitacion.candidate();
 
         List<Habitacion> habitacion = tq.filter(
-                cand.estado.startsWith(tq.stringParameter("estado")))
+                cand.estado.eq(tq.stringParameter("estado")))
                 .setParameter("estado",estado).executeList();
 
         return habitacion;
@@ -177,7 +178,7 @@ public class HabitacionRepository {
     {
 
         if (verificarHabitacion(nombre.toUpperCase())==null) {
-            String estado="DISPONIBLE";
+            EstadoHabitacion estado=EstadoHabitacion.DISPONIBLE;
 
             repositoryService.persist(new Habitacion(nombre.toUpperCase(),ubicacion.toUpperCase(),categoria,estado));
 
