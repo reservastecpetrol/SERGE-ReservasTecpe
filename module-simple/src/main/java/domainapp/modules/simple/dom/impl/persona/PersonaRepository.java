@@ -69,6 +69,28 @@ public class PersonaRepository {
 
 
     /**
+     * Este metodo permite recuperar en una lista todas las Personas
+     * dado una jerarquia en particular
+     *
+     * @param jerarquia
+     * @return List<Persona>
+     */
+    @Programmatic
+    public List<Persona> listarPersonasPorJerarquia(
+            @ParameterLayout(named="Jerarquia")
+            final ListaJerarquias jerarquia
+    ) {
+        TypesafeQuery<Persona> tq = isisJdoSupport.newTypesafeQuery(Persona.class);
+        final QPersona cand = QPersona.candidate();
+
+        List<Persona> personas = tq.filter(
+                cand.jerarquia.eq(tq.stringParameter("jerarquia")))
+                .setParameter("jerarquia",jerarquia).executeList();
+
+        return personas;
+    }
+
+    /**
      * Este metodo permite encontrar una Persona en particular
      * dado un nombre
      *
