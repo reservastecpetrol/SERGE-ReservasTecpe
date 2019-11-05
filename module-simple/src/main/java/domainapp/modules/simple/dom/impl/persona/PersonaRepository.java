@@ -80,7 +80,21 @@ public class PersonaRepository {
 
         return this.listarPersonasPorJerarquia(ListaJerarquias.Ejecutivos);
     }
-    
+
+    /**
+     * Este metodo lista todas las personas con jerarquia de Supervisores que hay cargados
+     * en el sistema
+     *
+     * @return List<Persona>
+     */
+    @Action(semantics = SemanticsOf.SAFE)
+    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    @MemberOrder(sequence = "3")
+    public List<Persona> listarPersonasSupervisores() {
+
+        return this.listarPersonasPorJerarquia(ListaJerarquias.Supervisores);
+    }
+
     /**
      * Este metodo permite recuperar en una lista todas las Personas
      * dado una jerarquia en particular
