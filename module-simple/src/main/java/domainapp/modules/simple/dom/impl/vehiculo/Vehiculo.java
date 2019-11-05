@@ -1,4 +1,4 @@
-package domainapp.modules.simple.dom.impl;
+package domainapp.modules.simple.dom.impl.vehiculo;
 
 import javax.jdo.annotations.DatastoreIdentity;
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -48,16 +48,16 @@ import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_Y
         @Query(
                 name = "find", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.modules.simple.dom.impl.Vehiculo "),
+                        + "FROM domainapp.modules.simple.dom.impl.vehiculo.Vehiculo "),
         @Query(
                 name = "findByMatriculaContains", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.modules.simple.dom.impl.Vehiculo "
+                        + "FROM domainapp.modules.simple.dom.impl.vehiculo.Vehiculo "
                         + "WHERE matricula.indexOf(:matricula) >= 0 "),
         @Query(
                 name = "findByMatricula", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.modules.simple.dom.impl.Vehiculo "
+                        + "FROM domainapp.modules.simple.dom.impl.vehiculo.Vehiculo "
                         + "WHERE matricula == :matricula ")
 })
 @Unique(name = "Vehiculo_matricula_UNQ", members = { "matricula" })

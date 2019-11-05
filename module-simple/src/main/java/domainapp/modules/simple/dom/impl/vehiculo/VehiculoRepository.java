@@ -1,4 +1,4 @@
-package domainapp.modules.simple.dom.impl;
+package domainapp.modules.simple.dom.impl.vehiculo;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -21,6 +21,7 @@ import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 
+import domainapp.modules.simple.dom.impl.SimpleObjects;
 import lombok.AccessLevel;
 
 @DomainService(
