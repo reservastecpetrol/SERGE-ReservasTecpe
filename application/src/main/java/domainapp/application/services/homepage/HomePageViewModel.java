@@ -24,10 +24,10 @@ import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Nature;
 import org.apache.isis.applib.annotation.Programmatic;
 
-import domainapp.modules.simple.dom.impl.Persona;
-import domainapp.modules.simple.dom.impl.PersonaRepository;
-import domainapp.modules.simple.dom.impl.ReservaHabitacion;
-import domainapp.modules.simple.dom.impl.ReservaHabitacionRepository;
+import domainapp.modules.simple.dom.impl.persona.Persona;
+import domainapp.modules.simple.dom.impl.persona.PersonaRepository;
+import domainapp.modules.simple.dom.impl.reservaHabitacion.ReservaHabitacion;
+import domainapp.modules.simple.dom.impl.reservaHabitacion.ReservaHabitacionRepository;
 
 @DomainObject(
         nature = Nature.VIEW_MODEL,
