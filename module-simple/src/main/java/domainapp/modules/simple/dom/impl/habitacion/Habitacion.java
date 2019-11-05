@@ -27,6 +27,7 @@ import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 
+import domainapp.modules.simple.dom.impl.enums.EstadoHabitacion;
 import domainapp.modules.simple.dom.impl.enums.ListaHabitaciones;
 import lombok.AccessLevel;
 import static org.apache.isis.applib.annotation.CommandReification.ENABLED;
@@ -113,7 +114,7 @@ public class Habitacion implements Comparable<Habitacion> {
     // esta variable hace referencia al estado en el que se encuentra la entidad Habiatcion
     // los cuales pueden ser :
     // DISPONIBLE|| OCUPADA || MANTENIMIENTO|| INACTIVA
-    private String estado;
+    private EstadoHabitacion estado;
 
 
     // esta variable hace referencia al tipo de categoria a la que pertenece la entidad Habitacion
@@ -138,7 +139,7 @@ public class Habitacion implements Comparable<Habitacion> {
      * @param categoria -valor ingresado por el usuario
      * @param estado  -valor definido en el codigo
      */
-    Habitacion(String nombre,String ubicacion, ListaHabitaciones categoria,String estado){
+    Habitacion(String nombre,String ubicacion, ListaHabitaciones categoria,EstadoHabitacion estado){
         this.nombre=nombre;
         this.ubicacion=ubicacion;
         this.categoria=categoria;
@@ -204,7 +205,7 @@ public class Habitacion implements Comparable<Habitacion> {
     public Habitacion updateEstado(
             @Parameter(maxLength = 40)
             @ParameterLayout(named = "estado")
-            final String estado) {
+            final EstadoHabitacion estado) {
         setEstado(estado);
         return this;
     }
@@ -253,31 +254,6 @@ public class Habitacion implements Comparable<Habitacion> {
     public TranslatableString validate0UpdateEstado(final String estado) {
         return estado != null && estado.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
     }
-
-
-    /**
-     * Este metodo cambia el valor de la variable estado a OCUPADA
-     */
-    public void ocupada()
-    {
-        estado = "OCUPADA";
-    }
-
-
-    /**
-     * Este metodo cambia el valor de la variable estado a LIMPIEZA
-     */
-    public void mantenimeinto() { estado = "MANTENIMIENTO"; }
-
-
-    /**
-     * Este metodo cambia el valor de la variable estado a INACTIVA
-     */
-    public void inactiva()
-    {
-        estado = "INACTIVA";
-    }
-
 
     /**
      * Este metodo permite eliminar la entidad de Habitacion
