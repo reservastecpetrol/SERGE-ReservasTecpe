@@ -1,4 +1,4 @@
-package domainapp.modules.simple.dom.impl;
+package domainapp.modules.simple.dom.impl.enums;
 
 /**
  * Esta clase define los tipos de Habitacion
