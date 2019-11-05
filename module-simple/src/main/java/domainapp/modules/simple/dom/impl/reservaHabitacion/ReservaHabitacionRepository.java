@@ -143,7 +143,7 @@ public class ReservaHabitacionRepository {
      */
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    @MemberOrder(sequence = "2")
+    @MemberOrder(sequence = "4")
     public List<ReservaHabitacion> listarReservasPorPersona(
             @ParameterLayout(named="Persona")
             final Persona persona
@@ -166,7 +166,7 @@ public class ReservaHabitacionRepository {
 
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    @MemberOrder(sequence = "3")
+    @MemberOrder(sequence = "5")
     /**
      * Este metodo lista todas las reservas de habitaciones que hay cargados
      * en el sistema en el dia de la fecha
@@ -190,7 +190,7 @@ public class ReservaHabitacionRepository {
 
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    @MemberOrder(sequence = "4")
+    @MemberOrder(sequence = "6")
     /**
      * Este metodo permite listar todas las reservas de habitaciones
      * dada una fecha de reserva
@@ -279,7 +279,7 @@ public class ReservaHabitacionRepository {
 
     public static class CreateDomainEvent extends ActionDomainEvent<SimpleObjects> {}
     @Action(domainEvent = SimpleObjects.CreateDomainEvent.class)
-    @MemberOrder(sequence = "5")
+    @MemberOrder(sequence = "7")
     /**
      * Este metodo permite crear la entidad de dominio ReservaHabitacion
      * con los datos que va a ingresar el usuario
