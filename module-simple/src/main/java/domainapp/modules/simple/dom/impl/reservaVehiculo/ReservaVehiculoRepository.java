@@ -22,6 +22,8 @@ import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 
 import domainapp.modules.simple.dom.impl.SimpleObjects;
+import domainapp.modules.simple.dom.impl.enums.EstadoReserva;
+import domainapp.modules.simple.dom.impl.enums.EstadoVehiculo;
 import domainapp.modules.simple.dom.impl.persona.Persona;
 import domainapp.modules.simple.dom.impl.persona.PersonaRepository;
 import domainapp.modules.simple.dom.impl.vehiculo.Vehiculo;
@@ -245,20 +247,20 @@ public class ReservaVehiculoRepository {
     {
         ReservaVehiculo reservaVehiculo=new ReservaVehiculo();
 
-        int i=vehiculoRepository.listarVehiculosPorEstado("DISPONIBLE").size();
+        int i=vehiculoRepository.listarVehiculosPorEstado(EstadoVehiculo.DISPONIBLE).size();
 
         if(i>=1) {
 
-            Vehiculo vehiculo = vehiculoRepository.listarVehiculosPorEstado("DISPONIBLE").get(0);
+            Vehiculo vehiculo = vehiculoRepository.listarVehiculosPorEstado(EstadoVehiculo.DISPONIBLE).get(0);
 
-            vehiculo.ocupado();
+            vehiculo.setEstado(EstadoVehiculo.OCUPADO);
 
             reservaVehiculo.setFechaReserva(LocalDate.now());
             reservaVehiculo.setFechaInicio(fechaInicio);
             reservaVehiculo.setFechaFin(fechaFin);
             reservaVehiculo.setPersona(persona);
             reservaVehiculo.setVehiculo(vehiculo);
-            reservaVehiculo.setEstado("ACTIVA");
+            reservaVehiculo.setEstado(EstadoReserva.ACTIVA);
 
             repositoryService.persist(reservaVehiculo);
 
