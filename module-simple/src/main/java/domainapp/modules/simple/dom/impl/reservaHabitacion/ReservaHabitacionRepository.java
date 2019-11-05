@@ -73,14 +73,16 @@ public class ReservaHabitacionRepository {
         return container.allInstances(ReservaHabitacion.class);
     }
 
+    @Action(semantics = SemanticsOf.SAFE)
+    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    @MemberOrder(sequence = "2")
     /**
      * Este metodo lista todos las Reservas Activas que hay cargados
      * en el sistema
      *
      * @return List<ReservaHabitacion>
      */
-    @Programmatic
-    public List<ReservaHabitacion> listarReservasActivas() {
+    public List<ReservaHabitacion> listarReservasDeHabitacionesActivas()  {
         return this.listarReservasPorEstado(EstadoReserva.ACTIVA);
     }
 
