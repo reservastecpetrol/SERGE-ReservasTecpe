@@ -26,6 +26,8 @@ import org.apache.isis.applib.annotation.Programmatic;
 import org.isisaddons.wicket.fullcalendar2.cpt.applib.CalendarEvent;
 import org.isisaddons.wicket.fullcalendar2.cpt.applib.CalendarEventable;
 
+import domainapp.modules.simple.dom.impl.persona.Persona;
+import domainapp.modules.simple.dom.impl.vehiculo.Vehiculo;
 import lombok.AccessLevel;
 import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE;
 
@@ -147,7 +149,8 @@ public class ReservaVehiculo implements Comparable<ReservaVehiculo>, CalendarEve
      * @param vehiculo -valor definido en el codigo
      * @param estado -valor definido en el codigo
      */
-    public ReservaVehiculo(LocalDate fechaReserva,LocalDate fechaInicio,LocalDate fechaFin,Persona persona,Vehiculo vehiculo,String estado){
+    public ReservaVehiculo(LocalDate fechaReserva,LocalDate fechaInicio,LocalDate fechaFin,Persona persona,
+            Vehiculo vehiculo,String estado){
         this.fechaReserva=fechaReserva;
         this.fechaInicio=fechaInicio;
         this.fechaFin=fechaFin;
