@@ -20,7 +20,10 @@ import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
+
 import domainapp.modules.simple.dom.impl.SimpleObjects;
+import domainapp.modules.simple.dom.impl.enums.EstadoHabitacion;
+import domainapp.modules.simple.dom.impl.enums.EstadoReserva;
 import domainapp.modules.simple.dom.impl.habitacion.Habitacion;
 import domainapp.modules.simple.dom.impl.habitacion.HabitacionRepository;
 import domainapp.modules.simple.dom.impl.persona.Persona;
@@ -78,7 +81,7 @@ public class ReservaHabitacionRepository {
      */
     @Programmatic
     public List<ReservaHabitacion> listarReservasActivas() {
-        return this.listarReservasPorEstado("ACTIVA");
+        return this.listarReservasPorEstado(EstadoReserva.ACTIVA);
     }
 
 
@@ -92,13 +95,13 @@ public class ReservaHabitacionRepository {
     @Programmatic
     public List<ReservaHabitacion> listarReservasPorEstado(
             @ParameterLayout(named="Estado")
-            final String estado
+            final EstadoReserva estado
     ) {
         TypesafeQuery<ReservaHabitacion> tq = isisJdoSupport.newTypesafeQuery(ReservaHabitacion.class);
         final QReservaVehiculo cand = QReservaVehiculo.candidate();
 
         List<ReservaHabitacion> reservas = tq.filter(
-                cand.estado.startsWith(tq.stringParameter("estado")))
+                cand.estado.eq(tq.stringParameter("estado")))
                 .setParameter("estado",estado).executeList();
 
         return reservas;
@@ -281,20 +284,20 @@ public class ReservaHabitacionRepository {
     {
         ReservaHabitacion reservaHabitacion=new ReservaHabitacion();
 
-        int i=habitacionRepository.listarHabitacionesPorEstado("DISPONIBLE").size();
+        int i=habitacionRepository.listarHabitacionesPorEstado(EstadoHabitacion.DISPONIBLE).size();
 
         if(i>=1) {
 
-            Habitacion habitacion=habitacionRepository.listarHabitacionesPorEstado("DISPONIBLE").get(0);
+            Habitacion habitacion=habitacionRepository.listarHabitacionesPorEstado(EstadoHabitacion.DISPONIBLE).get(0);
 
-            habitacion.ocupada();
+            habitacion.setEstado(EstadoHabitacion.OCUPADA);
 
             reservaHabitacion.setFechaReserva(LocalDate.now());
             reservaHabitacion.setFechaInicio(fechaInicio);
             reservaHabitacion.setFechaFin(fechaFin);
             reservaHabitacion.setPersona(persona);
             reservaHabitacion.setHabitacion(habitacion);
-            reservaHabitacion.setEstado("ACTIVA");
+            reservaHabitacion.setEstado(EstadoReserva.ACTIVA);
 
             repositoryService.persist(reservaHabitacion);
 
