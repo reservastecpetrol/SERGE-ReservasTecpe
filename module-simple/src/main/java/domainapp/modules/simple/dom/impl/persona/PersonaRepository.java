@@ -67,7 +67,20 @@ public class PersonaRepository {
         return repositoryService.allInstances(Persona.class);
     }
 
+    /**
+     * Este metodo lista todas las personas con jerarquia de Ejecutivos que hay cargados
+     * en el sistema
+     *
+     * @return List<Persona>
+     */
+    @Action(semantics = SemanticsOf.SAFE)
+    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    @MemberOrder(sequence = "2")
+    public List<Persona> listarPersonasEjecutivas() {
 
+        return this.listarPersonasPorJerarquia(ListaJerarquias.Ejecutivos);
+    }
+    
     /**
      * Este metodo permite recuperar en una lista todas las Personas
      * dado una jerarquia en particular
