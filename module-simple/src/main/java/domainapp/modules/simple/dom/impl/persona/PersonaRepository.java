@@ -96,6 +96,20 @@ public class PersonaRepository {
     }
 
     /**
+     * Este metodo lista todas las personas con jerarquia de Operadores que hay cargados
+     * en el sistema
+     *
+     * @return List<Persona>
+     */
+    @Action(semantics = SemanticsOf.SAFE)
+    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    @MemberOrder(sequence = "4")
+    public List<Persona> listarPersonasOperadores() {
+
+        return this.listarPersonasPorJerarquia(ListaJerarquias.Operadores);
+    }
+
+    /**
      * Este metodo permite recuperar en una lista todas las Personas
      * dado una jerarquia en particular
      *
