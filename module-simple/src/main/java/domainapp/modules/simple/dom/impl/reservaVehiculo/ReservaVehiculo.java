@@ -1,4 +1,4 @@
-package domainapp.modules.simple.dom.impl;
+package domainapp.modules.simple.dom.impl.reservaVehiculo;
 
 import javax.jdo.annotations.DatastoreIdentity;
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -47,16 +47,16 @@ import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_Y
         @Query(
                 name = "find", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.modules.simple.dom.impl.ReservaVehiculo "),
+                        + "FROM domainapp.modules.simple.dom.impl.reservaVehiculo.ReservaVehiculo "),
         @Query(
                 name = "findByFechaReservaContains", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.modules.simple.dom.impl.ReservaVehiculo "
+                        + "FROM domainapp.modules.simple.dom.impl.reservaVehiculo.ReservaVehiculo "
                         + "WHERE fechaReserva.indexOf(:fechaReserva) >= 0 "),
         @Query(
                 name = "findByFechaReserva", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.modules.simple.dom.impl.ReservaVehiculo "
+                        + "FROM domainapp.modules.simple.dom.impl.reservaVehiculo.ReservaVehiculo "
                         + "WHERE fechaReserva == :fechaReserva ")
 })
 //Se comenta de forma que permita realizar varias reservas en una misma fecha
