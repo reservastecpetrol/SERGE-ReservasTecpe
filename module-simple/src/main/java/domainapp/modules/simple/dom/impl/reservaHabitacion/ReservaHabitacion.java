@@ -27,6 +27,7 @@ import org.apache.isis.applib.services.title.TitleService;
 import org.isisaddons.wicket.fullcalendar2.cpt.applib.CalendarEvent;
 import org.isisaddons.wicket.fullcalendar2.cpt.applib.CalendarEventable;
 
+import domainapp.modules.simple.dom.impl.enums.EstadoReserva;
 import domainapp.modules.simple.dom.impl.habitacion.Habitacion;
 import domainapp.modules.simple.dom.impl.persona.Persona;
 import lombok.AccessLevel;
@@ -131,7 +132,7 @@ public class ReservaHabitacion implements Comparable<ReservaHabitacion>,Calendar
     // esta variable hace referencia al estado en el que se encuentra la reserva realizada por el usuario
     // los cuales pueden ser :
     //ACTIVA | CANCELADA | ARRIBADA
-    private String estado;
+    private EstadoReserva estado;
 
 
     /**
@@ -152,7 +153,7 @@ public class ReservaHabitacion implements Comparable<ReservaHabitacion>,Calendar
      * @param estado -valor definido en el codigo
      */
     public ReservaHabitacion(LocalDate fechaReserva,LocalDate fechaInicio,LocalDate fechaFin,Persona persona,
-            Habitacion habitacion,String estado){
+            Habitacion habitacion,EstadoReserva estado){
         this.fechaReserva=fechaReserva;
         this.fechaInicio=fechaInicio;
         this.fechaFin=fechaFin;
@@ -169,19 +170,8 @@ public class ReservaHabitacion implements Comparable<ReservaHabitacion>,Calendar
     @Action
     public void cancelar()
     {
-        estado = "CANCELADA";
+        this.setEstado(EstadoReserva.CANCELADA);
     }
-
-
-    /**
-     * Este es el metodo que cambia el valor del estado de la reserva a ARRIBADA
-     * en el caso que el usuario ya este haciendo uso de la reserva
-     */
-    public void arribar()
-    {
-        estado = "ARRIBADA";
-    }
-
 
     //Se implememento la interfaz CalendarEventable y se definen los metodos
     //que deben ser implementados para poder hacer uso del Calendario
