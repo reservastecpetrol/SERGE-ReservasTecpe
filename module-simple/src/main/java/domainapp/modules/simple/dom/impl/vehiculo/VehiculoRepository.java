@@ -22,6 +22,7 @@ import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 
 import domainapp.modules.simple.dom.impl.SimpleObjects;
+import domainapp.modules.simple.dom.impl.enums.EstadoVehiculo;
 import lombok.AccessLevel;
 
 @DomainService(
@@ -79,7 +80,7 @@ public class VehiculoRepository {
     @MemberOrder(sequence = "2")
     public List<Vehiculo> listarVehiculosDisponibles() {
 
-        return this.listarVehiculosPorEstado("DISPONIBLE");
+        return this.listarVehiculosPorEstado(EstadoVehiculo.DISPONIBLE);
     }
 
     /**
@@ -93,7 +94,7 @@ public class VehiculoRepository {
     @MemberOrder(sequence = "3")
     public List<Vehiculo> listarVehiculosOcupados() {
 
-        return this.listarVehiculosPorEstado("OCUPADO");
+        return this.listarVehiculosPorEstado(EstadoVehiculo.OCUPADO);
     }
 
 
@@ -132,13 +133,13 @@ public class VehiculoRepository {
     @Programmatic
     public List<Vehiculo> listarVehiculosPorEstado(
             @ParameterLayout(named="Estado")
-            final String estado
+            final EstadoVehiculo estado
     ) {
         TypesafeQuery<Vehiculo> tq = isisJdoSupport.newTypesafeQuery(Vehiculo.class);
         final QVehiculo cand = QVehiculo.candidate();
 
         List<Vehiculo> vehiculos = tq.filter(
-                cand.estado.startsWith(tq.stringParameter("estado")))
+                cand.estado.eq(tq.stringParameter("estado")))
                 .setParameter("estado",estado).executeList();
 
         return vehiculos;
@@ -202,7 +203,7 @@ public class VehiculoRepository {
     {
 
         if (verificarVehiculo(matricula.toUpperCase())==null) {
-            String estado="DISPONIBLE";
+            EstadoVehiculo estado=EstadoVehiculo.DISPONIBLE;
 
             repositoryService.persist(new Vehiculo(matricula.toUpperCase(),marca.toUpperCase(),color.toUpperCase(),modelo.toUpperCase(),combustible,seguro,ubicacion.toUpperCase(),estado));
 
