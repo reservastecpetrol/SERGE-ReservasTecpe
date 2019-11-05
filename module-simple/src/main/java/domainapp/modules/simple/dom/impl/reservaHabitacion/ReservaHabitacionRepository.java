@@ -21,6 +21,10 @@ import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 
+import domainapp.modules.simple.dom.impl.habitacion.Habitacion;
+import domainapp.modules.simple.dom.impl.habitacion.HabitacionRepository;
+import domainapp.modules.simple.dom.impl.persona.Persona;
+import domainapp.modules.simple.dom.impl.persona.PersonaRepository;
 import lombok.AccessLevel;
 
 @DomainService(

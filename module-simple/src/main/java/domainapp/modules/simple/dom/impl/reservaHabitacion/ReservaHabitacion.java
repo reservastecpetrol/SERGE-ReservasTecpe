@@ -27,6 +27,8 @@ import org.apache.isis.applib.services.title.TitleService;
 import org.isisaddons.wicket.fullcalendar2.cpt.applib.CalendarEvent;
 import org.isisaddons.wicket.fullcalendar2.cpt.applib.CalendarEventable;
 
+import domainapp.modules.simple.dom.impl.habitacion.Habitacion;
+import domainapp.modules.simple.dom.impl.persona.Persona;
 import lombok.AccessLevel;
 import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE;
 
@@ -149,7 +151,8 @@ public class ReservaHabitacion implements Comparable<ReservaHabitacion>,Calendar
      * @param habitacion -valor ingresado por el usuario
      * @param estado -valor definido en el codigo
      */
-    public ReservaHabitacion(LocalDate fechaReserva,LocalDate fechaInicio,LocalDate fechaFin,Persona persona,Habitacion habitacion,String estado){
+    public ReservaHabitacion(LocalDate fechaReserva,LocalDate fechaInicio,LocalDate fechaFin,Persona persona,
+            Habitacion habitacion,String estado){
         this.fechaReserva=fechaReserva;
         this.fechaInicio=fechaInicio;
         this.fechaFin=fechaFin;
