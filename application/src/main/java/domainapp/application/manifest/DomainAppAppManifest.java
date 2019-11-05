@@ -18,20 +18,28 @@
  */
 package domainapp.application.manifest;
 
-import org.apache.isis.applib.AppManifestAbstract2;
+import org.apache.isis.applib.AppManifestAbstract;
 
 import domainapp.application.DomainAppApplicationModule;
 
 /**
  * Bootstrap the application.
  */
-public class DomainAppAppManifest extends AppManifestAbstract2 {
+public class DomainAppAppManifest extends AppManifestAbstract {
 
     public static final Builder BUILDER = Builder
-            .forModule(new DomainAppApplicationModule())
+            .forModules(DomainAppApplicationModule.class,
+                    org.isisaddons.module.security.SecurityModule.class
+            )
             .withConfigurationPropertiesFile(
                     DomainAppAppManifest.class, "isis-non-changing.properties")
-            .withAuthMechanism("shiro");
+            .withAdditionalServices(
+                    org.isisaddons.module.security.dom.password
+                            .PasswordEncryptionServiceUsingJBcrypt.class
+                    ,org.isisaddons.module.security.dom.permission
+                            .PermissionsEvaluationServiceAllowBeatsVeto.class
+            )
+            ;
 
     public DomainAppAppManifest() {
         super(BUILDER);
