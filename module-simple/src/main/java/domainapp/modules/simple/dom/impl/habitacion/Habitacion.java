@@ -1,4 +1,4 @@
-package domainapp.modules.simple.dom.impl;
+package domainapp.modules.simple.dom.impl.habitacion;
 
 import javax.jdo.annotations.DatastoreIdentity;
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -27,6 +27,7 @@ import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 
+import domainapp.modules.simple.dom.impl.enums.ListaHabitaciones;
 import lombok.AccessLevel;
 import static org.apache.isis.applib.annotation.CommandReification.ENABLED;
 import static org.apache.isis.applib.annotation.SemanticsOf.IDEMPOTENT;
@@ -47,16 +48,16 @@ import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_Y
         @Query(
                 name = "find", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.modules.simple.dom.impl.Habitacion "),
+                        + "FROM domainapp.modules.simple.dom.impl.habitacion.Habitacion "),
         @Query(
                 name = "findBynombreContains", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.modules.simple.dom.impl.Habitacion "
+                        + "FROM domainapp.modules.simple.dom.impl.habitacion.Habitacion "
                         + "WHERE nombre.indexOf(:nombre) >= 0 "),
         @Query(
                 name = "findBynumerohabitacion", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.modules.simple.dom.impl.Habitacion "
+                        + "FROM domainapp.modules.simple.dom.impl.habitacion.Habitacion "
                         + "WHERE nombre == :nombre ")
 })
 @Unique(name = "Habitacion_nombre_UNQ", members = { "nombre" })

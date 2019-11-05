@@ -1,4 +1,4 @@
-package domainapp.modules.simple.dom.impl;
+package domainapp.modules.simple.dom.impl.habitacion;
 
 import java.util.List;
 
@@ -19,6 +19,8 @@ import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 
+import domainapp.modules.simple.dom.impl.enums.ListaHabitaciones;
+import domainapp.modules.simple.dom.impl.SimpleObjects;
 import lombok.AccessLevel;
 
 @DomainService(
@@ -170,7 +172,7 @@ public class HabitacionRepository {
     public void crearHabitacion(
             @ParameterLayout(named="Nombre") final String nombre,
             @ParameterLayout(named="Ubicacion")final String ubicacion,
-            @ParameterLayout(named="Categoria")ListaHabitaciones categoria
+            @ParameterLayout(named="Categoria") ListaHabitaciones categoria
     )
     {
 
