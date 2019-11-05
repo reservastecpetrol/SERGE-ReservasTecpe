@@ -1,4 +1,4 @@
-package domainapp.modules.simple.dom.impl;
+package domainapp.modules.simple.dom.impl.persona;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -21,6 +21,8 @@ import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 
+import domainapp.modules.simple.dom.impl.enums.ListaJerarquias;
+import domainapp.modules.simple.dom.impl.SimpleObjects;
 import lombok.AccessLevel;
 
 @DomainService(
@@ -160,7 +162,7 @@ public class PersonaRepository {
                     regexPatternReplacement = "Ingrese dato correcto"
             )
             @ParameterLayout(named="Dni") final String dni,
-            @ParameterLayout(named="Jerarquia")ListaJerarquias jerarquias
+            @ParameterLayout(named="Jerarquia") ListaJerarquias jerarquias
                 )
     {
         if (verificarUsuario(dni)==null) {

@@ -1,4 +1,4 @@
-package domainapp.modules.simple.dom.impl;
+package domainapp.modules.simple.dom.impl.persona;
 
 import javax.jdo.annotations.DatastoreIdentity;
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -26,6 +26,7 @@ import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 
+import domainapp.modules.simple.dom.impl.enums.ListaJerarquias;
 import lombok.AccessLevel;
 import static org.apache.isis.applib.annotation.CommandReification.ENABLED;
 import static org.apache.isis.applib.annotation.SemanticsOf.IDEMPOTENT;
@@ -47,15 +48,15 @@ import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_Y
         @Query(
                 name = "find", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.modules.simple.dom.impl.Persona "),
+                        + "FROM domainapp.modules.simple.dom.impl.persona.Persona "),
         @Query(
                 name = "findByNombreContains", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.modules.simple.dom.impl.Persona "
+                        + "FROM domainapp.modules.simple.dom.impl.persona.Persona "
                         + "WHERE nombre.indexOf(:nombre) >= 0 "),
         @Query(name = "findByNombre", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.modules.simple.dom.impl.Persona "
+                        + "FROM domainapp.modules.simple.dom.impl.persona.Persona "
                         + "WHERE nombre == :nombre ")
 })
 //Se comenta de forma que permita crear personas con el mismo nombre
