@@ -156,7 +156,7 @@ public class ReservaHabitacionRepository {
      *
      * @return List<ReservaHabitacion>
      */
-    public List<ReservaHabitacion> listarReservasDeHoy() {
+    public List<ReservaHabitacion> listarReservasQueInicianHoy() {
 
         List<ReservaHabitacion> reservas;
 
