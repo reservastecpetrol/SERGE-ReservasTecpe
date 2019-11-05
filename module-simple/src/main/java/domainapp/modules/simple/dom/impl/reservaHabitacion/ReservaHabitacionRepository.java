@@ -208,7 +208,7 @@ public class ReservaHabitacionRepository {
      * @return Collection<Persona>
      *
      */
-    public Collection<Persona> choices2Create() {
+    public Collection<Persona> choices2CreateCrearReservaDeHabitacion() {
         return personaRepository.listarPersonas();
     }
 
@@ -221,7 +221,7 @@ public class ReservaHabitacionRepository {
      * @param fechaInicio
      * @return String
      */
-    public String validate0Create(final LocalDate fechaInicio){
+    public String validate0CrearReservaDeHabitacion(final LocalDate fechaInicio){
 
         String validacion="";
 
@@ -243,7 +243,7 @@ public class ReservaHabitacionRepository {
      * @return String
      *
      */
-    public String validate1Create(final LocalDate fechaInicio,final LocalDate fechaFin){
+    public String validate1CrearReservaDeHabitacion(final LocalDate fechaInicio,final LocalDate fechaFin){
 
         String validacion="";
 
@@ -272,7 +272,7 @@ public class ReservaHabitacionRepository {
      * @param persona
      *
      */
-    public void crearReserva(
+    public void crearReservaDeHabitacion(
 
             @ParameterLayout(named="Fecha Inicio")final LocalDate fechaInicio,
             @ParameterLayout(named="Fecha Fin")final LocalDate fechaFin,
