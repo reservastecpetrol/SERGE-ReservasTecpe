@@ -17,15 +17,18 @@ import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.DomainObjectLayout;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.Title;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
-import org.apache.isis.applib.annotation.Programmatic;
+
 import org.isisaddons.wicket.fullcalendar2.cpt.applib.CalendarEvent;
 import org.isisaddons.wicket.fullcalendar2.cpt.applib.CalendarEventable;
 
+import domainapp.modules.simple.dom.impl.enums.EstadoReserva;
+import domainapp.modules.simple.dom.impl.enums.EstadoVehiculo;
 import domainapp.modules.simple.dom.impl.persona.Persona;
 import domainapp.modules.simple.dom.impl.vehiculo.Vehiculo;
 import lombok.AccessLevel;
@@ -129,7 +132,7 @@ public class ReservaVehiculo implements Comparable<ReservaVehiculo>, CalendarEve
     // esta variable hace referencia al estado en el que se encuentra la reserva realizada por el usuario
     // los cuales pueden ser :
     //ACTIVA | CANCELADA | ARRIBADA
-    private String estado;
+    private EstadoReserva estado;
 
 
     /**
@@ -150,7 +153,7 @@ public class ReservaVehiculo implements Comparable<ReservaVehiculo>, CalendarEve
      * @param estado -valor definido en el codigo
      */
     public ReservaVehiculo(LocalDate fechaReserva,LocalDate fechaInicio,LocalDate fechaFin,Persona persona,
-            Vehiculo vehiculo,String estado){
+            Vehiculo vehiculo,EstadoReserva estado){
         this.fechaReserva=fechaReserva;
         this.fechaInicio=fechaInicio;
         this.fechaFin=fechaFin;
@@ -166,16 +169,7 @@ public class ReservaVehiculo implements Comparable<ReservaVehiculo>, CalendarEve
     @Action
     public void cancelar()
     {
-        estado = "CANCELADA";
-    }
-
-    /**
-     * Este es el metodo que cambia el valor del estado de la reserva a ARRIBADA
-     * en el caso que el usuario ya este haciendo uso de la reserva
-     */
-    public void arribar()
-    {
-        estado = "ARRIBADA";
+        this.setEstado(EstadoReserva.CANCELADA);
     }
 
 
@@ -213,7 +207,7 @@ public class ReservaVehiculo implements Comparable<ReservaVehiculo>, CalendarEve
     public void delete() {
         final String title = titleService.titleOf(this);
         messageService.informUser(String.format("'%s' deleted", title));
-        this.vehiculo.disponible();
+        this.vehiculo.setEstado(EstadoVehiculo.DISPONIBLE);
         repositoryService.remove(this);
     }
 
