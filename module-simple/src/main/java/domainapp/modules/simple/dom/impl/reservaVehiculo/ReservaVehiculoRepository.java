@@ -170,7 +170,7 @@ public class ReservaVehiculoRepository {
      *
      * @return List<ReservaVehiculo>
      */
-    public List<ReservaVehiculo> listarReservasDeHoy() {
+    public List<ReservaVehiculo> listarReservasQueInicianHoy() {
 
         List<ReservaVehiculo> reservas;
 
