@@ -169,6 +169,8 @@ public class ReservaVehiculo implements Comparable<ReservaVehiculo>, CalendarEve
     @Action
     public void cancelar()
     {
+        this.vehiculo.setEstado(EstadoVehiculo.DISPONIBLE);
+
         this.setEstado(EstadoReserva.CANCELADA);
     }
 
