@@ -26,6 +26,7 @@ import domainapp.modules.simple.dom.impl.SimpleObjects;
 import domainapp.modules.simple.dom.impl.enums.EstadoHabitacion;
 import domainapp.modules.simple.dom.impl.enums.EstadoReserva;
 import domainapp.modules.simple.dom.impl.enums.ListaHabitaciones;
+import domainapp.modules.simple.dom.impl.enums.TipoSexo;
 import domainapp.modules.simple.dom.impl.habitacion.Habitacion;
 import domainapp.modules.simple.dom.impl.habitacion.HabitacionRepository;
 import domainapp.modules.simple.dom.impl.persona.Persona;
@@ -300,6 +301,14 @@ public class ReservaHabitacionRepository {
     }
 
     @Programmatic
+    /**
+     *Este metodo genera el listado de las Habitaciones dada una Jerarquia en particular
+     *
+     * @param jerarquia
+     *
+     * @return List<Habitacion>
+     *
+     */
     public List<Habitacion> listaHabitacionesPorJerarquia(String jerarquia){
 
         List<Habitacion> lista=habitacionRepository.listarHabitacionesPorEstado(EstadoHabitacion.DISPONIBLE);
@@ -404,6 +413,56 @@ public class ReservaHabitacionRepository {
 
         return listaEstandar;
     }
+
+    @Programmatic
+    /**
+     *Este metodo asigna la Habitacion Estandar correspondiente a una persona dependiendo su sexo
+     *
+     * @param listaEstandares
+     * @param sexo
+     *
+     * @return Habitacion
+     *
+     */
+    public Habitacion asignaHabitacionEstandarPersona(List<Habitacion> listaEstandares, TipoSexo sexo){
+
+        int i=0,pos=0;
+
+        Habitacion habitacion=new Habitacion();
+
+        boolean reserva=false;
+
+        String ocupante;
+
+        while (i<listaEstandares.size()&&(!reserva)){
+
+            habitacion=(Habitacion)listaEstandares.get(i);
+
+            ocupante=habitacion.getOcupante();
+
+            if (ocupante.equals("DESOCUPADA")){
+                habitacion.setOcupante(sexo.toString());
+                habitacion.setCantidadOcupante(1);
+                reserva=true;
+                pos=i;
+            }else{
+                if(ocupante.equals(sexo.toString())){
+                    habitacion.setCantidadOcupante(2);
+                    reserva=true;
+                    pos=i;
+                }
+            }
+            i++;
+        }
+        if(reserva==false){
+            habitacion=null;
+        }else{
+            habitacion=(Habitacion)listaEstandares.get(pos);
+        }
+
+        return habitacion;
+    }
+
 
     public static class CreateDomainEvent extends ActionDomainEvent<SimpleObjects> {}
     @Action(domainEvent = SimpleObjects.CreateDomainEvent.class)
