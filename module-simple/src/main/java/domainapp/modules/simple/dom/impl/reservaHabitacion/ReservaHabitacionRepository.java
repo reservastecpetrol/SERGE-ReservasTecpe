@@ -485,24 +485,105 @@ public class ReservaHabitacionRepository {
     {
         ReservaHabitacion reservaHabitacion=new ReservaHabitacion();
 
-        int i=habitacionRepository.listarHabitacionesPorEstado(EstadoHabitacion.DISPONIBLE).size();
+        //Se obtiene la jerarquia que posse la persona ingresada
+        String jerarquia=persona.getJerarquia().toString();
 
-        if(i>=1) {
+        //Se obtiene el sexo de la Persona ingresada
+        TipoSexo sexo=persona.getSexo();
 
-            Habitacion habitacion=habitacionRepository.listarHabitacionesPorEstado(EstadoHabitacion.DISPONIBLE).get(0);
+        //Se crea una lista de tipo habitacion
+        List<Habitacion> lista=new ArrayList<Habitacion>();
 
-            habitacion.setEstado(EstadoHabitacion.OCUPADA);
+        List<Habitacion> listaSimples=new ArrayList<Habitacion>();
 
-            reservaHabitacion.setFechaReserva(LocalDate.now());
-            reservaHabitacion.setFechaInicio(fechaInicio);
-            reservaHabitacion.setFechaFin(fechaFin);
-            reservaHabitacion.setPersona(persona);
-            reservaHabitacion.setHabitacion(habitacion);
-            reservaHabitacion.setEstado(EstadoReserva.ACTIVA);
+        List<Habitacion> listaEstandares=new ArrayList<Habitacion>();
 
-            repositoryService.persist(reservaHabitacion);
+        Habitacion habitacion=new Habitacion();
+
+        //Se recupera la lista de habitaciones correspondientes a una jerarquia en particular
+        lista=this.listaHabitacionesPorJerarquia(jerarquia);
+
+        int dimension=lista.size();
+
+        if(dimension>=1) {
+
+            if((jerarquia=="Supervisores") || (jerarquia=="Operadores")){
+
+                listaSimples=this.listaHabitacionSimple(lista);
+
+                listaEstandares=this.listaHabitacionEstandar(lista);
 
 
+                if(listaSimples.size()>=1){
+
+                    habitacion=(Habitacion)listaSimples.get(0);
+
+                    habitacion.setEstado(EstadoHabitacion.OCUPADA);
+
+                    habitacion.setOcupante(sexo.toString());
+
+                    habitacion.setCantidadOcupante(1);
+
+                    reservaHabitacion.setFechaReserva(LocalDate.now());
+                    reservaHabitacion.setFechaInicio(fechaInicio);
+                    reservaHabitacion.setFechaFin(fechaFin);
+                    reservaHabitacion.setPersona(persona);
+                    reservaHabitacion.setHabitacion(habitacion);
+                    reservaHabitacion.setEstado(EstadoReserva.ACTIVA);
+
+                    repositoryService.persist(reservaHabitacion);
+
+                }else{
+                    if(listaEstandares.size()>=1){
+
+                        habitacion=this.asignaHabitacionEstandarPersona(listaEstandares,sexo);
+
+                        if(habitacion!=null) {
+                            if(habitacion.getCantidadOcupante()==1){
+                                habitacion.setEstado(EstadoHabitacion.DISPONIBLE);
+
+                            }else{
+                                habitacion.setEstado(EstadoHabitacion.OCUPADA);
+
+                            }
+
+                            reservaHabitacion.setFechaReserva(LocalDate.now());
+                            reservaHabitacion.setFechaInicio(fechaInicio);
+                            reservaHabitacion.setFechaFin(fechaFin);
+                            reservaHabitacion.setPersona(persona);
+                            reservaHabitacion.setHabitacion(habitacion);
+                            reservaHabitacion.setEstado(EstadoReserva.ACTIVA);
+
+                            repositoryService.persist(reservaHabitacion);
+
+                        }else{
+                            String mensaje="No hay Habitaciones Disponibles para realizar reservas";
+                            messageService.informUser(mensaje);
+                        }
+                    }else {
+                        String mensaje="No hay Habitaciones Disponibles para realizar reservas";
+                        messageService.informUser(mensaje);
+                    }
+                }
+
+            }else{
+                habitacion=(Habitacion)lista.get(0);
+
+                habitacion.setEstado(EstadoHabitacion.OCUPADA);
+
+                habitacion.setOcupante(sexo.toString());
+
+                habitacion.setCantidadOcupante(1);
+
+                reservaHabitacion.setFechaReserva(LocalDate.now());
+                reservaHabitacion.setFechaInicio(fechaInicio);
+                reservaHabitacion.setFechaFin(fechaFin);
+                reservaHabitacion.setPersona(persona);
+                reservaHabitacion.setHabitacion(habitacion);
+                reservaHabitacion.setEstado(EstadoReserva.ACTIVA);
+
+                repositoryService.persist(reservaHabitacion);
+            }
         }else {
             String mensaje="No hay Habitaciones Disponibles";
             messageService.informUser(mensaje);
