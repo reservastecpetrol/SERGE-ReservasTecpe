@@ -23,6 +23,7 @@ import org.apache.isis.applib.services.repository.RepositoryService;
 
 import domainapp.modules.simple.dom.impl.enums.ListaJerarquias;
 import domainapp.modules.simple.dom.impl.SimpleObjects;
+import domainapp.modules.simple.dom.impl.enums.TipoSexo;
 import lombok.AccessLevel;
 
 @DomainService(
@@ -225,13 +226,15 @@ public class PersonaRepository {
                     regexPatternReplacement = "Ingrese dato correcto"
             )
             @ParameterLayout(named="Dni") final String dni,
-            @ParameterLayout(named="Jerarquia") ListaJerarquias jerarquias
-                )
+            @ParameterLayout(named="Jerarquia") ListaJerarquias jerarquias,
+            @ParameterLayout(named="Sexo") TipoSexo sexo
+
+    )
     {
         if (verificarUsuario(dni)==null) {
             repositoryService.persist(
                     new Persona(nombre.toUpperCase(), apellido.toUpperCase(), direccion.toUpperCase(), telefono, email,
-                            dni, jerarquias));
+                            dni, jerarquias,sexo));
 
         }else{
             String mensaje="Este Usuario ya se encuentra cargado en el sistema!";
