@@ -180,7 +180,11 @@ public class HabitacionRepository {
         if (verificarHabitacion(nombre.toUpperCase())==null) {
             EstadoHabitacion estado=EstadoHabitacion.DISPONIBLE;
 
-            repositoryService.persist(new Habitacion(nombre.toUpperCase(),ubicacion.toUpperCase(),categoria,estado));
+            String ocupante="DESOCUPADA";
+
+            int cantidadOcupante=0;
+
+            repositoryService.persist(new Habitacion(nombre.toUpperCase(),ubicacion.toUpperCase(),categoria,estado,ocupante,cantidadOcupante));
 
         }else{
             String mensaje="Esta Habitacion ya se encuentra cargada en el sistema!";
