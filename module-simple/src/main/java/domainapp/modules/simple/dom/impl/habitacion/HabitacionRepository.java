@@ -96,6 +96,20 @@ public class HabitacionRepository {
     }
 
     /**
+     * Este metodo lista todas las Habitaciones Simples que hay cargados
+     * en el sistema
+     *
+     * @return List<Habitacion>
+     */
+    @Action(semantics = SemanticsOf.SAFE)
+    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    @MemberOrder(sequence = "4")
+    public List<Habitacion> listarHabitacionesSimples() {
+
+        return this.listarHabitacionesPorCategoria(ListaHabitaciones.Simple);
+    }
+
+    /**
      * Este metodo permite recuperar en una lista todos las Habitaciones
      * de tipo Simple que hay en el sistema
      *
