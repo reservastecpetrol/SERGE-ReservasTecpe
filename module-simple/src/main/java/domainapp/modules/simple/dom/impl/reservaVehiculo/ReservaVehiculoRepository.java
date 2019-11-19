@@ -189,6 +189,30 @@ public class ReservaVehiculoRepository {
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     @MemberOrder(sequence = "6")
     /**
+     * Este metodo lista todas las reservas de vehiculos que hay cargados
+     * en el sistema finalizan en el dia de la fecha
+     *
+     * @return List<ReservaVehiculo>
+     */
+    public List<ReservaVehiculo> listarReservasQueFinalizanHoy() {
+
+        List<ReservaVehiculo> reservas;
+
+        TypesafeQuery<ReservaVehiculo> q = isisJdoSupport.newTypesafeQuery(ReservaVehiculo.class);
+
+        final QReservaVehiculo cand = QReservaVehiculo.candidate();
+
+        reservas = q.filter(
+                cand.fechaFin.eq(LocalDate.now()))
+                .executeList();
+        return reservas;
+    }
+
+
+    @Action(semantics = SemanticsOf.SAFE)
+    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    @MemberOrder(sequence = "7")
+    /**
      * Este metodo permite listar todas las reservas de vehiculos
      * dada una fecha de reserva
      *
@@ -276,7 +300,7 @@ public class ReservaVehiculoRepository {
 
     public static class CreateDomainEvent extends ActionDomainEvent<SimpleObjects> {}
     @Action(domainEvent = SimpleObjects.CreateDomainEvent.class)
-    @MemberOrder(sequence = "7")
+    @MemberOrder(sequence = "8")
     /**
      * Este metodo permite crear la entidad de dominio ReservaVehiculo
      * con los datos que va a ingresar el usuario
