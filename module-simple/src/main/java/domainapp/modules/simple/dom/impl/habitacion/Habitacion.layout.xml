@@ -31,6 +31,12 @@
                                 <cpt:property id="categoria" namedEscaped="true">
                                     <cpt:action id="updateCategoria" promptStyle="INLINE"/>
                                 </cpt:property>
+                                <cpt:property id="ocupante" namedEscaped="true">
+                                    <cpt:action id="updateOcupante" promptStyle="INLINE"/>
+                                </cpt:property>
+                                <cpt:property id="cantidadOcupante" namedEscaped="true">
+                                    <cpt:action id="updateCantidadOcupante" promptStyle="INLINE"/>
+                                </cpt:property>
                             </cpt:fieldSet>
                         </bs3:col>
                     </bs3:row>
