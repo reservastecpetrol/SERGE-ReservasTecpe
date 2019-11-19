@@ -96,6 +96,29 @@ public class HabitacionRepository {
     }
 
     /**
+     * Este metodo permite recuperar en una lista todos las Habitaciones
+     * de tipo Simple que hay en el sistema
+     *
+     * @param categoria
+     * @return List<Habitacion>
+     */
+    @Programmatic
+    public List<Habitacion> listarHabitacionesPorCategoria(
+            @ParameterLayout(named="Categoria")
+            final ListaHabitaciones categoria
+    ) {
+        TypesafeQuery<Habitacion> tq = isisJdoSupport.newTypesafeQuery(Habitacion.class);
+        final QHabitacion cand = QHabitacion.candidate();
+
+        List<Habitacion> habitacion = tq.filter(
+                cand.categoria.eq(tq.stringParameter("categoria")))
+                .setParameter("categoria",categoria).executeList();
+
+        return habitacion;
+    }
+
+
+    /**
      * Este metodo permite encontrar una Habitacion en particular
      * dado un numero que identifica de manera
      * unica a cada Habitacion
