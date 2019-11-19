@@ -130,6 +130,20 @@ public class Habitacion implements Comparable<Habitacion> {
         this.categoria = categoria;
     }
 
+
+    @javax.jdo.annotations.Column(allowsNull = "true", length = 40)
+    @lombok.NonNull
+    @Property(editing = Editing.ENABLED)
+    private String ocupante;   //esta variable hace referencia al ocupante de la entidad Habitacion
+
+    @javax.jdo.annotations.Column()
+    @lombok.NonNull
+    @Property(editing = Editing.ENABLED)
+    private int cantidadOcupante;   //esta variable hace referencia al ocupante de la entidad Habitacion
+
+
+    public Habitacion(){}
+
     /**
      * Este es un metodo constructor
      *
@@ -138,12 +152,16 @@ public class Habitacion implements Comparable<Habitacion> {
      * @param ubicacion -valor ingresado por el usuario
      * @param categoria -valor ingresado por el usuario
      * @param estado  -valor definido en el codigo
+     * @param ocupante  -valor definido en el codigo
+     * @param cantidadOcupante  -valor definido en el codigo
      */
-    Habitacion(String nombre,String ubicacion, ListaHabitaciones categoria,EstadoHabitacion estado){
+    public Habitacion(String nombre,String ubicacion, ListaHabitaciones categoria,EstadoHabitacion estado,String ocupante,int cantidadOcupante){
         this.nombre=nombre;
         this.ubicacion=ubicacion;
         this.categoria=categoria;
         this.estado=estado;
+        this.ocupante=ocupante;
+        this.cantidadOcupante=cantidadOcupante;
         }
 
 
@@ -209,7 +227,7 @@ public class Habitacion implements Comparable<Habitacion> {
         setEstado(estado);
         return this;
     }
-
+    
 
     public String default0UpdateNombre() {
         return getNombre();
