@@ -377,6 +377,34 @@ public class ReservaHabitacionRepository {
         return listaSimples;
     }
 
+    @Programmatic
+    /**
+     * Este metodo permite generar el listado de habitaciones Estandar que hay registradas en el sistema
+     *
+     * @return List<Habitacion>
+     */
+    public List<Habitacion> listaHabitacionEstandar(List<Habitacion> lista){
+
+        List<Habitacion> listaEstandar=new ArrayList<Habitacion>();
+
+        int i=0;
+
+        while (i<lista.size()){
+
+            Habitacion habitacion=new Habitacion();
+
+            habitacion=(Habitacion) lista.get(i);
+
+            if(habitacion.getCategoria()== ListaHabitaciones.Estandar){
+                listaEstandar.add(habitacion);
+            }
+
+            i++;
+        }
+
+        return listaEstandar;
+    }
+
     public static class CreateDomainEvent extends ActionDomainEvent<SimpleObjects> {}
     @Action(domainEvent = SimpleObjects.CreateDomainEvent.class)
     @MemberOrder(sequence = "8")
