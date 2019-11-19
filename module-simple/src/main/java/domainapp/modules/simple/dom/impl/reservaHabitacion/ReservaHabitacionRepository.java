@@ -1,5 +1,6 @@
 package domainapp.modules.simple.dom.impl.reservaHabitacion;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -24,6 +25,7 @@ import org.apache.isis.applib.services.repository.RepositoryService;
 import domainapp.modules.simple.dom.impl.SimpleObjects;
 import domainapp.modules.simple.dom.impl.enums.EstadoHabitacion;
 import domainapp.modules.simple.dom.impl.enums.EstadoReserva;
+import domainapp.modules.simple.dom.impl.enums.ListaHabitaciones;
 import domainapp.modules.simple.dom.impl.habitacion.Habitacion;
 import domainapp.modules.simple.dom.impl.habitacion.HabitacionRepository;
 import domainapp.modules.simple.dom.impl.persona.Persona;
@@ -297,7 +299,55 @@ public class ReservaHabitacionRepository {
         return validacion;
     }
 
+    @Programmatic
+    public List<Habitacion> listaHabitacionesPorJerarquia(String jerarquia){
 
+        List<Habitacion> lista=habitacionRepository.listarHabitacionesPorEstado(EstadoHabitacion.DISPONIBLE);
+
+        List<Habitacion> listaEjecutivos=new ArrayList<Habitacion>();
+
+        List<Habitacion> listaSuperOper=new ArrayList<Habitacion>();
+
+        List<Habitacion> listaHabitacionesPorJerarquia=new ArrayList<Habitacion>();
+
+        int i=0;
+
+        if(jerarquia=="Ejecutivos"){
+
+            while (i<lista.size()){
+
+                Habitacion habitacion=new Habitacion();
+
+                habitacion=(Habitacion) lista.get(i);
+
+                if(habitacion.getCategoria()== ListaHabitaciones.Ejecutivas){
+                    listaEjecutivos.add(habitacion);
+                }
+                i++;
+            }
+            listaHabitacionesPorJerarquia=listaEjecutivos;
+
+        }else{
+
+            if((jerarquia=="Supervisores")||(jerarquia=="Operadores")){
+
+                while (i<lista.size()){
+
+                    Habitacion habitacion=new Habitacion();
+
+                    habitacion=(Habitacion) lista.get(i);
+
+                    if ((habitacion.getCategoria()== ListaHabitaciones.Estandar)|| (habitacion.getCategoria()== ListaHabitaciones.Simple)){
+                        listaSuperOper.add(habitacion);
+                    }
+
+                    i++;
+                }
+                listaHabitacionesPorJerarquia=listaSuperOper;
+            }
+        }
+        return listaHabitacionesPorJerarquia;
+    }
 
     public static class CreateDomainEvent extends ActionDomainEvent<SimpleObjects> {}
     @Action(domainEvent = SimpleObjects.CreateDomainEvent.class)
