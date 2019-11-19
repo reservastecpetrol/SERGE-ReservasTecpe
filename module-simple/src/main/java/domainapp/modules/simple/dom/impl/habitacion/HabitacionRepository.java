@@ -110,6 +110,20 @@ public class HabitacionRepository {
     }
 
     /**
+     * Este metodo lista todas las Habitaciones Ejecutivas que hay cargados
+     * en el sistema
+     *
+     * @return List<Habitacion>
+     */
+    @Action(semantics = SemanticsOf.SAFE)
+    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    @MemberOrder(sequence = "5")
+    public List<Habitacion> listarHabitacionesEjecutivas() {
+
+        return this.listarHabitacionesPorCategoria(ListaHabitaciones.Ejecutivas);
+    }
+
+    /**
      * Este metodo permite recuperar en una lista todos las Habitaciones
      * de tipo Simple que hay en el sistema
      *
