@@ -227,8 +227,37 @@ public class Habitacion implements Comparable<Habitacion> {
         setEstado(estado);
         return this;
     }
-    
 
+    /**
+     * Este metodo realiza la actualizacion de la variable ocupante
+     *
+     * @param ocupante
+     * @return Habitacion
+     */
+    @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith ="ocupante")
+    public Habitacion updateOcupante(
+            @Parameter(maxLength = 40)
+            @ParameterLayout(named = "ocupante")
+            final String ocupante) {
+        setOcupante(ocupante);
+        return this;
+    }
+
+    /**
+     * Este metodo realiza la actualizacion de la variable cantidadOcupante
+     *
+     * @param cantidadOcupante
+     * @return Habitacion
+     */
+    @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith ="cantidadOcupante")
+    public Habitacion updateCantidadOcupante(
+            @Parameter(maxLength = 40)
+            @ParameterLayout(named = "cantidadOcupante")
+            final int cantidadOcupante) {
+        setCantidadOcupante(cantidadOcupante);
+        return this;
+    }
+    
     public String default0UpdateNombre() {
         return getNombre();
     }
