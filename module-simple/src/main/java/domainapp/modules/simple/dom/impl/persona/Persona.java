@@ -27,6 +27,7 @@ import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 
 import domainapp.modules.simple.dom.impl.enums.ListaJerarquias;
+import domainapp.modules.simple.dom.impl.enums.TipoSexo;
 import lombok.AccessLevel;
 import static org.apache.isis.applib.annotation.CommandReification.ENABLED;
 import static org.apache.isis.applib.annotation.SemanticsOf.IDEMPOTENT;
@@ -139,6 +140,13 @@ public class Persona implements Comparable<Persona> {
         this.jerarquia = jerarquia;
     }
 
+    //Esta variable hace referencia al sexo de la Persona
+    @javax.jdo.annotations.Column(allowsNull="false")
+    @lombok.NonNull
+    @Property(editing = Editing.ENABLED)
+    private TipoSexo sexo;
+
+
     /**
      * Este es un metodo constructor
      *
@@ -150,7 +158,7 @@ public class Persona implements Comparable<Persona> {
      * @param dni
      * @param jerarquias
      */
-    Persona(String nombre,String apellido,String direccion,String telefono,String email,String dni,ListaJerarquias jerarquias){
+    Persona(String nombre,String apellido,String direccion,String telefono,String email,String dni,ListaJerarquias jerarquias,TipoSexo sexo){
         this.nombre=nombre;
         this.apellido=apellido;
         this.direccion=direccion;
@@ -158,6 +166,7 @@ public class Persona implements Comparable<Persona> {
         this.email=email;
         this.dni=dni;
         this.jerarquia=jerarquias;
+        this.sexo=sexo;
     }
 
     /**
@@ -264,6 +273,21 @@ public class Persona implements Comparable<Persona> {
             final ListaJerarquias jerarquia) {
         setJerarquias(jerarquia);
         return jerarquia;
+    }
+
+    /**
+     * Este metodo realiza la actualizacion de la variable sexo de la entidad Persona
+     *
+     * @param sexo
+     * @return Persona
+     */
+    @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "sexo")
+    public TipoSexo updateSexo(
+            @Parameter(maxLength = 40)
+            @ParameterLayout(named = "Sexo")
+            final TipoSexo sexo) {
+        setSexo(sexo);
+        return sexo;
     }
 
 
