@@ -27,6 +27,7 @@ import org.apache.isis.applib.services.title.TitleService;
 import org.isisaddons.wicket.fullcalendar2.cpt.applib.CalendarEvent;
 import org.isisaddons.wicket.fullcalendar2.cpt.applib.CalendarEventable;
 
+import domainapp.modules.simple.dom.impl.enums.EstadoHabitacion;
 import domainapp.modules.simple.dom.impl.enums.EstadoReserva;
 import domainapp.modules.simple.dom.impl.habitacion.Habitacion;
 import domainapp.modules.simple.dom.impl.persona.Persona;
@@ -170,6 +171,30 @@ public class ReservaHabitacion implements Comparable<ReservaHabitacion>,Calendar
     @Action
     public void cancelar()
     {
+        String categoria=this.habitacion.getCategoria().toString();
+
+        int cantidadOcupantes;
+
+        if(categoria=="Estandar"){
+
+            cantidadOcupantes=this.habitacion.getCantidadOcupante();
+
+            if(cantidadOcupantes==1){
+               this.habitacion.setCantidadOcupante(0);
+               this.habitacion.setOcupante("DESOCUPADA");
+               this.habitacion.setEstado(EstadoHabitacion.DISPONIBLE);
+            }else{
+                  if(cantidadOcupantes==2){
+                      this.habitacion.setCantidadOcupante(1);
+                      this.habitacion.setEstado(EstadoHabitacion.DISPONIBLE);
+                  }
+            }
+        }else {
+            this.habitacion.setOcupante("DESOCUPADA");
+            this.habitacion.setCantidadOcupante(0);
+            this.habitacion.setEstado(EstadoHabitacion.DISPONIBLE);
+        }
+
         this.setEstado(EstadoReserva.CANCELADA);
     }
 
