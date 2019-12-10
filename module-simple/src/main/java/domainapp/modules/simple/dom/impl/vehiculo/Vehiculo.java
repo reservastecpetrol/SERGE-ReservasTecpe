@@ -142,6 +142,9 @@ public class Vehiculo implements Comparable<Vehiculo> {
     // DISPONIBLE|| OCUPADO || REPARACION || INACTIVO
     private EstadoVehiculo estado;
 
+
+    public Vehiculo(){}
+
     /**
     *Este es un metodo constructor
     *
