@@ -146,6 +146,7 @@ public class Persona implements Comparable<Persona> {
     @Property(editing = Editing.ENABLED)
     private TipoSexo sexo;
 
+    public Persona(){}
 
     /**
      * Este es un metodo constructor
@@ -158,7 +159,7 @@ public class Persona implements Comparable<Persona> {
      * @param dni
      * @param jerarquias
      */
-    Persona(String nombre,String apellido,String direccion,String telefono,String email,String dni,ListaJerarquias jerarquias,TipoSexo sexo){
+    public Persona(String nombre,String apellido,String direccion,String telefono,String email,String dni,ListaJerarquias jerarquias,TipoSexo sexo){
         this.nombre=nombre;
         this.apellido=apellido;
         this.direccion=direccion;
