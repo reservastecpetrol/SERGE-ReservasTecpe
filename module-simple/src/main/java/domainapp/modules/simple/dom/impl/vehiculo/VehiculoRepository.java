@@ -1,7 +1,13 @@
 package domainapp.modules.simple.dom.impl.vehiculo;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Pattern;
+import java.util.Map;
 
 import org.datanucleus.query.typesafe.TypesafeQuery;
 
@@ -12,22 +18,33 @@ import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
-import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
+import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 
 import domainapp.modules.simple.dom.impl.SimpleObjects;
 import domainapp.modules.simple.dom.impl.enums.EstadoVehiculo;
+import domainapp.modules.simple.dom.impl.reportes.VehiculosDisponiblesReporte;
 import lombok.AccessLevel;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
 @DomainService(
-        nature = NatureOfService.VIEW_MENU_ONLY,
-        objectType = "simple.VehiculoMenu",
+        nature = NatureOfService.DOMAIN,
         repositoryFor = Vehiculo.class
 )
 @DomainServiceLayout(
@@ -61,9 +78,10 @@ public class VehiculoRepository {
      *
      * @return List<Vehiculo>
      */
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    @MemberOrder(sequence = "1")
+    //@Action(semantics = SemanticsOf.SAFE)
+    //@ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    //@MemberOrder(sequence = "1")
+    @Programmatic
     public List<Vehiculo> listarVehiculos() {
         return repositoryService.allInstances(Vehiculo.class);
     }
@@ -89,9 +107,10 @@ public class VehiculoRepository {
      *
      * @return List<Vehiculo>
      */
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    @MemberOrder(sequence = "3")
+    //@Action(semantics = SemanticsOf.SAFE)
+    //@ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    //@MemberOrder(sequence = "3")
+    @Programmatic
     public List<Vehiculo> listarVehiculosOcupados() {
 
         return this.listarVehiculosPorEstado(EstadoVehiculo.OCUPADO);
@@ -106,11 +125,11 @@ public class VehiculoRepository {
      * @param matricula
      * @return List<Vehiculo>
      */
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    @MemberOrder(sequence = "4")
+    //@Action(semantics = SemanticsOf.SAFE)
+    //@ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    //@MemberOrder(sequence = "4")
+    @Programmatic
     public List<Vehiculo> buscarVehiculoPorMatricula(
-            @ParameterLayout(named="Matricula")
             final String matricula
     ) {
         TypesafeQuery<Vehiculo> q = isisJdoSupport.newTypesafeQuery(Vehiculo.class);
@@ -159,8 +178,9 @@ public class VehiculoRepository {
     }
 
     public static class CreateDomainEvent extends ActionDomainEvent<SimpleObjects> {}
-    @Action(domainEvent = SimpleObjects.CreateDomainEvent.class)
-    @MemberOrder(sequence = "5")
+    //@Action(domainEvent = SimpleObjects.CreateDomainEvent.class)
+    //@MemberOrder(sequence = "5")
+    @Programmatic
     /**
      * Este metodo permite crear la entidad de dominio Vehiculo
      * con los datos que va a ingresar el usuario
@@ -176,41 +196,121 @@ public class VehiculoRepository {
      *
      * @return Vehiculo
      */
-    public void crearVehiculo(
-            @Parameter(
-                    regexPattern = "[a-z]{2} [0-9]{3} [a-z]{2}",
-                    regexPatternFlags = Pattern.CASE_INSENSITIVE,
-                    regexPatternReplacement = "Ingrese formato AB 123 CD"
-            )
-            @ParameterLayout(named="Matricula") final String matricula,
-            @ParameterLayout(named="Marca")final String marca,
-            @Parameter(
-                    regexPattern = "[A-Za-z ]+",
-                    regexPatternFlags = Pattern.CASE_INSENSITIVE,
-                    regexPatternReplacement = "Ingrese dato correcto"
-            )
-            @ParameterLayout(named="Color")final String color,
-            @Parameter(
-                    regexPattern = "\\w[@&:\\-\\,\\.\\+ \\w]*",
-                    regexPatternFlags = Pattern.CASE_INSENSITIVE,
-                    regexPatternReplacement = "Ingrese dato correcto"
-            )
-            @ParameterLayout(named="Modelo") final String modelo,
-            @ParameterLayout(named="Combustible") final boolean combustible,
-            @ParameterLayout(named="Seguro") final boolean seguro,
-            @ParameterLayout(named="Ubicacion")final String ubicacion
+    public Vehiculo crearVehiculo(
+            final String matricula,
+            final String marca,
+            final String color,
+            final String modelo,
+            final boolean combustible,
+            final boolean seguro,
+            final String ubicacion
     )
     {
+        Vehiculo vehiculo=new Vehiculo();
 
         if (verificarVehiculo(matricula.toUpperCase())==null) {
             EstadoVehiculo estado=EstadoVehiculo.DISPONIBLE;
 
-            repositoryService.persist(new Vehiculo(matricula.toUpperCase(),marca.toUpperCase(),color.toUpperCase(),modelo.toUpperCase(),combustible,seguro,ubicacion.toUpperCase(),estado));
+            repositoryService.persist(vehiculo=new Vehiculo(matricula.toUpperCase(),marca.toUpperCase(),color.toUpperCase(),modelo.toUpperCase(),combustible,seguro,ubicacion.toUpperCase(),estado));
 
         }else{
             String mensaje="Este Vehiculo ya se encuentra cargado en el sistema!";
             messageService.informUser(mensaje);
         }
+
+        return vehiculo;
+    }
+
+    private File Entrada(String nombre){
+        return new File(getClass().getResource(nombre).getPath());
+    }
+
+    private String Salida(String nombre){
+        String ruta = System.getProperty("user.home") + File.separatorChar + "ReservasPdf" + File.separatorChar + nombre;
+        String adicion = "";
+        int x = 0;
+        while (ExisteArchivo(ruta, adicion)) {
+            x++;
+            adicion = "-" + x;
+        }
+        return ruta + adicion + ".pdf";
+    }
+
+    private boolean ExisteArchivo(String ruta, String adicion){
+        File archivo = new File(ruta + adicion + ".pdf");
+        return archivo.exists();
+    }
+
+
+    //@Action(semantics = SemanticsOf.SAFE)
+    //@ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    //@ActionLayout(named = "Exportar PDF Lista de Vehiculos Disponibles")
+    //@MemberOrder(sequence = "6")
+    @Programmatic
+    public void generarReporteVehiculosDisponibles(
+    ) {
+
+        List<Vehiculo> vehiculos = new ArrayList<Vehiculo>();
+
+        vehiculos = repositoryService.allInstances(Vehiculo.class);
+
+        List<VehiculosDisponiblesReporte> vehiculosDatasource = new ArrayList<VehiculosDisponiblesReporte>();
+
+        vehiculosDatasource.add(new VehiculosDisponiblesReporte());
+
+
+        for (Vehiculo vehiculo: vehiculos) {
+
+            if(vehiculo.getEstado()== EstadoVehiculo.DISPONIBLE) {
+
+                VehiculosDisponiblesReporte vehiculosDisponiblesReporte = new VehiculosDisponiblesReporte();
+
+                vehiculosDisponiblesReporte.setMatricula(vehiculo.getMatricula());
+                vehiculosDisponiblesReporte.setMarca(vehiculo.getMarca());
+                vehiculosDisponiblesReporte.setModelo(vehiculo.getModelo());
+                vehiculosDisponiblesReporte.setUbicacion(vehiculo.getUbicacion());
+                vehiculosDisponiblesReporte.setEstado(vehiculo.getEstado().toString());
+
+                vehiculosDatasource.add(vehiculosDisponiblesReporte);
+
+            }
+
+        }
+
+        JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(vehiculosDatasource);
+
+        String entrada="ListadoDeVehiculos.jrxml";
+
+        String salida="ListadoVehiculos";
+
+        try {
+
+            File rutaEntrada = Entrada(entrada);
+            String rutaSalida = Salida(salida);
+
+            InputStream input = new FileInputStream(rutaEntrada);
+            JasperDesign jasperDesign = JRXmlLoader.load(input);
+            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+
+            Map<String, Object> parameters = new HashMap<String, Object>();
+            parameters.put("ds", ds);
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, ds);
+            JasperExportManager.exportReportToPdfFile(jasperPrint,rutaSalida);
+
+            JRPdfExporter pdfExporter = new JRPdfExporter();
+            pdfExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+            ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
+            pdfExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(pdfReportStream));
+            pdfExporter.exportReport();
+
+            pdfReportStream.close();
+
+        } catch (Exception e) {
+            TranslatableString.tr("Error al mostrar el reporte: "+e);
+        }
+
+
     }
 
     @javax.inject.Inject

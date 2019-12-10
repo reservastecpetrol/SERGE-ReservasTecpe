@@ -1,22 +1,24 @@
 package domainapp.modules.simple.dom.impl.reservaVehiculo;
 
-import java.util.Collection;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.datanucleus.query.typesafe.TypesafeQuery;
 import org.joda.time.LocalDate;
 
-import org.apache.isis.applib.annotation.Action;
-import org.apache.isis.applib.annotation.ActionLayout;
-import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
-import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Programmatic;
-import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
+import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
@@ -26,13 +28,24 @@ import domainapp.modules.simple.dom.impl.enums.EstadoReserva;
 import domainapp.modules.simple.dom.impl.enums.EstadoVehiculo;
 import domainapp.modules.simple.dom.impl.persona.Persona;
 import domainapp.modules.simple.dom.impl.persona.PersonaRepository;
+import domainapp.modules.simple.dom.impl.reportes.ReservasVehiculosActivasReporte;
 import domainapp.modules.simple.dom.impl.vehiculo.Vehiculo;
 import domainapp.modules.simple.dom.impl.vehiculo.VehiculoRepository;
 import lombok.AccessLevel;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
 @DomainService(
-        nature = NatureOfService.VIEW_MENU_ONLY,
-        objectType = "simple.ReservaVehiculoMenu",
+        nature = NatureOfService.DOMAIN,
         repositoryFor = ReservaVehiculo.class
 )
 @DomainServiceLayout(
@@ -58,22 +71,24 @@ public class ReservaVehiculoRepository {
         return "Reserva";
     }
 
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    @MemberOrder(sequence = "1")
+    //@Action(semantics = SemanticsOf.SAFE)
+    //@ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    //@MemberOrder(sequence = "1")
+    @Programmatic
     /**
      * Este metodo lista todas las reservas de vehiculos que hay cargados
      * en el sistema
      *
      * @return List<ReservaVehiculo>
      */
-    public java.util.List<ReservaVehiculo> listarReservasDeVehiculos() {
+    public List<ReservaVehiculo> listarReservasDeVehiculos() {
         return container.allInstances(ReservaVehiculo.class);
     }
 
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    @MemberOrder(sequence = "2")
+    //@Action(semantics = SemanticsOf.SAFE)
+    //@ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    //@MemberOrder(sequence = "2")
+    @Programmatic
     /**
      * Este metodo lista todos las Reservas Activas que hay cargados
      * en el sistema
@@ -84,9 +99,10 @@ public class ReservaVehiculoRepository {
         return this.listarReservasPorEstado(EstadoReserva.ACTIVA);
     }
 
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    @MemberOrder(sequence = "3")
+    //@Action(semantics = SemanticsOf.SAFE)
+    //@ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    //@MemberOrder(sequence = "3")
+    @Programmatic
     /**
      * Este metodo lista todos las Reservas Canceladas que hay cargados
      * en el sistema
@@ -119,18 +135,6 @@ public class ReservaVehiculoRepository {
         return reservas;
     }
 
-    @Programmatic
-    /**
-     * Este metodo lista todos los usuarios que hay en el sistema de
-     * forma que el administrador seleccione a uno en especifico
-     *
-     * @return Collection<Persona>
-     *
-     */
-    public Collection<Persona> choices0ListarReservasPorPersona() {
-        return personaRepository.listarPersonas();
-    }
-
     /**
      * Este metodo permite encontrar todas las reservas
      * realizadas por un usuario en particular
@@ -138,11 +142,11 @@ public class ReservaVehiculoRepository {
      * @param persona
      * @return List<ReservaVehiculo>
      */
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    @MemberOrder(sequence = "4")
+    //@Action(semantics = SemanticsOf.SAFE)
+    //@ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    //@MemberOrder(sequence = "4")
+    @Programmatic
     public List<ReservaVehiculo> listarReservasPorPersona(
-            @ParameterLayout(named="Persona")
             final Persona persona
     ) {
 
@@ -161,9 +165,10 @@ public class ReservaVehiculoRepository {
     }
 
 
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    @MemberOrder(sequence = "5")
+    //@Action(semantics = SemanticsOf.SAFE)
+    //@ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    //@MemberOrder(sequence = "5")
+    @Programmatic
     /**
      * Este metodo lista todas las reservas de vehiculos que hay cargados
      * en el sistema en el dia de la fecha
@@ -185,9 +190,10 @@ public class ReservaVehiculoRepository {
     }
 
 
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    @MemberOrder(sequence = "6")
+    //@Action(semantics = SemanticsOf.SAFE)
+    //@ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    //@MemberOrder(sequence = "6")
+    @Programmatic
     /**
      * Este metodo lista todas las reservas de vehiculos que hay cargados
      * en el sistema finalizan en el dia de la fecha
@@ -209,9 +215,10 @@ public class ReservaVehiculoRepository {
     }
 
 
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    @MemberOrder(sequence = "7")
+    //@Action(semantics = SemanticsOf.SAFE)
+    //@ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    //@MemberOrder(sequence = "7")
+    @Programmatic
     /**
      * Este metodo permite listar todas las reservas de vehiculos
      * dada una fecha de reserva
@@ -220,7 +227,6 @@ public class ReservaVehiculoRepository {
      * @return List<ReservaVehiculo>
      */
     public List<ReservaVehiculo> buscarReservasPorFechaDeReserva(
-            @ParameterLayout(named="Fecha Reserva")
             final LocalDate fechaReserva
     ) {
         List<ReservaVehiculo> reservas;
@@ -237,70 +243,10 @@ public class ReservaVehiculoRepository {
     }
 
 
-
-    @Programmatic
-    /**
-     * Este metodo lista todos los usuarios que hay en el sistema de
-     * forma que el administrador seleccione a uno en especifico
-     *
-     * @return Collection<Persona>
-     *
-     */
-    public Collection<Persona> choices2CrearReserva() {
-        return personaRepository.listarPersonas();
-    }
-
-
-
-    @Programmatic
-    /**
-     * Este metodo realiza la validacion del ingreso de la fecha de inicio
-     *
-     * @param fechaInicio
-     * @return String
-     */
-    public String validate0CrearReserva(final LocalDate fechaInicio){
-
-        String validacion="";
-
-        if (fechaInicio.isBefore(LocalDate.now())) {
-              validacion="Una Reserva no puede empezar en el pasado";
-        }
-
-        return validacion;
-    }
-
-
-    @Programmatic
-    /**
-     *Este metodo realiza la validacion del ingreso de la fecha en que finalizaria la reserva
-     *
-     * @param fechaInicio
-     * @param fechaFin
-     *
-     * @return String
-     *
-     */
-    public String validate1CrearReserva(final LocalDate fechaInicio,final LocalDate fechaFin){
-
-        String validacion="";
-
-        if (fechaFin.isBefore(LocalDate.now())) {
-            validacion="Una Reserva no puede finalizar en el pasado";
-        }else {
-            if (fechaFin.isBefore(fechaInicio)) {
-                validacion = "Una Reserva no puede finalizar antes de la fecha de Inicio";
-            }
-        }
-
-        return validacion;
-    }
-
-
-
     public static class CreateDomainEvent extends ActionDomainEvent<SimpleObjects> {}
-    @Action(domainEvent = SimpleObjects.CreateDomainEvent.class)
-    @MemberOrder(sequence = "8")
+    //@Action(domainEvent = SimpleObjects.CreateDomainEvent.class)
+    //@MemberOrder(sequence = "8")
+    @Programmatic
     /**
      * Este metodo permite crear la entidad de dominio ReservaVehiculo
      * con los datos que va a ingresar el usuario
@@ -310,11 +256,10 @@ public class ReservaVehiculoRepository {
      * @param persona
      *
      */
-    public void crearReserva(
-
-            @ParameterLayout(named="Fecha Inicio")final LocalDate fechaInicio,
-            @ParameterLayout(named="Fecha Fin")final LocalDate fechaFin,
-            @ParameterLayout(named="Persona")final Persona persona
+    public ReservaVehiculo crearReserva(
+            final LocalDate fechaInicio,
+            final LocalDate fechaFin,
+            final Persona persona
     )
     {
         ReservaVehiculo reservaVehiculo=new ReservaVehiculo();
@@ -341,6 +286,127 @@ public class ReservaVehiculoRepository {
             messageService.informUser(mensaje);
         }
 
+        return reservaVehiculo;
+    }
+
+
+    private File Entrada(String nombre){
+        return new File(getClass().getResource(nombre).getPath());
+    }
+
+    private String Salida(String nombre){
+        String ruta = System.getProperty("user.home") + File.separatorChar + "ReservasPdf" + File.separatorChar + nombre;
+        String adicion = "";
+        int x = 0;
+        while (ExisteArchivo(ruta, adicion)) {
+            x++;
+            adicion = "-" + x;
+        }
+        return ruta + adicion + ".pdf";
+    }
+
+    private boolean ExisteArchivo(String ruta, String adicion){
+        File archivo = new File(ruta + adicion + ".pdf");
+        return archivo.exists();
+    }
+
+
+    //@Action(semantics = SemanticsOf.SAFE)
+    //@ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    //@ActionLayout(named = "Exportar PDF Lista de Resevas Activas")
+    //@MemberOrder(sequence = "9")
+    @Programmatic
+    public void generarReporteReservasVehiculosActivas(
+    ) {
+
+        List<ReservaVehiculo> reservasVehiculos = new ArrayList<ReservaVehiculo>();
+
+        reservasVehiculos = repositoryService.allInstances(ReservaVehiculo.class);
+
+        List<ReservasVehiculosActivasReporte> reservasDatasource = new ArrayList<ReservasVehiculosActivasReporte>();
+
+        reservasDatasource.add(new ReservasVehiculosActivasReporte());
+
+
+        for (ReservaVehiculo reservaVehiculo: reservasVehiculos) {
+
+            if(reservaVehiculo.getEstado()==EstadoReserva.ACTIVA) {
+
+                ReservasVehiculosActivasReporte reservasVehiculosActivasReporte = new ReservasVehiculosActivasReporte();
+
+                reservasVehiculosActivasReporte.setFechaReserva(reservaVehiculo.getFechaReserva().toString("dd-MM-yyyy"));
+                reservasVehiculosActivasReporte.setFechaInicio(reservaVehiculo.getFechaInicio().toString("dd-MM-yyyy"));
+                reservasVehiculosActivasReporte.setFechaFin(reservaVehiculo.getFechaFin().toString("dd-MM-yyyy"));
+                reservasVehiculosActivasReporte.setNombrePersona(reservaVehiculo.getPersona().getNombre());
+                reservasVehiculosActivasReporte.setApellidoPersona(reservaVehiculo.getPersona().getApellido());
+                reservasVehiculosActivasReporte.setMatriculaVehiculo(reservaVehiculo.getVehiculo().getMatricula());
+                reservasVehiculosActivasReporte.setUbicacionVehiculo(reservaVehiculo.getVehiculo().getUbicacion());
+
+                reservasDatasource.add(reservasVehiculosActivasReporte);
+            }
+
+        }
+
+
+        JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(reservasDatasource);
+
+        String entrada="ListadoReservasVehiculos.jrxml";
+
+        String salida="ListadoReservasVehiculos";
+
+        try {
+
+            File rutaEntrada = Entrada(entrada);
+            String rutaSalida = Salida(salida);
+
+            InputStream input = new FileInputStream(rutaEntrada);
+            JasperDesign jasperDesign = JRXmlLoader.load(input);
+            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+
+            Map<String, Object> parameters = new HashMap<String, Object>();
+            parameters.put("ds", ds);
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, ds);
+            JasperExportManager.exportReportToPdfFile(jasperPrint,rutaSalida);
+
+            JRPdfExporter pdfExporter = new JRPdfExporter();
+            pdfExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+            ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
+            pdfExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(pdfReportStream));
+            pdfExporter.exportReport();
+
+            pdfReportStream.close();
+
+        } catch (Exception e) {
+            TranslatableString.tr("Error al mostrar el reporte: "+e);
+        }
+
+    }
+
+    //@Action(semantics = SemanticsOf.SAFE)
+    //@ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    //@MemberOrder(sequence = "10")
+    @Programmatic
+    /**
+     * Este metodo lista todas las reservas de vehiculos que finalizaron
+     * y de esta forma actualizar la disponibilidad de cada uno de los Vehiculos
+     *
+     * @return List<ReservaVehiculo>
+     */
+    public List<ReservaVehiculo> actualizarVehiculosDisponibles() {
+
+        List<ReservaVehiculo> reservas=new ArrayList<ReservaVehiculo>();
+
+        LocalDate fechaAyer=LocalDate.now().minusDays(1);
+
+        TypesafeQuery<ReservaVehiculo> q = isisJdoSupport.newTypesafeQuery(ReservaVehiculo.class);
+
+        final QReservaVehiculo cand = QReservaVehiculo.candidate();
+
+        reservas = q.filter(
+                cand.fechaFin.eq((LocalDate)fechaAyer))
+                .executeList();
+        return reservas;
     }
 
     @javax.inject.Inject
