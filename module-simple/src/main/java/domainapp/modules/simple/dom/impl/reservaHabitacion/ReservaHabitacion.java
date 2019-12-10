@@ -198,6 +198,40 @@ public class ReservaHabitacion implements Comparable<ReservaHabitacion>,Calendar
         this.setEstado(EstadoReserva.CANCELADA);
     }
 
+    /**
+     * Este es el metodo que cambia el valor del estado de la reserva a FINALIZADA
+     * una vez que la reserva haya culminado
+     */
+    @Action
+    public void finalizar()
+    {
+        String categoria=this.habitacion.getCategoria().toString();
+
+        int cantidadOcupantes;
+
+        if(categoria=="Estandar"){
+
+            cantidadOcupantes=this.habitacion.getCantidadOcupante();
+
+            if(cantidadOcupantes==1){
+                this.habitacion.setCantidadOcupante(0);
+                this.habitacion.setOcupante("DESOCUPADA");
+                this.habitacion.setEstado(EstadoHabitacion.DISPONIBLE);
+            }else{
+                if(cantidadOcupantes==2){
+                    this.habitacion.setCantidadOcupante(1);
+                    this.habitacion.setEstado(EstadoHabitacion.DISPONIBLE);
+                }
+            }
+        }else {
+            this.habitacion.setOcupante("DESOCUPADA");
+            this.habitacion.setCantidadOcupante(0);
+            this.habitacion.setEstado(EstadoHabitacion.DISPONIBLE);
+        }
+
+        this.setEstado(EstadoReserva.FINALIZADA);
+    }
+
     //Se implememento la interfaz CalendarEventable y se definen los metodos
     //que deben ser implementados para poder hacer uso del Calendario
 
