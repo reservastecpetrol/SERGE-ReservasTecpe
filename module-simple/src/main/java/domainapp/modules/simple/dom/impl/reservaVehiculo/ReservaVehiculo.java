@@ -174,6 +174,19 @@ public class ReservaVehiculo implements Comparable<ReservaVehiculo>, CalendarEve
         this.setEstado(EstadoReserva.CANCELADA);
     }
 
+    /**
+     * Este es el metodo que cambia el valor del estado de la reserva a FINALIZADA
+     * una vez que la reserva haya culminado
+     */
+    @Action
+    public void finalizar()
+    {
+        this.vehiculo.setEstado(EstadoVehiculo.DISPONIBLE);
+
+        this.setEstado(EstadoReserva.FINALIZADA);
+    }
+
+
 
     //Se implememento la interfaz CalendarEventable y se definen los metodos
     //que deben ser implementados para poder hacer uso del Calendario
