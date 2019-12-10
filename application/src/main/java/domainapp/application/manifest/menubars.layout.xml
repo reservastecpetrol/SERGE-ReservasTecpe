@@ -19,78 +19,175 @@
 -->
 <mb3:menuBars xsi:schemaLocation="http://isis.apache.org/applib/layout/menubars/bootstrap3 http://isis.apache.org/applib/layout/menubars/bootstrap3/menubars.xsd http://isis.apache.org/applib/layout/component http://isis.apache.org/applib/layout/component/component.xsd http://isis.apache.org/applib/layout/links http://isis.apache.org/applib/layout/links/links.xsd" xmlns:cpt="http://isis.apache.org/applib/layout/component" xmlns:lnk="http://isis.apache.org/applib/layout/links" xmlns:mb3="http://isis.apache.org/applib/layout/menubars/bootstrap3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <mb3:primary>
+        <!--
         <mb3:menu>
             <mb3:named>Simple Objects</mb3:named>
             <mb3:section>
                 <mb3:serviceAction objectType="simple.SimpleObjectMenu" id="create">
-                    <cpt:named>Nuevo</cpt:named>
+                    <cpt:named>Create</cpt:named>
                 </mb3:serviceAction>
                 <mb3:serviceAction objectType="simple.SimpleObjectMenu" id="findByName">
-                    <cpt:named>Buscar por nombre</cpt:named>
+                    <cpt:named>Find By Name</cpt:named>
                 </mb3:serviceAction>
                 <mb3:serviceAction objectType="simple.SimpleObjectMenu" id="listAll">
-                    <cpt:named>Listar Todo</cpt:named>
+                    <cpt:named>List All</cpt:named>
                 </mb3:serviceAction>
             </mb3:section>
         </mb3:menu>
+        -->
         <mb3:menu>
-            <mb3:named>Personas</mb3:named>
-            <mb3:section>
-                <mb3:serviceAction objectType="simple.SimplePersonaMenu" id="create">
-                    <cpt:named>Crear</cpt:named>
-                </mb3:serviceAction>
-                <mb3:serviceAction objectType="simple.SimplePersonaMenu" id="findPorNombre">
-                    <cpt:named>Buscar por Nombre</cpt:named>
-                </mb3:serviceAction>
-                <mb3:serviceAction objectType="simple.SimplePersonaMenu" id="listarTodos">
-                    <cpt:named>Listar Todos</cpt:named>
-                </mb3:serviceAction>
-            </mb3:section>
+        <mb3:named>Personas</mb3:named>
+        <mb3:section>
+            <mb3:serviceAction objectType="Persona" id="listarPersonas">
+                <cpt:named>Listar Personas Totales</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="Persona" id="listarPersonasEjecutivas">
+                <cpt:named>Listar Personas Ejecutivas</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="Persona" id="listarPersonasSupervisores">
+                <cpt:named>Listar Personas Supervisores</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="Persona" id="listarPersonasOperadores">
+                <cpt:named>Listar Personas Operadores</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="Persona" id="buscarPersonaPorNombre">
+                <cpt:named>Buscar Persona por Nombre</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="Persona" id="crearPersona">
+                <cpt:named>Crear Persona</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="Persona" id="generarReportePersonas">
+                <cpt:named>Exportar PDF Lista de Personas</cpt:named>
+            </mb3:serviceAction>
+        </mb3:section>
         </mb3:menu>
         <mb3:menu>
-            <mb3:named>Vehiculos</mb3:named>
-            <mb3:section>
-                <mb3:serviceAction objectType="simple.SimpleVehiculoMenu" id="create">
-                    <cpt:named>Crear</cpt:named>
-                </mb3:serviceAction>
-                <mb3:serviceAction objectType="simple.SimpleVehiculoMenu" id="findPorMatricula">
-                    <cpt:named>Buscar por Matricula</cpt:named>
-                </mb3:serviceAction>
-                <mb3:serviceAction objectType="simple.SimpleVehiculoMenu" id="listarTodos">
-                    <cpt:named>Listar Todos</cpt:named>
-                </mb3:serviceAction>
-            </mb3:section>
+        <mb3:named>Vehiculos</mb3:named>
+        <mb3:section>
+            <mb3:serviceAction objectType="Vehiculo" id="listarVehiculos">
+                <cpt:named>Listar Vehiculos Totales</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="Vehiculo" id="listarVehiculosDisponibles">
+                <cpt:named>Listar Vehiculos Dsponibles</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="Vehiculo" id="listarVehiculosOcupados">
+                <cpt:named>Listar Vehiculos Ocupados</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="Vehiculo" id="buscarVehiculoPorMatricula">
+                <cpt:named>Buscar Vehiculo por Matricula</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="Vehiculo" id="crearVehiculo">
+                <cpt:named>Crear Vehiculo</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="Vehiculo" id="generarReporteVehiculosDisponibles">
+                <cpt:named>Exportar PDF Lista de Vehiculos Disponibles</cpt:named>
+            </mb3:serviceAction>
+        </mb3:section>
         </mb3:menu>
         <mb3:menu>
-            <mb3:named>Habitaciones</mb3:named>
-            <mb3:section>
-                <mb3:serviceAction objectType="simple.SimpleHabitacionMenu" id="create">
-                    <cpt:named>Crear</cpt:named>
-                </mb3:serviceAction>
-                <mb3:serviceAction objectType="simple.simple.HabitacionMenu" id="findPorNombre">
-                    <cpt:named>Buscar por Numero</cpt:named>
-                </mb3:serviceAction>
-                <mb3:serviceAction objectType="simple.simple.HabitacionMenu" id="listarTodos">
-                    <cpt:named>Listar Todos</cpt:named>
-                </mb3:serviceAction>
-            </mb3:section>
+        <mb3:named>Habitaciones</mb3:named>
+        <mb3:section>
+            <mb3:serviceAction objectType="Habitacion" id="listarHabitaciones">
+                <cpt:named>Listar Habitaciones Totales</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="Habitacion" id="listarHabitacionesDisponibles">
+                <cpt:named>Listar Habitaciones Disponibles</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="Habitacion" id="listarHabitacionesOcupadas">
+                <cpt:named>Listar Habitaciones Ocupadas</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="Habitacion" id="listarHabitacionesSimples">
+                <cpt:named>Listar Habitaciones Simples</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="Habitacion" id="listarHabitacionesEjecutivas">
+                <cpt:named>Listar Habitaciones Ejecutivas</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="Habitacion" id="listarHabitacionesEstandar">
+                <cpt:named>Listar Habitaciones Estandar</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="Habitacion" id="buscarHabitacionPorNombre">
+                <cpt:named>Buscar Habitacion por Numero</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="Habitacion" id="crearHabitacion">
+                <cpt:named>Crear Habitacion</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="Habitacion" id="generarReporteHabitacionesDisponibles">
+                <cpt:named>Exportar PDF Lista de Habitaciones Disponibles</cpt:named>
+            </mb3:serviceAction>
+        </mb3:section>
         </mb3:menu>
         <mb3:menu>
-            <mb3:named>Reserva Vehiculos</mb3:named>
-            <mb3:section>
-                <mb3:serviceAction objectType="simple.SimpleReservaVehiculoMenu" id="create">
-                    <cpt:named>Crear</cpt:named>
-                </mb3:serviceAction>
-                <mb3:serviceAction objectType="simple.SimpleReservaVehiculoMenu" id="findPorFechaReserva">
-                    <cpt:named>Buscar por Fecha</cpt:named>
-                </mb3:serviceAction>
-                <mb3:serviceAction objectType="simple.SimpleReservaVehiculoMenu" id="listarReservasPorPersona">
-                    <cpt:named>Listar Reservas Por Persona</cpt:named>
-                </mb3:serviceAction>
-                <mb3:serviceAction objectType="simple.SimpleReservaVehiculoMenu" id="listarTodos">
-                    <cpt:named>Listar Todos</cpt:named>
-                </mb3:serviceAction>
-            </mb3:section>
+        <mb3:named>Reserva Vehiculos</mb3:named>
+        <mb3:section>
+            <mb3:serviceAction objectType="ReservaVehiculo" id="listarReservasDeVehiculos">
+                <cpt:named>Listar Reservas de Vehiculos Totales</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="ReservaVehiculo" id="listarReservasDeVehiculosActivas">
+                <cpt:named>Listar Reservas de Vehiculos Activas</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="ReservaVehiculo" id="listarReservasDeVehiculosCanceladas">
+                <cpt:named>Listar Reservas de Vehiculos Canceladas</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="ReservaVehiculo" id="listarReservasPorPersona">
+                <cpt:named>Listar Reservas por Persona</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="ReservaVehiculo" id="listarReservasQueInicianHoy">
+                <cpt:named>Listar Reservas que Inician Hoy</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="ReservaVehiculo" id="listarReservasQueFinalizanHoy">
+                <cpt:named>Listar Reservas que Finalizan Hoy</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="ReservaVehiculo" id="buscarReservasPorFechaDeReserva">
+                <cpt:named>Buscar Reservas por Fecha de Reserva</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="ReservaVehiculo" id="crearReserva">
+                <cpt:named>Crear Reserva</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="ReservaVehiculo" id="generarReporteReservasVehiculosActivas">
+                <cpt:named>Exportar PDF Lista de Resevas Activas</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="ReservaVehiculo" id="actualizarVehiculosDisponibles">
+                <cpt:named>Actualizar Vehiculos Disponibles</cpt:named>
+            </mb3:serviceAction>
+        </mb3:section>
+        </mb3:menu>
+        <mb3:menu>
+        <mb3:named>Reserva Habitaciones</mb3:named>
+        <mb3:section>
+            <mb3:serviceAction objectType="ReservaHabitacion" id="listarReservasDeHabitaciones">
+                <cpt:named>Listar Reservas de Habitaciones Totales</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="ReservaHabitacion" id="listarReservasDeHabitacionesActivas">
+                <cpt:named>Listar Reservas de Habitaciones Activas</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="ReservaHabitacion" id="listarReservasDeHabitacionesCanceladas">
+                <cpt:named>Listar Reservas de Habitaciones Canceladas</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="ReservaHabitacion" id="listarReservasPorPersona">
+                <cpt:named>Listar Reservas por Persona</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="ReservaHabitacion" id="listarReservasQueInicianHoy">
+                <cpt:named>Listar Reservas que Inician Hoy</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="ReservaHabitacion" id="listarReservasQueFinalizanHoy">
+                <cpt:named>Listar Reservas que Finalizan Hoy</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="ReservaHabitacion" id="buscarReservasPorFechaDeReserva">
+                <cpt:named>Buscar Reservas por Fecha de Reserva</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="ReservaHabitacion" id="crearReservaDeHabitacion">
+                <cpt:named>Crear Reserva</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="ReservaHabitacion" id="generarReporteReservasHabitacionesActivas">
+                <cpt:named>Exportar PDF Lista de Resevas Activas</cpt:named>
+            </mb3:serviceAction>
+            <mb3:serviceAction objectType="ReservaHabitacion" id="actualizarHabitacionesDisponibles">
+                <cpt:named>Actualizar Habitaciones Disponibles</cpt:named>
+            </mb3:serviceAction>
+        </mb3:section>
+        </mb3:menu>
+        <mb3:menu unreferencedActions="true">
+            <mb3:named>Other</mb3:named>
         </mb3:menu>
     </mb3:primary>
     <mb3:secondary>
