@@ -221,10 +221,12 @@ public class PersonaMenu {
      * en total que hay registrados en el sistema
      *
      */
-    public void generarReportePersonas(
+    public List<Persona> generarReportePersonas(
     ) {
          personarepository.generarReportePersonas();
-        //return (Blob)personarepository.generarReportePersonas();
+
+         return personarepository.listarPersonas();
+
     }
 
 

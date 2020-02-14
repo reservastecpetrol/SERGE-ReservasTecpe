@@ -1,47 +1,24 @@
 package domainapp.modules.simple.dom.impl.vehiculo;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.datanucleus.query.typesafe.TypesafeQuery;
 
-import org.apache.isis.applib.annotation.Action;
-import org.apache.isis.applib.annotation.ActionLayout;
-import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
-import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Programmatic;
-import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
-import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 
 import domainapp.modules.simple.dom.impl.SimpleObjects;
 import domainapp.modules.simple.dom.impl.enums.EstadoVehiculo;
-import domainapp.modules.simple.dom.impl.reportes.VehiculosDisponiblesReporte;
+import domainapp.modules.simple.dom.impl.reportes.EjecutarReportes;
 import lombok.AccessLevel;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
 @DomainService(
         nature = NatureOfService.DOMAIN,
@@ -93,9 +70,10 @@ public class VehiculoRepository {
      *
      * @return List<Vehiculo>
      */
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    @MemberOrder(sequence = "2")
+    //@Action(semantics = SemanticsOf.SAFE)
+    //@ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    //@MemberOrder(sequence = "2")
+    @Programmatic
     public List<Vehiculo> listarVehiculosDisponibles() {
 
         return this.listarVehiculosPorEstado(EstadoVehiculo.DISPONIBLE);
@@ -221,27 +199,6 @@ public class VehiculoRepository {
         return vehiculo;
     }
 
-    private File Entrada(String nombre){
-        return new File(getClass().getResource(nombre).getPath());
-    }
-
-    private String Salida(String nombre){
-        String ruta = System.getProperty("user.home") + File.separatorChar + "ReservasPdf" + File.separatorChar + nombre;
-        String adicion = "";
-        int x = 0;
-        while (ExisteArchivo(ruta, adicion)) {
-            x++;
-            adicion = "-" + x;
-        }
-        return ruta + adicion + ".pdf";
-    }
-
-    private boolean ExisteArchivo(String ruta, String adicion){
-        File archivo = new File(ruta + adicion + ".pdf");
-        return archivo.exists();
-    }
-
-
     //@Action(semantics = SemanticsOf.SAFE)
     //@ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     //@ActionLayout(named = "Exportar PDF Lista de Vehiculos Disponibles")
@@ -254,64 +211,14 @@ public class VehiculoRepository {
 
         vehiculos = repositoryService.allInstances(Vehiculo.class);
 
-        List<VehiculosDisponiblesReporte> vehiculosDatasource = new ArrayList<VehiculosDisponiblesReporte>();
+        EjecutarReportes ejecutarReportes=new EjecutarReportes();
 
-        vehiculosDatasource.add(new VehiculosDisponiblesReporte());
-
-
-        for (Vehiculo vehiculo: vehiculos) {
-
-            if(vehiculo.getEstado()== EstadoVehiculo.DISPONIBLE) {
-
-                VehiculosDisponiblesReporte vehiculosDisponiblesReporte = new VehiculosDisponiblesReporte();
-
-                vehiculosDisponiblesReporte.setMatricula(vehiculo.getMatricula());
-                vehiculosDisponiblesReporte.setMarca(vehiculo.getMarca());
-                vehiculosDisponiblesReporte.setModelo(vehiculo.getModelo());
-                vehiculosDisponiblesReporte.setUbicacion(vehiculo.getUbicacion());
-                vehiculosDisponiblesReporte.setEstado(vehiculo.getEstado().toString());
-
-                vehiculosDatasource.add(vehiculosDisponiblesReporte);
-
-            }
-
-        }
-
-        JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(vehiculosDatasource);
-
-        String entrada="ListadoDeVehiculos.jrxml";
-
-        String salida="ListadoVehiculos";
-
-        try {
-
-            File rutaEntrada = Entrada(entrada);
-            String rutaSalida = Salida(salida);
-
-            InputStream input = new FileInputStream(rutaEntrada);
-            JasperDesign jasperDesign = JRXmlLoader.load(input);
-            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
-
-            Map<String, Object> parameters = new HashMap<String, Object>();
-            parameters.put("ds", ds);
-
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, ds);
-            JasperExportManager.exportReportToPdfFile(jasperPrint,rutaSalida);
-
-            JRPdfExporter pdfExporter = new JRPdfExporter();
-            pdfExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-            ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
-            pdfExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(pdfReportStream));
-            pdfExporter.exportReport();
-
-            pdfReportStream.close();
-
-        } catch (Exception e) {
-            TranslatableString.tr("Error al mostrar el reporte: "+e);
-        }
-
+        ejecutarReportes.ListadoVehiculosPDF(vehiculos);
 
     }
+
+    @javax.inject.Inject
+    EjecutarReportes ejecutarReportes;
 
     @javax.inject.Inject
     @javax.jdo.annotations.NotPersistent

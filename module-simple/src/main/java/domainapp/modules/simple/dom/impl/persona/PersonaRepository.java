@@ -1,13 +1,7 @@
 package domainapp.modules.simple.dom.impl.persona;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.datanucleus.query.typesafe.TypesafeQuery;
 
@@ -16,7 +10,6 @@ import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
-import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
@@ -24,19 +17,8 @@ import org.apache.isis.applib.services.repository.RepositoryService;
 import domainapp.modules.simple.dom.impl.SimpleObjects;
 import domainapp.modules.simple.dom.impl.enums.ListaJerarquias;
 import domainapp.modules.simple.dom.impl.enums.TipoSexo;
-import domainapp.modules.simple.dom.impl.reportes.PersonasReporte;
+import domainapp.modules.simple.dom.impl.reportes.EjecutarReportes;
 import lombok.AccessLevel;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
 @DomainService(
         nature = NatureOfService.DOMAIN,
@@ -271,88 +253,22 @@ public class PersonaRepository {
         return persona;
     }
 
-    private File Entrada(String nombre){
-        return new File(getClass().getResource(nombre).getPath());
-    }
-
-    private String Salida(String nombre){
-        String ruta = System.getProperty("user.home") + File.separatorChar + "ReservasPdf" + File.separatorChar + nombre;
-        String adicion = "";
-        int x = 0;
-        while (ExisteArchivo(ruta, adicion)) {
-            x++;
-            adicion = "-" + x;
-        }
-        return ruta + adicion + ".pdf";
-    }
-
-    private boolean ExisteArchivo(String ruta, String adicion){
-        File archivo = new File(ruta + adicion + ".pdf");
-        return archivo.exists();
-    }
-
-
     @Programmatic
     public void generarReportePersonas(
     ) {
 
         List<Persona> personas = new ArrayList<Persona>();
 
-        List<PersonasReporte> personasDatasource = new ArrayList<PersonasReporte>();
-
-        personasDatasource.add(new PersonasReporte());
+        EjecutarReportes ejecutarReportes=new EjecutarReportes();
 
         personas = repositoryService.allInstances(Persona.class);
 
-        for (Persona per : personas) {
-
-            PersonasReporte personasReporte = new PersonasReporte();
-
-            personasReporte.setNombre(per.getNombre());
-            personasReporte.setApellido(per.getApellido());
-            personasReporte.setDireccion(per.getDireccion());
-            personasReporte.setTelefono(per.getTelefono());
-            personasReporte.setEmail(per.getEmail());
-            personasReporte.setDni(per.getDni());
-            personasReporte.setJerarquia(per.getJerarquia().toString());
-
-            personasDatasource.add(personasReporte);
-
-        }
-
-        JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(personasDatasource);
-
-        String entrada="ListadoPersonas.jrxml";
-
-        String salida="ListadoPersonas";
-
-        try {
-
-            File rutaEntrada = Entrada(entrada);
-            String rutaSalida = Salida(salida);
-
-            InputStream input = new FileInputStream(rutaEntrada);
-            JasperDesign jasperDesign = JRXmlLoader.load(input);
-            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
-
-            Map<String, Object> parameters = new HashMap<String, Object>();
-            parameters.put("ds", ds);
-
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, ds);
-            JasperExportManager.exportReportToPdfFile(jasperPrint,rutaSalida);
-
-            JRPdfExporter pdfExporter = new JRPdfExporter();
-            pdfExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-            ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
-            pdfExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(pdfReportStream));
-            pdfExporter.exportReport();
-
-            pdfReportStream.close();
-
-        } catch (Exception e) {
-            TranslatableString.tr("Error al mostrar el reporte: "+e);
-        }
+        ejecutarReportes.ListadoPersonasPDF(personas);
     }
+
+
+    @javax.inject.Inject
+    EjecutarReportes ejecutarReportes;
 
     @javax.inject.Inject
     @javax.jdo.annotations.NotPersistent

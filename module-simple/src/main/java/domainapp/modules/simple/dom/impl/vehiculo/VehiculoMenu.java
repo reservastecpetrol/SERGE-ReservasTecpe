@@ -179,7 +179,7 @@ public class VehiculoMenu {
     )
     @ActionLayout(
             bookmarking = BookmarkPolicy.AS_ROOT,
-            named = "Exportar PDF Lista de Vehiculos Disponibles"
+            named = "Exportar PDF Listado de Vehiculos Disponibles"
     )
     @MemberOrder(sequence = "6")
     /**
@@ -187,9 +187,11 @@ public class VehiculoMenu {
      * en total que hay registrados en el sistema
      *
      */
-    public void generarReporteVehiculosDisponibles() {
+    public List<Vehiculo> generarReporteVehiculosDisponibles() {
 
         vehiculorepository.generarReporteVehiculosDisponibles();
+
+        return vehiculorepository.listarVehiculosDisponibles();
     }
 
     @javax.inject.Inject

@@ -1,13 +1,7 @@
 package domainapp.modules.simple.dom.impl.reservaVehiculo;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.datanucleus.query.typesafe.TypesafeQuery;
 import org.joda.time.LocalDate;
@@ -18,7 +12,6 @@ import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
-import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
@@ -28,21 +21,10 @@ import domainapp.modules.simple.dom.impl.enums.EstadoReserva;
 import domainapp.modules.simple.dom.impl.enums.EstadoVehiculo;
 import domainapp.modules.simple.dom.impl.persona.Persona;
 import domainapp.modules.simple.dom.impl.persona.PersonaRepository;
-import domainapp.modules.simple.dom.impl.reportes.ReservasVehiculosActivasReporte;
+import domainapp.modules.simple.dom.impl.reportes.EjecutarReportes;
 import domainapp.modules.simple.dom.impl.vehiculo.Vehiculo;
 import domainapp.modules.simple.dom.impl.vehiculo.VehiculoRepository;
 import lombok.AccessLevel;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
 @DomainService(
         nature = NatureOfService.DOMAIN,
@@ -290,27 +272,6 @@ public class ReservaVehiculoRepository {
     }
 
 
-    private File Entrada(String nombre){
-        return new File(getClass().getResource(nombre).getPath());
-    }
-
-    private String Salida(String nombre){
-        String ruta = System.getProperty("user.home") + File.separatorChar + "ReservasPdf" + File.separatorChar + nombre;
-        String adicion = "";
-        int x = 0;
-        while (ExisteArchivo(ruta, adicion)) {
-            x++;
-            adicion = "-" + x;
-        }
-        return ruta + adicion + ".pdf";
-    }
-
-    private boolean ExisteArchivo(String ruta, String adicion){
-        File archivo = new File(ruta + adicion + ".pdf");
-        return archivo.exists();
-    }
-
-
     //@Action(semantics = SemanticsOf.SAFE)
     //@ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     //@ActionLayout(named = "Exportar PDF Lista de Resevas Activas")
@@ -323,63 +284,9 @@ public class ReservaVehiculoRepository {
 
         reservasVehiculos = repositoryService.allInstances(ReservaVehiculo.class);
 
-        List<ReservasVehiculosActivasReporte> reservasDatasource = new ArrayList<ReservasVehiculosActivasReporte>();
+        EjecutarReportes ejecutarReportes=new EjecutarReportes();
 
-        reservasDatasource.add(new ReservasVehiculosActivasReporte());
-
-
-        for (ReservaVehiculo reservaVehiculo: reservasVehiculos) {
-
-            if(reservaVehiculo.getEstado()==EstadoReserva.ACTIVA) {
-
-                ReservasVehiculosActivasReporte reservasVehiculosActivasReporte = new ReservasVehiculosActivasReporte();
-
-                reservasVehiculosActivasReporte.setFechaReserva(reservaVehiculo.getFechaReserva().toString("dd-MM-yyyy"));
-                reservasVehiculosActivasReporte.setFechaInicio(reservaVehiculo.getFechaInicio().toString("dd-MM-yyyy"));
-                reservasVehiculosActivasReporte.setFechaFin(reservaVehiculo.getFechaFin().toString("dd-MM-yyyy"));
-                reservasVehiculosActivasReporte.setNombrePersona(reservaVehiculo.getPersona().getNombre());
-                reservasVehiculosActivasReporte.setApellidoPersona(reservaVehiculo.getPersona().getApellido());
-                reservasVehiculosActivasReporte.setMatriculaVehiculo(reservaVehiculo.getVehiculo().getMatricula());
-                reservasVehiculosActivasReporte.setUbicacionVehiculo(reservaVehiculo.getVehiculo().getUbicacion());
-
-                reservasDatasource.add(reservasVehiculosActivasReporte);
-            }
-
-        }
-
-
-        JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(reservasDatasource);
-
-        String entrada="ListadoReservasVehiculos.jrxml";
-
-        String salida="ListadoReservasVehiculos";
-
-        try {
-
-            File rutaEntrada = Entrada(entrada);
-            String rutaSalida = Salida(salida);
-
-            InputStream input = new FileInputStream(rutaEntrada);
-            JasperDesign jasperDesign = JRXmlLoader.load(input);
-            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
-
-            Map<String, Object> parameters = new HashMap<String, Object>();
-            parameters.put("ds", ds);
-
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, ds);
-            JasperExportManager.exportReportToPdfFile(jasperPrint,rutaSalida);
-
-            JRPdfExporter pdfExporter = new JRPdfExporter();
-            pdfExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-            ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
-            pdfExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(pdfReportStream));
-            pdfExporter.exportReport();
-
-            pdfReportStream.close();
-
-        } catch (Exception e) {
-            TranslatableString.tr("Error al mostrar el reporte: "+e);
-        }
+        ejecutarReportes.ListadoReservasVehiculosPDF(reservasVehiculos);
 
     }
 
@@ -408,6 +315,9 @@ public class ReservaVehiculoRepository {
                 .executeList();
         return reservas;
     }
+
+    @javax.inject.Inject
+    EjecutarReportes ejecutarReportes;
 
     @javax.inject.Inject
     RepositoryService repositoryService;

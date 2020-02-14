@@ -283,7 +283,7 @@ public class ReservaHabitacionMenu {
     )
     @ActionLayout(
             bookmarking = BookmarkPolicy.AS_ROOT,
-            named = "Exportar PDF Lista de Reservas Activas"
+            named = "Exportar PDF Listado de Reservas Activas"
     )
     @MemberOrder(sequence = "9")
     /**
@@ -291,9 +291,11 @@ public class ReservaHabitacionMenu {
      * en total que hay registrados en el sistema
      *
      */
-    public void generarReporteReservasHabitacionesActivas() {
+    public List<ReservaHabitacion> generarReporteReservasHabitacionesActivas() {
 
         reservaHabitacionrepository.generarReporteReservasHabitacionesActivas();
+
+        return reservaHabitacionrepository.listarReservasDeHabitacionesActivas();
     }
 
     @Action(

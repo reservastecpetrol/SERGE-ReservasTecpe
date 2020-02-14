@@ -285,7 +285,7 @@ public class ReservaVehiculoMenu {
     )
     @ActionLayout(
             bookmarking = BookmarkPolicy.AS_ROOT,
-            named = "Exportar PDF Lista de Reservas Activas"
+            named = "Exportar PDF Listado de Reservas Activas"
     )
     @MemberOrder(sequence = "9")
     /**
@@ -293,9 +293,11 @@ public class ReservaVehiculoMenu {
      * en total que hay registrados en el sistema
      *
      */
-    public void generarReporteReservasVehiculosActivas() {
+    public List<ReservaVehiculo> generarReporteReservasVehiculosActivas() {
 
         reservaVehiculorepository.generarReporteReservasVehiculosActivas();
+
+        return reservaVehiculorepository.listarReservasDeVehiculosActivas();
     }
 
     @Action(

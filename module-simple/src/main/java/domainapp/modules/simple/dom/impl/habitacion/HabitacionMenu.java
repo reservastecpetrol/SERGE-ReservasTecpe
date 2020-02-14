@@ -219,9 +219,11 @@ public class HabitacionMenu {
      * en total que hay registrados en el sistema
      *
      */
-    public void generarReporteHabitacionesDisponibles(
+    public List<Habitacion> generarReporteHabitacionesDisponibles(
     ) {
         habitacionrepository.generarReporteHabitacionesDisponibles();
+
+        return habitacionrepository.listarHabitacionesDisponibles();
     }
 
 
