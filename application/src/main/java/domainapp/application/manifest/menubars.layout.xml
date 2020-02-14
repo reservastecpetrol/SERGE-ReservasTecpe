@@ -68,7 +68,7 @@
                 <cpt:named>Listar Vehiculos Totales</cpt:named>
             </mb3:serviceAction>
             <mb3:serviceAction objectType="Vehiculo" id="listarVehiculosDisponibles">
-                <cpt:named>Listar Vehiculos Dsponibles</cpt:named>
+                <cpt:named>Listar Vehiculos Disponibles</cpt:named>
             </mb3:serviceAction>
             <mb3:serviceAction objectType="Vehiculo" id="listarVehiculosOcupados">
                 <cpt:named>Listar Vehiculos Ocupados</cpt:named>
