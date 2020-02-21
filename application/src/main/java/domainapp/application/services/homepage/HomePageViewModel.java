@@ -37,7 +37,7 @@ public class HomePageViewModel {
 
 
     public List<ReservaHabitacion> getReservas() {
-        return reservaHabitacionRepository.listarReservasDeHabitaciones();
+        return reservaHabitacionRepository.listarReservasDeHabitacionesActivas();
     }
 
     public String title() {
