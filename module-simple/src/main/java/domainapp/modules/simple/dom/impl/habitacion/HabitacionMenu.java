@@ -10,7 +10,6 @@ import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
-import org.apache.isis.applib.annotation.RestrictTo;
 import org.apache.isis.applib.annotation.SemanticsOf;
 
 import domainapp.modules.simple.dom.impl.enums.ListaHabitaciones;
@@ -35,8 +34,7 @@ import domainapp.modules.simple.dom.impl.enums.ListaHabitaciones;
 public class HabitacionMenu {
 
     @Action(
-            semantics = SemanticsOf.SAFE,
-            restrictTo = RestrictTo.PROTOTYPING
+            semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
             bookmarking = BookmarkPolicy.AS_ROOT,
@@ -55,8 +53,7 @@ public class HabitacionMenu {
 
 
     @Action(
-            semantics = SemanticsOf.SAFE,
-            restrictTo = RestrictTo.PROTOTYPING
+            semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
             bookmarking = BookmarkPolicy.AS_ROOT,
@@ -74,8 +71,7 @@ public class HabitacionMenu {
     }
 
     @Action(
-            semantics = SemanticsOf.SAFE,
-            restrictTo = RestrictTo.PROTOTYPING
+            semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
             bookmarking = BookmarkPolicy.AS_ROOT,
@@ -94,8 +90,7 @@ public class HabitacionMenu {
 
 
     @Action(
-            semantics = SemanticsOf.SAFE,
-            restrictTo = RestrictTo.PROTOTYPING
+            semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
             bookmarking = BookmarkPolicy.AS_ROOT,
@@ -114,8 +109,7 @@ public class HabitacionMenu {
 
 
     @Action(
-            semantics = SemanticsOf.SAFE,
-            restrictTo = RestrictTo.PROTOTYPING
+            semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
             bookmarking = BookmarkPolicy.AS_ROOT,
@@ -133,8 +127,7 @@ public class HabitacionMenu {
     }
 
     @Action(
-            semantics = SemanticsOf.SAFE,
-            restrictTo = RestrictTo.PROTOTYPING
+            semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
             bookmarking = BookmarkPolicy.AS_ROOT,
@@ -153,8 +146,7 @@ public class HabitacionMenu {
 
 
     @Action(
-            semantics = SemanticsOf.SAFE,
-            restrictTo = RestrictTo.PROTOTYPING
+            semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
             bookmarking = BookmarkPolicy.AS_ROOT,
@@ -177,8 +169,7 @@ public class HabitacionMenu {
 
 
     @Action(
-            semantics = SemanticsOf.SAFE,
-            restrictTo = RestrictTo.PROTOTYPING
+            semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
             bookmarking = BookmarkPolicy.AS_ROOT,
