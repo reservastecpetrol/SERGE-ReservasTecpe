@@ -1,5 +1,6 @@
 package domainapp.modules.simple.dom.impl.persona;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,12 +14,14 @@ import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
+import org.apache.isis.applib.value.Blob;
 
 import domainapp.modules.simple.dom.impl.SimpleObjects;
 import domainapp.modules.simple.dom.impl.enums.ListaJerarquias;
 import domainapp.modules.simple.dom.impl.enums.TipoSexo;
 import domainapp.modules.simple.dom.impl.reportes.EjecutarReportes;
 import lombok.AccessLevel;
+import net.sf.jasperreports.engine.JRException;
 
 @DomainService(
         nature = NatureOfService.DOMAIN,
@@ -254,8 +257,8 @@ public class PersonaRepository {
     }
 
     @Programmatic
-    public void generarReportePersonas(
-    ) {
+    public Blob  generarReportePersonas()throws JRException, IOException
+    {
 
         List<Persona> personas = new ArrayList<Persona>();
 
@@ -263,7 +266,7 @@ public class PersonaRepository {
 
         personas = repositoryService.allInstances(Persona.class);
 
-        ejecutarReportes.ListadoPersonasPDF(personas);
+        return ejecutarReportes.ListadoPersonasPDF(personas);
     }
 
 

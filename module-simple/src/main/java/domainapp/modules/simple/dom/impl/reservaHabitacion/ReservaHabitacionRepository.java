@@ -1,5 +1,6 @@
 package domainapp.modules.simple.dom.impl.reservaHabitacion;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
+import org.apache.isis.applib.value.Blob;
 
 import domainapp.modules.simple.dom.impl.SimpleObjects;
 import domainapp.modules.simple.dom.impl.enums.EstadoHabitacion;
@@ -28,6 +30,7 @@ import domainapp.modules.simple.dom.impl.persona.PersonaRepository;
 import domainapp.modules.simple.dom.impl.reportes.EjecutarReportes;
 import domainapp.modules.simple.dom.impl.reservaVehiculo.QReservaVehiculo;
 import lombok.AccessLevel;
+import net.sf.jasperreports.engine.JRException;
 
 @DomainService(
         nature = NatureOfService.DOMAIN,
@@ -526,8 +529,8 @@ public class ReservaHabitacionRepository {
     //@ActionLayout(named = "Exportar PDF Lista de Resevas Activas")
     //@MemberOrder(sequence = "9")
     @Programmatic
-    public void generarReporteReservasHabitacionesActivas(
-    ) {
+    public Blob generarReporteReservasHabitacionesActivas (
+    ) throws JRException, IOException {
 
         List<ReservaHabitacion> reservaHabitaciones = new ArrayList<ReservaHabitacion>();
 
@@ -535,7 +538,7 @@ public class ReservaHabitacionRepository {
 
         EjecutarReportes ejecutarReportes=new EjecutarReportes();
 
-        ejecutarReportes.ListadoReservasHabitacionesPDF(reservaHabitaciones);
+        return ejecutarReportes.ListadoReservasHabitacionesPDF(reservaHabitaciones);
 
     }
 

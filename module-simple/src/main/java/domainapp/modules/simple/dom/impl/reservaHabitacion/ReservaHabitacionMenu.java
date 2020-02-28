@@ -283,30 +283,9 @@ public class ReservaHabitacionMenu {
     )
     @ActionLayout(
             bookmarking = BookmarkPolicy.AS_ROOT,
-            named = "Exportar PDF Listado de Reservas Activas"
-    )
-    @MemberOrder(sequence = "9")
-    /**
-     * Este metodo permite generar un reporte en formato PDF del listado de Reservas de Habitaciones Activas
-     * en total que hay registrados en el sistema
-     *
-     */
-    public List<ReservaHabitacion> generarReporteReservasHabitacionesActivas() {
-
-        reservaHabitacionrepository.generarReporteReservasHabitacionesActivas();
-
-        return reservaHabitacionrepository.listarReservasDeHabitacionesActivas();
-    }
-
-    @Action(
-            semantics = SemanticsOf.SAFE,
-            restrictTo = RestrictTo.PROTOTYPING
-    )
-    @ActionLayout(
-            bookmarking = BookmarkPolicy.AS_ROOT,
             named = "Actualizar Habitaciones Disponibles"
     )
-    @MemberOrder(sequence = "10")
+    @MemberOrder(sequence = "9")
     /**
      * Este metodo lista todas las reservas de habitaciones que finalizaron
      * y de esta forma actualizar la disponibilidad de cada uno de las Habitaciones.

@@ -173,26 +173,6 @@ public class VehiculoMenu {
         return vehiculorepository.crearVehiculo(matricula,marca,color,modelo,combustible,seguro,ubicacion);
     }
 
-    @Action(
-            semantics = SemanticsOf.SAFE,
-            restrictTo = RestrictTo.PROTOTYPING
-    )
-    @ActionLayout(
-            bookmarking = BookmarkPolicy.AS_ROOT,
-            named = "Exportar PDF Listado de Vehiculos Disponibles"
-    )
-    @MemberOrder(sequence = "6")
-    /**
-     * Este metodo permite generar un reporte en formato PDF del listado de Vehiculos Disponibles
-     * en total que hay registrados en el sistema
-     *
-     */
-    public List<Vehiculo> generarReporteVehiculosDisponibles() {
-
-        vehiculorepository.generarReporteVehiculosDisponibles();
-
-        return vehiculorepository.listarVehiculosDisponibles();
-    }
 
     @javax.inject.Inject
     VehiculoRepository vehiculorepository;

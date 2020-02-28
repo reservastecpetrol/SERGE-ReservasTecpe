@@ -207,28 +207,6 @@ public class PersonaMenu {
         return personarepository.crearPersona(nombre,apellido,direccion,telefono,email,dni,jerarquias,sexo);
     }
 
-    @Action(
-            semantics = SemanticsOf.SAFE,
-            restrictTo = RestrictTo.PROTOTYPING
-    )
-    @ActionLayout(
-            bookmarking = BookmarkPolicy.AS_ROOT,
-            named = "Exportar PDF Lista de Personas"
-    )
-    @MemberOrder(sequence = "7")
-    /**
-     * Este metodo permite generar un reporte en formato PDF del listado de personas
-     * en total que hay registrados en el sistema
-     *
-     */
-    public List<Persona> generarReportePersonas(
-    ) {
-         personarepository.generarReportePersonas();
-
-         return personarepository.listarPersonas();
-
-    }
-
 
     @javax.inject.Inject
     PersonaRepository personarepository;

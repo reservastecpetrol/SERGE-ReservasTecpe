@@ -1,5 +1,6 @@
 package domainapp.modules.simple.dom.impl.vehiculo;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,11 +15,13 @@ import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
+import org.apache.isis.applib.value.Blob;
 
 import domainapp.modules.simple.dom.impl.SimpleObjects;
 import domainapp.modules.simple.dom.impl.enums.EstadoVehiculo;
 import domainapp.modules.simple.dom.impl.reportes.EjecutarReportes;
 import lombok.AccessLevel;
+import net.sf.jasperreports.engine.JRException;
 
 @DomainService(
         nature = NatureOfService.DOMAIN,
@@ -204,8 +207,8 @@ public class VehiculoRepository {
     //@ActionLayout(named = "Exportar PDF Lista de Vehiculos Disponibles")
     //@MemberOrder(sequence = "6")
     @Programmatic
-    public void generarReporteVehiculosDisponibles(
-    ) {
+    public Blob generarReporteVehiculosDisponibles(
+    ) throws JRException, IOException {
 
         List<Vehiculo> vehiculos = new ArrayList<Vehiculo>();
 
@@ -213,7 +216,7 @@ public class VehiculoRepository {
 
         EjecutarReportes ejecutarReportes=new EjecutarReportes();
 
-        ejecutarReportes.ListadoVehiculosPDF(vehiculos);
+        return ejecutarReportes.ListadoVehiculosPDF(vehiculos);
 
     }
 

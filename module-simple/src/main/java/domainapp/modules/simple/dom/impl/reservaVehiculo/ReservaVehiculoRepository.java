@@ -1,5 +1,6 @@
 package domainapp.modules.simple.dom.impl.reservaVehiculo;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
+import org.apache.isis.applib.value.Blob;
 
 import domainapp.modules.simple.dom.impl.SimpleObjects;
 import domainapp.modules.simple.dom.impl.enums.EstadoReserva;
@@ -25,6 +27,7 @@ import domainapp.modules.simple.dom.impl.reportes.EjecutarReportes;
 import domainapp.modules.simple.dom.impl.vehiculo.Vehiculo;
 import domainapp.modules.simple.dom.impl.vehiculo.VehiculoRepository;
 import lombok.AccessLevel;
+import net.sf.jasperreports.engine.JRException;
 
 @DomainService(
         nature = NatureOfService.DOMAIN,
@@ -277,8 +280,8 @@ public class ReservaVehiculoRepository {
     //@ActionLayout(named = "Exportar PDF Lista de Resevas Activas")
     //@MemberOrder(sequence = "9")
     @Programmatic
-    public void generarReporteReservasVehiculosActivas(
-    ) {
+    public Blob generarReporteReservasVehiculosActivas(
+    ) throws JRException, IOException {
 
         List<ReservaVehiculo> reservasVehiculos = new ArrayList<ReservaVehiculo>();
 
@@ -286,7 +289,7 @@ public class ReservaVehiculoRepository {
 
         EjecutarReportes ejecutarReportes=new EjecutarReportes();
 
-        ejecutarReportes.ListadoReservasVehiculosPDF(reservasVehiculos);
+        return ejecutarReportes.ListadoReservasVehiculosPDF(reservasVehiculos);
 
     }
 

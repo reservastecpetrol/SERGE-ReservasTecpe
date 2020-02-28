@@ -1,5 +1,6 @@
 package domainapp.modules.simple.dom.impl.habitacion;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,12 +15,14 @@ import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
+import org.apache.isis.applib.value.Blob;
 
 import domainapp.modules.simple.dom.impl.SimpleObjects;
 import domainapp.modules.simple.dom.impl.enums.EstadoHabitacion;
 import domainapp.modules.simple.dom.impl.enums.ListaHabitaciones;
 import domainapp.modules.simple.dom.impl.reportes.EjecutarReportes;
 import lombok.AccessLevel;
+import net.sf.jasperreports.engine.JRException;
 
 @DomainService(
         nature = NatureOfService.DOMAIN,
@@ -274,8 +277,8 @@ public class HabitacionRepository {
     //@ActionLayout(named = "Exportar PDF Lista de Habitaciones Disponibles")
     //@MemberOrder(sequence = "9")
     @Programmatic
-    public void generarReporteHabitacionesDisponibles(
-    ) {
+    public Blob generarReporteHabitacionesDisponibles(
+    ) throws JRException, IOException {
 
         List<Habitacion> habitaciones = new ArrayList<Habitacion>();
 
@@ -283,7 +286,7 @@ public class HabitacionRepository {
 
         EjecutarReportes ejecutarReportes=new EjecutarReportes();
 
-        ejecutarReportes.ListadoHabitacionesPDF(habitaciones);
+        return ejecutarReportes.ListadoHabitacionesPDF(habitaciones);
     }
 
 

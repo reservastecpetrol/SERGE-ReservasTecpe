@@ -285,30 +285,9 @@ public class ReservaVehiculoMenu {
     )
     @ActionLayout(
             bookmarking = BookmarkPolicy.AS_ROOT,
-            named = "Exportar PDF Listado de Reservas Activas"
-    )
-    @MemberOrder(sequence = "9")
-    /**
-     * Este metodo permite generar un reporte en formato PDF del listado de Reservas de Vehiculos Activas
-     * en total que hay registrados en el sistema
-     *
-     */
-    public List<ReservaVehiculo> generarReporteReservasVehiculosActivas() {
-
-        reservaVehiculorepository.generarReporteReservasVehiculosActivas();
-
-        return reservaVehiculorepository.listarReservasDeVehiculosActivas();
-    }
-
-    @Action(
-            semantics = SemanticsOf.SAFE,
-            restrictTo = RestrictTo.PROTOTYPING
-    )
-    @ActionLayout(
-            bookmarking = BookmarkPolicy.AS_ROOT,
             named = "Actualizar Vehiculos Disponibles"
     )
-    @MemberOrder(sequence = "10")
+    @MemberOrder(sequence = "9")
     /**
      * Este metodo lista todas las reservas de Vehiculos que finalizaron
      * y de esta forma actualizar la disponibilidad de cada uno de los Vehiculos.

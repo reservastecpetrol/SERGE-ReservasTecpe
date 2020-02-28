@@ -14,7 +14,6 @@ import org.apache.isis.applib.annotation.RestrictTo;
 import org.apache.isis.applib.annotation.SemanticsOf;
 
 import domainapp.modules.simple.dom.impl.enums.ListaHabitaciones;
-
 @DomainService(
         nature = NatureOfService.VIEW_MENU_ONLY,
         objectType = "Habitacion",
@@ -203,27 +202,6 @@ public class HabitacionMenu {
             @ParameterLayout(named="Categoria") ListaHabitaciones categoria
     ){
         return habitacionrepository.crearHabitacion(nombre,ubicacion,categoria);
-    }
-
-    @Action(
-            semantics = SemanticsOf.SAFE,
-            restrictTo = RestrictTo.PROTOTYPING
-    )
-    @ActionLayout(
-            bookmarking = BookmarkPolicy.AS_ROOT,
-            named = "Exportar PDF Lista de Habitaciones Disponibles"
-    )
-    @MemberOrder(sequence = "9")
-    /**
-     * Este metodo permite generar un reporte en formato PDF del listado de las Habitaciones Disponibles
-     * en total que hay registrados en el sistema
-     *
-     */
-    public List<Habitacion> generarReporteHabitacionesDisponibles(
-    ) {
-        habitacionrepository.generarReporteHabitacionesDisponibles();
-
-        return habitacionrepository.listarHabitacionesDisponibles();
     }
 
 
