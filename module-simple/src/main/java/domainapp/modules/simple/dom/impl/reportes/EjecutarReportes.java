@@ -1,15 +1,16 @@
 package domainapp.modules.simple.dom.impl.reportes;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.isis.applib.services.i18n.TranslatableString;
+import org.apache.isis.applib.value.Blob;
 
 import domainapp.modules.simple.dom.impl.enums.EstadoHabitacion;
 import domainapp.modules.simple.dom.impl.enums.EstadoReserva;
@@ -19,6 +20,7 @@ import domainapp.modules.simple.dom.impl.persona.Persona;
 import domainapp.modules.simple.dom.impl.reservaHabitacion.ReservaHabitacion;
 import domainapp.modules.simple.dom.impl.reservaVehiculo.ReservaVehiculo;
 import domainapp.modules.simple.dom.impl.vehiculo.Vehiculo;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -26,61 +28,57 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
 public class EjecutarReportes {
 
-    private File Entrada(String nombre){
-        return new File(getClass().getResource(nombre).getPath());
+    private Blob GenerarReporteTipoLista(String entrada, String salida, JRBeanCollectionDataSource ds) throws JRException, IOException{
+        File rutaEntrada = new File(getClass().getResource(entrada).getPath());
+
+        InputStream input = new FileInputStream(rutaEntrada);
+        JasperDesign jasperDesign = JRXmlLoader.load(input);
+        JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("ds", ds);
+
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, ds);
+        return ExportarReporte(jasperPrint, salida);
     }
 
-    private String Salida(String nombre){
-        String ruta = System.getProperty("user.home") + File.separatorChar + "Downloads" + File.separatorChar + nombre;
-        String adicion = "";
-        int x = 0;
-        while (ExisteArchivo(ruta, adicion)) {
-            x++;
-            adicion = "-" + x;
+    private static Blob ExportarReporte(JasperPrint jasperPrint, String nombreArchivo) throws JRException, IOException {
+        File pdf = File.createTempFile("output.", ".pdf");
+        JasperExportManager.exportReportToPdfStream(jasperPrint, new FileOutputStream(pdf));
+
+        byte[] fileContent = new byte[(int) pdf.length()];
+
+        if (!(pdf.exists())) {
+            try {
+                pdf.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        return ruta + adicion + ".pdf";
-    }
-
-    private boolean ExisteArchivo(String ruta, String adicion){
-        File archivo = new File(ruta + adicion + ".pdf");
-        return archivo.exists();
-    }
-
-    private void ExportarReporteTipoLista(String entrada, String salida, JRBeanCollectionDataSource ds){
         try {
-            File rutaEntrada = Entrada(entrada);
-            String rutaSalida = Salida(salida);
+            FileInputStream fileInputStream = new FileInputStream(pdf);
+            fileInputStream.read(fileContent);
+            fileInputStream.close();
 
-            InputStream input = new FileInputStream(rutaEntrada);
-            JasperDesign jasperDesign = JRXmlLoader.load(input);
-            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
-
-            Map<String, Object> parameters = new HashMap<String, Object>();
-            parameters.put("ds", ds);
-
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, ds);
-            JasperExportManager.exportReportToPdfFile(jasperPrint,rutaSalida);
-
-            JRPdfExporter pdfExporter = new JRPdfExporter();
-            pdfExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-            ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
-            pdfExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(pdfReportStream));
-            pdfExporter.exportReport();
-
-            pdfReportStream.close();
         } catch (Exception e) {
-            TranslatableString.tr("Error al mostrar el reporte: "+e);
+            e.printStackTrace();
+        }
+        try {
+            return new Blob(nombreArchivo + ".pdf", "application/pdf", fileContent);
+
+        } catch (Exception e) {
+            byte[] result = new String("error en crear archivo").getBytes();
+            return new Blob("error.txt", "text/plain", result);
         }
     }
 
-    public void ListadoHabitacionesPDF(List<Habitacion> habitaciones){
+
+
+    public Blob  ListadoHabitacionesPDF(List<Habitacion> habitaciones)throws JRException, IOException{
 
         List<HabitacionesDisponiblesReporte> habitacionesDatasource = new ArrayList<HabitacionesDisponiblesReporte>();
 
@@ -104,10 +102,10 @@ public class EjecutarReportes {
         }
 
         JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(habitacionesDatasource);
-        ExportarReporteTipoLista("ListadoHabitaciones.jrxml","ListadoDeHabitaciones", ds);
+        return GenerarReporteTipoLista("ListadoHabitaciones.jrxml","ListadoDeHabitaciones", ds);
     }
 
-    public void ListadoVehiculosPDF(List<Vehiculo> vehiculos){
+    public Blob  ListadoVehiculosPDF(List<Vehiculo> vehiculos)throws JRException, IOException{
 
         List<VehiculosDisponiblesReporte> vehiculosDatasource = new ArrayList<VehiculosDisponiblesReporte>();
 
@@ -132,10 +130,10 @@ public class EjecutarReportes {
         }
 
         JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(vehiculosDatasource);
-        ExportarReporteTipoLista("ListadoDeVehiculos.jrxml","ListadoDeVehiculos", ds);
+        return GenerarReporteTipoLista("ListadoDeVehiculos.jrxml","ListadoDeVehiculos", ds);
     }
 
-    public void ListadoReservasVehiculosPDF(List<ReservaVehiculo> reservasVehiculos){
+    public Blob  ListadoReservasVehiculosPDF(List<ReservaVehiculo> reservasVehiculos)throws JRException, IOException{
 
         List<ReservasVehiculosActivasReporte> reservasDatasource = new ArrayList<ReservasVehiculosActivasReporte>();
 
@@ -161,11 +159,11 @@ public class EjecutarReportes {
         }
 
         JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(reservasDatasource);
-        ExportarReporteTipoLista("ListadoReservasVehiculos.jrxml","ListadoReservasVehiculos", ds);
+        return GenerarReporteTipoLista("ListadoReservasVehiculos.jrxml","ListadoReservasVehiculos", ds);
     }
 
 
-    public void ListadoPersonasPDF(List<Persona> personas){
+    public Blob  ListadoPersonasPDF(List<Persona> personas)throws JRException, IOException{
 
         List<PersonasReporte> personasDatasource = new ArrayList<PersonasReporte>();
 
@@ -188,10 +186,10 @@ public class EjecutarReportes {
         }
 
         JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(personasDatasource);
-        ExportarReporteTipoLista("ListadoDePersonas.jrxml","ListadoDePersonas", ds);
+        return GenerarReporteTipoLista("ListadoDePersonas.jrxml","ListadoDePersonas", ds);
     }
 
-    public void ListadoReservasHabitacionesPDF(List<ReservaHabitacion> reservaHabitaciones){
+    public Blob  ListadoReservasHabitacionesPDF(List<ReservaHabitacion> reservaHabitaciones)throws JRException, IOException{
 
         List<ReservasHabitacionesActivasReporte> reservasDatasource = new ArrayList<ReservasHabitacionesActivasReporte>();
 
@@ -216,7 +214,7 @@ public class EjecutarReportes {
 
         }
         JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(reservasDatasource);
-        ExportarReporteTipoLista("ListadoReservasHabitaciones.jrxml","ListadoReservasHabitaciones", ds);
+        return GenerarReporteTipoLista("ListadoReservasHabitaciones.jrxml","ListadoReservasHabitaciones", ds);
     }
 
 }
