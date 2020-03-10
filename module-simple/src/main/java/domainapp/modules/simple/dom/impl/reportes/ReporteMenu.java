@@ -21,13 +21,9 @@ import domainapp.modules.simple.dom.impl.vehiculo.VehiculoRepository;
 import net.sf.jasperreports.engine.JRException;
 
 
-
-//@DomainService(nature= NatureOfService.VIEW_MENU_ONLY, objectType="simple.ReporteMenu")
-//@DomainServiceLayout(named="reportes")
-
 @DomainService(
         nature = NatureOfService.VIEW_MENU_ONLY,
-        objectType = "Reportes"
+        objectType = "ReporteMenu"
 )
 @DomainServiceLayout(
         named = "Reportes",
