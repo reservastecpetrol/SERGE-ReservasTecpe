@@ -20,7 +20,9 @@ package domainapp.application.services.homepage;
 
 import java.util.List;
 
+import org.apache.isis.applib.annotation.CollectionLayout;
 import org.apache.isis.applib.annotation.DomainObject;
+import org.apache.isis.applib.annotation.HomePage;
 import org.apache.isis.applib.annotation.Nature;
 import org.apache.isis.applib.annotation.Programmatic;
 
@@ -28,6 +30,8 @@ import domainapp.modules.simple.dom.impl.persona.Persona;
 import domainapp.modules.simple.dom.impl.persona.PersonaRepository;
 import domainapp.modules.simple.dom.impl.reservaHabitacion.ReservaHabitacion;
 import domainapp.modules.simple.dom.impl.reservaHabitacion.ReservaHabitacionRepository;
+import domainapp.modules.simple.dom.impl.reservaVehiculo.ReservaVehiculo;
+import domainapp.modules.simple.dom.impl.reservaVehiculo.ReservaVehiculoRepository;
 
 @DomainObject(
         nature = Nature.VIEW_MODEL,
@@ -35,19 +39,45 @@ import domainapp.modules.simple.dom.impl.reservaHabitacion.ReservaHabitacionRepo
 )
 public class HomePageViewModel {
 
+    public String title() {
+        return "SISTEMA DE RESERVAS TECPE";
+    }
 
-    public List<ReservaHabitacion> getReservas() {
+    @HomePage()
+    @CollectionLayout(named="Reservas de Vehiculos que Inician Hoy")
+    public List<ReservaVehiculo> getReservasVehiculosQueInicianHoy() {
+        return reservaVehiculoRepository.listarReservasQueInicianHoy();
+    }
+
+    @HomePage()
+    @CollectionLayout(named="Reservas de Vehiculos que Finalizan Hoy")
+    public List<ReservaVehiculo> getReservasVehiculosQueFinalizanHoy() {
+        return reservaVehiculoRepository.listarReservasQueFinalizanHoy();
+    }
+
+    @HomePage()
+    @CollectionLayout(named="Reservas de Habitaciones que Inician Hoy")
+    public List<ReservaHabitacion> getReservasHabitacionesQueInicianHoy() {
+        return reservaHabitacionRepository.listarReservasQueInicianHoy();
+    }
+
+    @HomePage()
+    @CollectionLayout(named="Reservas de Habitaciones que Finalizan Hoy")
+    public List<ReservaHabitacion> getReservasHabitacionesQueFinalizanHoy() {
+        return reservaHabitacionRepository.listarReservasQueFinalizanHoy();
+    }
+
+    @HomePage()
+    @CollectionLayout(named="Reservas Activas de Habitaciones")
+    public List<ReservaHabitacion> getReservasHabitaciones() {
         return reservaHabitacionRepository.listarReservasDeHabitacionesActivas();
     }
 
-    public String title() {
-        if (getReservas().size() < 1) {
-            return "Cargue Usuario y Habitacion primero para realizar una reserva";
-        } else {
-            return getReservas().size() + " reservas";
-        }
+    @HomePage()
+    @CollectionLayout(named="Reservas Activas de Vehiculos")
+    public List<ReservaVehiculo> getReservasVehiculos() {
+        return reservaVehiculoRepository.listarReservasDeVehiculosActivas();
     }
-
 
     @Programmatic
     public List<Persona> getObjects() {
@@ -60,4 +90,7 @@ public class HomePageViewModel {
 
     @javax.inject.Inject
     ReservaHabitacionRepository reservaHabitacionRepository;
+
+    @javax.inject.Inject
+    ReservaVehiculoRepository reservaVehiculoRepository;
 }
