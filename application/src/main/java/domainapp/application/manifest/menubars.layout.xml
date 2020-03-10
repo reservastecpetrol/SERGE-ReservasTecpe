@@ -56,9 +56,6 @@
             <mb3:serviceAction objectType="Persona" id="crearPersona">
                 <cpt:named>Crear Persona</cpt:named>
             </mb3:serviceAction>
-            <mb3:serviceAction objectType="Persona" id="generarReportePersonas">
-                <cpt:named>Exportar PDF Lista de Personas</cpt:named>
-            </mb3:serviceAction>
         </mb3:section>
         </mb3:menu>
         <mb3:menu>
@@ -78,9 +75,6 @@
             </mb3:serviceAction>
             <mb3:serviceAction objectType="Vehiculo" id="crearVehiculo">
                 <cpt:named>Crear Vehiculo</cpt:named>
-            </mb3:serviceAction>
-            <mb3:serviceAction objectType="Vehiculo" id="generarReporteVehiculosDisponibles">
-                <cpt:named>Exportar PDF Lista de Vehiculos Disponibles</cpt:named>
             </mb3:serviceAction>
         </mb3:section>
         </mb3:menu>
@@ -111,9 +105,6 @@
             <mb3:serviceAction objectType="Habitacion" id="crearHabitacion">
                 <cpt:named>Crear Habitacion</cpt:named>
             </mb3:serviceAction>
-            <mb3:serviceAction objectType="Habitacion" id="generarReporteHabitacionesDisponibles">
-                <cpt:named>Exportar PDF Lista de Habitaciones Disponibles</cpt:named>
-            </mb3:serviceAction>
         </mb3:section>
         </mb3:menu>
         <mb3:menu>
@@ -142,9 +133,6 @@
             </mb3:serviceAction>
             <mb3:serviceAction objectType="ReservaVehiculo" id="crearReserva">
                 <cpt:named>Crear Reserva</cpt:named>
-            </mb3:serviceAction>
-            <mb3:serviceAction objectType="ReservaVehiculo" id="generarReporteReservasVehiculosActivas">
-                <cpt:named>Exportar PDF Lista de Resevas Activas</cpt:named>
             </mb3:serviceAction>
             <mb3:serviceAction objectType="ReservaVehiculo" id="actualizarVehiculosDisponibles">
                 <cpt:named>Actualizar Vehiculos Disponibles</cpt:named>
@@ -178,16 +166,33 @@
             <mb3:serviceAction objectType="ReservaHabitacion" id="crearReservaDeHabitacion">
                 <cpt:named>Crear Reserva</cpt:named>
             </mb3:serviceAction>
-            <mb3:serviceAction objectType="ReservaHabitacion" id="generarReporteReservasHabitacionesActivas">
-                <cpt:named>Exportar PDF Lista de Resevas Activas</cpt:named>
-            </mb3:serviceAction>
             <mb3:serviceAction objectType="ReservaHabitacion" id="actualizarHabitacionesDisponibles">
                 <cpt:named>Actualizar Habitaciones Disponibles</cpt:named>
             </mb3:serviceAction>
         </mb3:section>
         </mb3:menu>
+        <mb3:menu>
+            <mb3:named>Reportes</mb3:named>
+            <mb3:section>
+                <mb3:serviceAction objectType="ReporteMenu" id="generarReportePersonas">
+                    <cpt:named>Reportes Personas</cpt:named>
+                </mb3:serviceAction>
+                <mb3:serviceAction objectType="ReporteMenu" id="generarReporteHabitacionesDisponibles">
+                    <cpt:named>Reportes Habitaciones Disponibles</cpt:named>
+                </mb3:serviceAction>
+                <mb3:serviceAction objectType="ReporteMenu" id="generarReporteVehiculosDisponibles">
+                    <cpt:named>Reportes Vehiculos Disponibles</cpt:named>
+                </mb3:serviceAction>
+                <mb3:serviceAction objectType="ReporteMenu" id="generarReporteReservasHabitacionesActivas">
+                    <cpt:named>Reportes Reservas Habitaciones Activas</cpt:named>
+                </mb3:serviceAction>
+                <mb3:serviceAction objectType="ReporteMenu" id="generarReporteReservasVehiculosActivas">
+                    <cpt:named>Reportes Reservas Vehiculos Activas</cpt:named>
+                </mb3:serviceAction>
+            </mb3:section>
+        </mb3:menu>
         <mb3:menu unreferencedActions="true">
-            <mb3:named>Other</mb3:named>
+            <mb3:named>Otros</mb3:named>
         </mb3:menu>
     </mb3:primary>
     <mb3:secondary>
