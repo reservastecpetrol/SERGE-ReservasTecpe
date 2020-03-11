@@ -246,10 +246,10 @@ public class ReservaVehiculoMenu {
 
 
     @Action(
-            semantics = SemanticsOf.SAFE
+          //  semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
-            bookmarking = BookmarkPolicy.AS_ROOT,
+       //     bookmarking = BookmarkPolicy.AS_ROOT,
             named = "Crear Reserva De Vehiculo"
     )
     @MemberOrder(sequence = "8")
