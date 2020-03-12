@@ -189,7 +189,7 @@ public class ReservaHabitacionMenu {
         return reservaHabitacionrepository.buscarReservasPorFechaDeReserva(fechaReserva);
     }
 
-    @Programmatic
+    //@Programmatic
     /**
      * Este metodo lista todos los usuarios que hay en el sistema de
      * forma que el administrador seleccione a uno en especifico
@@ -197,10 +197,10 @@ public class ReservaHabitacionMenu {
      * @return Collection<Persona>
      *
      */
-    public Collection<Persona> choices2CrearReservaDeHabitacion() {
+    /*public Collection<Persona> choices2CrearReservaDeHabitacion() {
         return personaRepository.listarPersonas();
     }
-
+*/
     @Programmatic
     /**
      * Este metodo realiza la validacion del ingreso de la fecha de inicio
@@ -265,9 +265,9 @@ public class ReservaHabitacionMenu {
     public ReservaHabitacion crearReservaDeHabitacion(
             @ParameterLayout(named="Fecha Inicio")final LocalDate fechaInicio,
             @ParameterLayout(named="Fecha Fin")final LocalDate fechaFin,
-            @ParameterLayout(named="Persona")final Persona persona
+            @ParameterLayout(named="Email")final String email
     ) {
-        return reservaHabitacionrepository.crearReservaDeHabitacion(fechaInicio,fechaFin,persona);
+        return reservaHabitacionrepository.crearReservaDeHabitacion(fechaInicio,fechaFin,email);
     }
 
     @Action(

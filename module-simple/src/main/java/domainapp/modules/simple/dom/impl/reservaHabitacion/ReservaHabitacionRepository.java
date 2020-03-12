@@ -393,6 +393,36 @@ public class ReservaHabitacionRepository {
         return habitacion;
     }
 
+    @Programmatic
+    public Persona recuperarPersonaPorEmail(String email){
+
+        Persona persona=new Persona();
+
+        boolean band=false;
+
+        List<Persona> listaPersonas=new ArrayList<Persona>();
+
+        listaPersonas=personaRepository.listarPersonas();
+
+        int i=0;
+
+        while(i<listaPersonas.size()&&(!band)){
+
+            Persona aux=listaPersonas.get(i);
+
+            if(aux.getEmail().equals(email)){
+                persona=aux;
+                band=true;
+            }
+            i++;
+        }
+
+        if(band==false){
+            persona=null;
+        }
+
+        return persona;
+    }
 
     public static class CreateDomainEvent extends ActionDomainEvent<SimpleObjects> {}
     //@Action(domainEvent = SimpleObjects.CreateDomainEvent.class)
@@ -411,43 +441,98 @@ public class ReservaHabitacionRepository {
 
             final LocalDate fechaInicio,
             final LocalDate fechaFin,
-            final Persona persona
+            final String email
     )
     {
         ReservaHabitacion reservaHabitacion=new ReservaHabitacion();
 
-        //Se obtiene la jerarquia que posse la persona ingresada
-        String jerarquia=persona.getJerarquia().toString();
+        Persona persona=new Persona();
 
-        //Se obtiene el sexo de la Persona ingresada
-        TipoSexo sexo=persona.getSexo();
+        persona=recuperarPersonaPorEmail(email);
 
-        //Se crea una lista de tipo habitacion
-        List<Habitacion> lista=new ArrayList<Habitacion>();
+        if(persona!=null) {
 
-        List<Habitacion> listaSimples=new ArrayList<Habitacion>();
+            //Se obtiene la jerarquia que posse la persona ingresada
+            String jerarquia = persona.getJerarquia().toString();
 
-        List<Habitacion> listaEstandares=new ArrayList<Habitacion>();
+            //Se obtiene el sexo de la Persona ingresada
+            TipoSexo sexo = persona.getSexo();
+            //Se crea una lista de tipo habitacion
+            List<Habitacion> lista = new ArrayList<Habitacion>();
 
-        Habitacion habitacion=new Habitacion();
+            List<Habitacion> listaSimples = new ArrayList<Habitacion>();
 
-        //Se recupera la lista de habitaciones correspondientes a una jerarquia en particular
-        lista=this.listaHabitacionesPorJerarquia(jerarquia);
+            List<Habitacion> listaEstandares = new ArrayList<Habitacion>();
 
-        int dimension=lista.size();
+            Habitacion habitacion = new Habitacion();
 
-        if(dimension>=1) {
+            //Se recupera la lista de habitaciones correspondientes a una jerarquia en particular
+            lista = this.listaHabitacionesPorJerarquia(jerarquia);
 
-            if((jerarquia=="Supervisores") || (jerarquia=="Operadores")){
+            int dimension = lista.size();
 
-                listaSimples=this.listaHabitacionSimple(lista);
+            if (dimension >= 1) {
 
-                listaEstandares=this.listaHabitacionEstandar(lista);
+                if ((jerarquia == "Supervisores") || (jerarquia == "Operadores")) {
 
+                    listaSimples = this.listaHabitacionSimple(lista);
 
-                if(listaSimples.size()>=1){
+                    listaEstandares = this.listaHabitacionEstandar(lista);
 
-                    habitacion=(Habitacion)listaSimples.get(0);
+                    if (listaSimples.size() >= 1) {
+
+                        habitacion = (Habitacion) listaSimples.get(0);
+
+                        habitacion.setEstado(EstadoHabitacion.OCUPADA);
+
+                        habitacion.setOcupante(sexo.toString());
+
+                        habitacion.setCantidadOcupante(1);
+
+                        reservaHabitacion.setFechaReserva(LocalDate.now());
+                        reservaHabitacion.setFechaInicio(fechaInicio);
+                        reservaHabitacion.setFechaFin(fechaFin);
+                        reservaHabitacion.setPersona(persona);
+                        reservaHabitacion.setHabitacion(habitacion);
+                        reservaHabitacion.setEstado(EstadoReserva.ACTIVA);
+
+                        repositoryService.persist(reservaHabitacion);
+
+                    } else {
+                        if (listaEstandares.size() >= 1) {
+
+                            habitacion = this.asignaHabitacionEstandarPersona(listaEstandares, sexo);
+
+                            if (habitacion != null) {
+                                if (habitacion.getCantidadOcupante() == 1) {
+                                    habitacion.setEstado(EstadoHabitacion.DISPONIBLE);
+
+                                } else {
+                                    habitacion.setEstado(EstadoHabitacion.OCUPADA);
+
+                                }
+
+                                reservaHabitacion.setFechaReserva(LocalDate.now());
+                                reservaHabitacion.setFechaInicio(fechaInicio);
+                                reservaHabitacion.setFechaFin(fechaFin);
+                                reservaHabitacion.setPersona(persona);
+                                reservaHabitacion.setHabitacion(habitacion);
+                                reservaHabitacion.setEstado(EstadoReserva.ACTIVA);
+
+                                repositoryService.persist(reservaHabitacion);
+
+                            } else {
+                                String mensaje = "No hay Habitaciones Disponibles para realizar reservas";
+                                messageService.informUser(mensaje);
+                            }
+                        } else {
+                            String mensaje = "No hay Habitaciones Disponibles para realizar reservas";
+                            messageService.informUser(mensaje);
+                        }
+                    }
+
+                } else {
+                    habitacion = (Habitacion) lista.get(0);
 
                     habitacion.setEstado(EstadoHabitacion.OCUPADA);
 
@@ -463,63 +548,16 @@ public class ReservaHabitacionRepository {
                     reservaHabitacion.setEstado(EstadoReserva.ACTIVA);
 
                     repositoryService.persist(reservaHabitacion);
-
-                }else{
-                    if(listaEstandares.size()>=1){
-
-                        habitacion=this.asignaHabitacionEstandarPersona(listaEstandares,sexo);
-
-                        if(habitacion!=null) {
-                            if(habitacion.getCantidadOcupante()==1){
-                                habitacion.setEstado(EstadoHabitacion.DISPONIBLE);
-
-                            }else{
-                                habitacion.setEstado(EstadoHabitacion.OCUPADA);
-
-                            }
-
-                            reservaHabitacion.setFechaReserva(LocalDate.now());
-                            reservaHabitacion.setFechaInicio(fechaInicio);
-                            reservaHabitacion.setFechaFin(fechaFin);
-                            reservaHabitacion.setPersona(persona);
-                            reservaHabitacion.setHabitacion(habitacion);
-                            reservaHabitacion.setEstado(EstadoReserva.ACTIVA);
-
-                            repositoryService.persist(reservaHabitacion);
-
-                        }else{
-                            String mensaje="No hay Habitaciones Disponibles para realizar reservas";
-                            messageService.informUser(mensaje);
-                        }
-                    }else {
-                        String mensaje="No hay Habitaciones Disponibles para realizar reservas";
-                        messageService.informUser(mensaje);
-                    }
                 }
-
-            }else{
-                habitacion=(Habitacion)lista.get(0);
-
-                habitacion.setEstado(EstadoHabitacion.OCUPADA);
-
-                habitacion.setOcupante(sexo.toString());
-
-                habitacion.setCantidadOcupante(1);
-
-                reservaHabitacion.setFechaReserva(LocalDate.now());
-                reservaHabitacion.setFechaInicio(fechaInicio);
-                reservaHabitacion.setFechaFin(fechaFin);
-                reservaHabitacion.setPersona(persona);
-                reservaHabitacion.setHabitacion(habitacion);
-                reservaHabitacion.setEstado(EstadoReserva.ACTIVA);
-
-                repositoryService.persist(reservaHabitacion);
+            } else {
+                String mensaje = "No hay Habitaciones Disponibles";
+                messageService.informUser(mensaje);
             }
-        }else {
-            String mensaje="No hay Habitaciones Disponibles";
+
+        }else{
+            String mensaje = "No hay usuario para el correo Ingresado";
             messageService.informUser(mensaje);
         }
-
         return reservaHabitacion;
     }
 
