@@ -5,14 +5,12 @@ import java.util.regex.Pattern;
 
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
-import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
-import org.apache.isis.applib.annotation.SemanticsOf;
 
 import domainapp.modules.simple.dom.impl.enums.ListaJerarquias;
 import domainapp.modules.simple.dom.impl.enums.TipoSexo;
@@ -38,10 +36,10 @@ import domainapp.modules.simple.dom.impl.enums.TipoSexo;
 public class PersonaMenu {
 
     @Action(
-            semantics = SemanticsOf.SAFE
+            //semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
-            bookmarking = BookmarkPolicy.AS_ROOT,
+            //bookmarking = BookmarkPolicy.AS_ROOT,
             named = "Listado de Personas"
     )
     @MemberOrder(sequence = "1")
@@ -56,10 +54,10 @@ public class PersonaMenu {
     }
 
     @Action(
-            semantics = SemanticsOf.SAFE
+            //semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
-            bookmarking = BookmarkPolicy.AS_ROOT,
+            //bookmarking = BookmarkPolicy.AS_ROOT,
             named = "Listado de Personas Ejecutivas"
     )
     @MemberOrder(sequence = "2")
@@ -74,10 +72,10 @@ public class PersonaMenu {
     }
 
     @Action(
-    semantics = SemanticsOf.SAFE
+    //semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
-            bookmarking = BookmarkPolicy.AS_ROOT,
+            //bookmarking = BookmarkPolicy.AS_ROOT,
             named = "Listado de Personas Supervisores"
     )
     @MemberOrder(sequence = "3")
@@ -92,10 +90,10 @@ public class PersonaMenu {
     }
 
     @Action(
-            semantics = SemanticsOf.SAFE
+            //semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
-            bookmarking = BookmarkPolicy.AS_ROOT,
+            //bookmarking = BookmarkPolicy.AS_ROOT,
             named = "Listado de Personas Operadores"
     )
     @MemberOrder(sequence = "4")
@@ -110,10 +108,10 @@ public class PersonaMenu {
     }
 
     @Action(
-            semantics = SemanticsOf.SAFE
+            //semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
-            bookmarking = BookmarkPolicy.AS_ROOT,
+            //bookmarking = BookmarkPolicy.AS_ROOT,
             named = "Buscar Persona por Nombre"
     )
     @MemberOrder(sequence = "5")
@@ -131,10 +129,10 @@ public class PersonaMenu {
     }
 
     @Action(
-            semantics = SemanticsOf.SAFE
+            //semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
-            bookmarking = BookmarkPolicy.AS_ROOT,
+            //bookmarking = BookmarkPolicy.AS_ROOT,
             named = "Crear Persona"
     )
     @MemberOrder(sequence = "6")

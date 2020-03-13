@@ -5,14 +5,12 @@ import java.util.regex.Pattern;
 
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
-import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
-import org.apache.isis.applib.annotation.SemanticsOf;
 
 @DomainService(
         nature = NatureOfService.VIEW_MENU_ONLY,
@@ -35,10 +33,10 @@ import org.apache.isis.applib.annotation.SemanticsOf;
 public class VehiculoMenu {
 
     @Action(
-            semantics = SemanticsOf.SAFE
+            //semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
-            bookmarking = BookmarkPolicy.AS_ROOT,
+            //bookmarking = BookmarkPolicy.AS_ROOT,
             named = "Listado de Vehiculos"
     )
     @MemberOrder(sequence = "1")
@@ -54,10 +52,10 @@ public class VehiculoMenu {
 
 
     @Action(
-            semantics = SemanticsOf.SAFE
+            //semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
-            bookmarking = BookmarkPolicy.AS_ROOT,
+            //bookmarking = BookmarkPolicy.AS_ROOT,
             named = "Listado de Vehiculos Disponibles"
     )
     @MemberOrder(sequence = "2")
@@ -73,10 +71,10 @@ public class VehiculoMenu {
 
 
     @Action(
-            semantics = SemanticsOf.SAFE
+            //semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
-            bookmarking = BookmarkPolicy.AS_ROOT,
+            //bookmarking = BookmarkPolicy.AS_ROOT,
             named = "Listado de Vehiculos Ocupados"
     )
     @MemberOrder(sequence = "3")
@@ -92,10 +90,10 @@ public class VehiculoMenu {
 
 
     @Action(
-            semantics = SemanticsOf.SAFE
+            //semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
-            bookmarking = BookmarkPolicy.AS_ROOT,
+            //bookmarking = BookmarkPolicy.AS_ROOT,
             named = "Buscar Vehiculo por Matricula"
     )
     @MemberOrder(sequence = "4")
@@ -117,10 +115,10 @@ public class VehiculoMenu {
 
 
     @Action(
-            semantics = SemanticsOf.SAFE
+            //semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
-            bookmarking = BookmarkPolicy.AS_ROOT,
+            //bookmarking = BookmarkPolicy.AS_ROOT,
             named = "Crear Vehiculo"
     )
     @MemberOrder(sequence = "5")
