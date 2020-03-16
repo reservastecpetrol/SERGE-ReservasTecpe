@@ -294,7 +294,7 @@ public class Habitacion implements Comparable<Habitacion> {
      * Este metodo permite eliminar la entidad de Habitacion
      */
     @Action(semantics = NON_IDEMPOTENT_ARE_YOU_SURE)
-    public void delete() {
+    public void eliminar() {
         final String title = titleService.titleOf(this);
         messageService.informUser(String.format("'%s' FUE ELIMINADA", title));
         repositoryService.remove(this);
