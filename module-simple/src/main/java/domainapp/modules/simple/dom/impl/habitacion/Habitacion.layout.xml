@@ -20,22 +20,22 @@
                                     <cpt:describedAs>Elimina la Habitacion de la Base de Datos</cpt:describedAs>
                                 </cpt:action>
                                 <cpt:property id="nombre" namedEscaped="true">
-                                    <cpt:action id="updateNombre" promptStyle="INLINE"/>
+                                    <cpt:action id="editarNombre" promptStyle="INLINE"/>
                                 </cpt:property>
                                 <cpt:property id="ubicacion" namedEscaped="true">
-                                    <cpt:action id="updateUbicacion" promptStyle="INLINE"/>
+                                    <cpt:action id="editarUbicacion" promptStyle="INLINE"/>
                                 </cpt:property>
                                 <cpt:property id="estado" namedEscaped="true">
-                                    <cpt:action id="updateEstado" promptStyle="INLINE"/>
+                                    <cpt:action id="editarEstado" promptStyle="INLINE"/>
                                 </cpt:property>
                                 <cpt:property id="categoria" namedEscaped="true">
-                                    <cpt:action id="updateCategoria" promptStyle="INLINE"/>
+                                    <cpt:action id="editarCategoria" promptStyle="INLINE"/>
                                 </cpt:property>
                                 <cpt:property id="ocupante" namedEscaped="true">
-                                    <cpt:action id="updateOcupante" promptStyle="INLINE"/>
+                                    <cpt:action id="editarOcupante" promptStyle="INLINE"/>
                                 </cpt:property>
                                 <cpt:property id="cantidadOcupante" namedEscaped="true">
-                                    <cpt:action id="updateCantidadOcupante" promptStyle="INLINE"/>
+                                    <cpt:action id="editarCantidadOcupante" promptStyle="INLINE"/>
                                 </cpt:property>
                             </cpt:fieldSet>
                         </bs3:col>
