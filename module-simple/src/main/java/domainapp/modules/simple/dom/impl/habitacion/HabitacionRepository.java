@@ -227,7 +227,6 @@ public class HabitacionRepository {
                 .executeUnique();
     }
 
-
     public static class CreateDomainEvent extends ActionDomainEvent<SimpleObjects> {}
     @Programmatic
     //@Action(domainEvent = SimpleObjects.CreateDomainEvent.class)
@@ -238,12 +237,12 @@ public class HabitacionRepository {
      *
      * @param nombre
      * @param ubicacion
-     * @param categoris
+     * @param categoria
      *
      * @return Habitacion
      *
      */
-    public Habitacion crearHabitacion(
+    public void crearHabitacion(
            // @ParameterLayout(named="Nombre")
             final String nombre,
            // @ParameterLayout(named="Ubicacion")
@@ -253,9 +252,10 @@ public class HabitacionRepository {
     )
     {
 
-        Habitacion habitacion=new Habitacion();
-
         if (verificarHabitacion(nombre.toUpperCase())==null) {
+
+            Habitacion habitacion=new Habitacion();
+
             EstadoHabitacion estado=EstadoHabitacion.DISPONIBLE;
 
             String ocupante="DESOCUPADA";
@@ -268,8 +268,6 @@ public class HabitacionRepository {
             String mensaje="Esta Habitacion ya se encuentra cargada en el sistema!";
             messageService.informUser(mensaje);
         }
-
-        return habitacion;
     }
 
     //@Action(semantics = SemanticsOf.SAFE)

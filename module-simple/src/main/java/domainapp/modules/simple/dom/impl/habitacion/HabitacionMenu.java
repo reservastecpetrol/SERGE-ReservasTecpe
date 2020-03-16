@@ -180,17 +180,17 @@ public class HabitacionMenu {
      *
      * @param nombre
      * @param ubicacion
-     * @param categoris
+     * @param categoria
      *
      * @return Habitacion
      *
      */
-    public Habitacion crearHabitacion(
+    public void crearHabitacion(
             @ParameterLayout(named="Numero") final String nombre,
             @ParameterLayout(named="Ubicacion")final String ubicacion,
             @ParameterLayout(named="Categoria") ListaHabitaciones categoria
     ){
-        return habitacionrepository.crearHabitacion(nombre,ubicacion,categoria);
+        habitacionrepository.crearHabitacion(nombre,ubicacion,categoria);
     }
 
 
