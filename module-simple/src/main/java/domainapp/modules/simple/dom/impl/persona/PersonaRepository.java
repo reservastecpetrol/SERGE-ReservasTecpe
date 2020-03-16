@@ -190,7 +190,7 @@ public class PersonaRepository {
      *
      * @return Persona
      */
-    public Persona crearPersona(
+    public void crearPersona(
             //@Parameter(
             //        regexPattern = "[A-Za-z ]+",
             //        regexPatternFlags = Pattern.CASE_INSENSITIVE,
@@ -239,9 +239,9 @@ public class PersonaRepository {
                     TipoSexo sexo
 
     ) {
-        Persona persona=new Persona();
-
         if (verificarUsuario(dni) == null) {
+
+            Persona persona=new Persona();
 
              persona=new Persona(nombre.toUpperCase(), apellido.toUpperCase(), direccion.toUpperCase(), telefono, email,
                     dni, jerarquias, sexo);
@@ -252,8 +252,6 @@ public class PersonaRepository {
             String mensaje = "Este Usuario ya se encuentra cargado en el sistema!";
             messageService.informUser(mensaje);
         }
-
-        return persona;
     }
 
     @Programmatic

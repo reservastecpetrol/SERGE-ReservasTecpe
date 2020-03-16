@@ -152,7 +152,7 @@ public class PersonaMenu {
      *
      * @return Persona
      */
-    public Persona crearPersona(
+    public void crearPersona(
 
             @Parameter(
                     regexPattern = "[A-Za-z ]+",
@@ -195,7 +195,7 @@ public class PersonaMenu {
 
 
     ) {
-        return personarepository.crearPersona(nombre,apellido,direccion,telefono,email,dni,jerarquias,sexo);
+        personarepository.crearPersona(nombre,apellido,direccion,telefono,email,dni,jerarquias,sexo);
     }
 
 
