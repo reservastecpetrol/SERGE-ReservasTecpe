@@ -172,7 +172,7 @@ public class Habitacion implements Comparable<Habitacion> {
      * @return Habitacion
      */
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "nombre")
-    public Habitacion updateNombre(
+    public Habitacion editarNombre(
             @Parameter(maxLength = 40)
             @ParameterLayout(named = "nombre")
             final String nombre) {
@@ -188,7 +188,7 @@ public class Habitacion implements Comparable<Habitacion> {
      * @return Habitacion
      */
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith ="ubicacion")
-    public Habitacion updateUbicacion(
+    public Habitacion editarUbicacion(
             @Parameter(maxLength = 40)
             @ParameterLayout(named = "Ubicacion")
             final String ubicacion) {
@@ -204,7 +204,7 @@ public class Habitacion implements Comparable<Habitacion> {
      * @return Habitacion
      */
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "categoria")
-    public ListaHabitaciones updateCategoria(
+    public ListaHabitaciones editarCategoria(
             @Parameter(maxLength = 40)
             @ParameterLayout(named = "Categorias")
             final ListaHabitaciones categoria) {
@@ -220,7 +220,7 @@ public class Habitacion implements Comparable<Habitacion> {
      * @return Habitacion
      */
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith ="estado")
-    public Habitacion updateEstado(
+    public Habitacion editarEstado(
             @Parameter(maxLength = 40)
             @ParameterLayout(named = "estado")
             final EstadoHabitacion estado) {
@@ -235,7 +235,7 @@ public class Habitacion implements Comparable<Habitacion> {
      * @return Habitacion
      */
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith ="ocupante")
-    public Habitacion updateOcupante(
+    public Habitacion editarOcupante(
             @Parameter(maxLength = 40)
             @ParameterLayout(named = "ocupante")
             final String ocupante) {
@@ -250,7 +250,7 @@ public class Habitacion implements Comparable<Habitacion> {
      * @return Habitacion
      */
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith ="cantidadOcupante")
-    public Habitacion updateCantidadOcupante(
+    public Habitacion editarCantidadOcupante(
             @Parameter(maxLength = 40)
             @ParameterLayout(named = "cantidadOcupante")
             final int cantidadOcupante) {
@@ -258,7 +258,7 @@ public class Habitacion implements Comparable<Habitacion> {
         return this;
     }
     
-    public String default0UpdateNombre() {
+    public String default0EditarNombre() {
         return getNombre();
     }
 
@@ -270,11 +270,11 @@ public class Habitacion implements Comparable<Habitacion> {
      * @param nombre
      * @return TranslatableString
      */
-    public TranslatableString validate0UpdateNombre(final String nombre) {
+    public TranslatableString validate0EditarNombre(final String nombre) {
         return nombre != null && nombre.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
     }
 
-    public String default0UpdateUbicacion() {
+    public String default0EditarUbicacion() {
         return getUbicacion();
     }
 
@@ -286,7 +286,7 @@ public class Habitacion implements Comparable<Habitacion> {
      * @param ubicacion
      * @return TranslatableString
      */
-    public TranslatableString validate0UpdateUbicacion(final String ubicacion) {
+    public TranslatableString validate0EditarUbicacion(final String ubicacion) {
         return ubicacion != null && ubicacion.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
     }
 
