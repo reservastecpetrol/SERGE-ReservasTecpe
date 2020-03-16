@@ -241,17 +241,17 @@ public class ReservaVehiculoRepository {
      * @param persona
      *
      */
-    public ReservaVehiculo crearReserva(
+    public void crearReserva(
             final LocalDate fechaInicio,
             final LocalDate fechaFin,
             final Persona persona
     )
     {
-        ReservaVehiculo reservaVehiculo=new ReservaVehiculo();
-
         int i=vehiculoRepository.listarVehiculosPorEstado(EstadoVehiculo.DISPONIBLE).size();
 
         if(i>=1) {
+
+            ReservaVehiculo reservaVehiculo=new ReservaVehiculo();
 
             Vehiculo vehiculo = vehiculoRepository.listarVehiculosPorEstado(EstadoVehiculo.DISPONIBLE).get(0);
 
@@ -270,8 +270,6 @@ public class ReservaVehiculoRepository {
             String mensaje="No hay Vehiculos Disponibles";
             messageService.informUser(mensaje);
         }
-
-        return reservaVehiculo;
     }
 
 

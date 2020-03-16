@@ -260,12 +260,12 @@ public class ReservaVehiculoMenu {
      * @param persona
      *
      */
-    public ReservaVehiculo crearReserva(
+    public void crearReserva(
             @ParameterLayout(named="Fecha Inicio")final LocalDate fechaInicio,
             @ParameterLayout(named="Fecha Fin")final LocalDate fechaFin,
             @ParameterLayout(named="Persona")final Persona persona
     ) {
-        return reservaVehiculorepository.crearReserva(fechaInicio,fechaFin,persona);
+        reservaVehiculorepository.crearReserva(fechaInicio,fechaFin,persona);
     }
 
     @Action(
