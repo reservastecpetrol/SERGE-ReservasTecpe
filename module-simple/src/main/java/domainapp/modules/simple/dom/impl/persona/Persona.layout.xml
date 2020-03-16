@@ -16,8 +16,8 @@
                     <bs3:row>
                         <bs3:col span="12">
                             <cpt:fieldSet name="General">
-                                <cpt:action id="delete">
-                                    <cpt:describedAs>Deletes this object from the persistent datastore</cpt:describedAs>
+                                <cpt:action id="eliminar">
+                                    <cpt:describedAs>Elimina a la Persona de la Base de Datos</cpt:describedAs>
                                 </cpt:action>
                                 <cpt:property id="nombre" namedEscaped="true">
                                     <cpt:action id="editarNombre" promptStyle="INLINE"/>

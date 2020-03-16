@@ -352,7 +352,7 @@ public class Persona implements Comparable<Persona> {
      * Este metodo permite eliminar la entidad de Persona
      */
     @Action(semantics = NON_IDEMPOTENT_ARE_YOU_SURE)
-    public void delete() {
+    public void eliminar() {
         final String title = titleService.titleOf(this);
         messageService.informUser(String.format("'%s' deleted", title));
         repositoryService.remove(this);
