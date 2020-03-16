@@ -22,8 +22,8 @@
                                 <cpt:action id="finalizar">
                                     <cpt:describedAs>Finaliza la reserva realizada en el sistema</cpt:describedAs>
                                 </cpt:action>
-                                <cpt:action id="delete">
-                                    <cpt:describedAs>Deletes this object from the persistent datastore</cpt:describedAs>
+                                <cpt:action id="eliminar">
+                                    <cpt:describedAs>Elimina la Reserva de la Base de Datos</cpt:describedAs>
                                 </cpt:action>
                                 <cpt:property id="fechaReserva" namedEscaped="true">
                                 </cpt:property>
