@@ -219,7 +219,7 @@ public class ReservaVehiculo implements Comparable<ReservaVehiculo>, CalendarEve
      * Este metodo permite eliminar la entidad de ReservaVehiculo del sistema
      */
     @Action(semantics = NON_IDEMPOTENT_ARE_YOU_SURE)
-    public void delete() {
+    public void eliminar() {
         final String title = titleService.titleOf(this);
         messageService.informUser(String.format("'%s' deleted", title));
         this.vehiculo.setEstado(EstadoVehiculo.DISPONIBLE);
