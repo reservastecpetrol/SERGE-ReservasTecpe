@@ -178,7 +178,7 @@ public class Vehiculo implements Comparable<Vehiculo> {
      * @return Vehiculo
      */
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "matricula")
-    public Vehiculo updateMatricula(
+    public Vehiculo editarMatricula(
             @Parameter(maxLength = 40)
             @ParameterLayout(named = "Matricula")
             final String matricula) {
@@ -195,7 +195,7 @@ public class Vehiculo implements Comparable<Vehiculo> {
      * @return Vehiculo
      */
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "marca")
-    public Vehiculo updateMarca(
+    public Vehiculo editarMarca(
             @Parameter(maxLength = 40)
             @ParameterLayout(named = "Marca")
             final String marca) {
@@ -212,7 +212,7 @@ public class Vehiculo implements Comparable<Vehiculo> {
      * @return Vehiculo
      */
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "modelo")
-    public Vehiculo updateModelo(
+    public Vehiculo editarModelo(
             @Parameter(maxLength = 40)
             @ParameterLayout(named = "Modelo")
             final String modelo) {
@@ -229,7 +229,7 @@ public class Vehiculo implements Comparable<Vehiculo> {
      * @return Vehiculo
      */
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "color")
-    public Vehiculo updateColor(
+    public Vehiculo editarColor(
             @Parameter(maxLength = 40)
             @ParameterLayout(named = "Color")
             final String color) {
@@ -246,7 +246,7 @@ public class Vehiculo implements Comparable<Vehiculo> {
      * @return Vehiculo
      */
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "combustible")
-    public Vehiculo updateCombustible(
+    public Vehiculo editarCombustible(
             @ParameterLayout(named = "Combustible")
             final boolean combustible) {
         setCombustible(combustible);
@@ -262,7 +262,7 @@ public class Vehiculo implements Comparable<Vehiculo> {
      * @return Vehiculo
      */
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "seguro")
-    public Vehiculo updateSeguro(
+    public Vehiculo editarSeguro(
             @ParameterLayout(named = "Seguro")
             final boolean seguro) {
         setSeguro(seguro);
@@ -278,7 +278,7 @@ public class Vehiculo implements Comparable<Vehiculo> {
      * @return Vehiculo
      */
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith ="ubicacion")
-    public Vehiculo updateUbicacion(
+    public Vehiculo editarUbicacion(
             @Parameter(maxLength = 40)
             @ParameterLayout(named = "Ubicacion")
             final String ubicacion) {
@@ -294,7 +294,7 @@ public class Vehiculo implements Comparable<Vehiculo> {
      * @return Vehiculo
      */
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith ="estado")
-    public Vehiculo updateEstado(
+    public Vehiculo editarEstado(
             @Parameter(maxLength = 40)
             @ParameterLayout(named = "estado")
             final EstadoVehiculo estado) {
@@ -303,7 +303,7 @@ public class Vehiculo implements Comparable<Vehiculo> {
     }
 
 
-    public String default0UpdateMatricula() {
+    public String default0EditarMatricula() {
         return getMatricula();
     }
 
@@ -315,11 +315,11 @@ public class Vehiculo implements Comparable<Vehiculo> {
      * @param matricula
      * @return TranslatableString
      */
-    public TranslatableString validate0UpdateMatricula(final String matricula) {
+    public TranslatableString validate0EditarMatricula(final String matricula) {
         return matricula != null && matricula.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
     }
 
-    public String default0UpdateMarca() {
+    public String default0EditarMarca() {
         return getMarca();
     }
 
@@ -331,7 +331,7 @@ public class Vehiculo implements Comparable<Vehiculo> {
      * @param marca
      * @return TranslatableString
      */
-    public TranslatableString validate0UpdateMarca(final String marca) {
+    public TranslatableString validate0EditarMarca(final String marca) {
         return marca != null && marca.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
     }
 
@@ -343,7 +343,7 @@ public class Vehiculo implements Comparable<Vehiculo> {
      * @param color
      * @return TranslatableString
      */
-    public TranslatableString validate0UpdateColor(final String color) {
+    public TranslatableString validate0EditarColor(final String color) {
         return color != null && color.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
     }
 
@@ -355,7 +355,7 @@ public class Vehiculo implements Comparable<Vehiculo> {
      * @param modelo
      * @return TranslatableString
      */
-    public TranslatableString validate0UpdateModelo(final String modelo) {
+    public TranslatableString validate0EditarModelo(final String modelo) {
         return modelo != null && modelo.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
     }
 
@@ -367,7 +367,7 @@ public class Vehiculo implements Comparable<Vehiculo> {
      * @param ubicacion
      * @return TranslatableString
      */
-    public TranslatableString validate0UpdateUbicacion(final String ubicacion) {
+    public TranslatableString validate0EditarUbicacion(final String ubicacion) {
         return ubicacion != null && ubicacion.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
     }
 
