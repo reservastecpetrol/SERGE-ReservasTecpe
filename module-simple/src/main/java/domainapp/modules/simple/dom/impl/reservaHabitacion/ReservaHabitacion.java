@@ -260,7 +260,7 @@ public class ReservaHabitacion implements Comparable<ReservaHabitacion>,Calendar
      * Este metodo permite eliminar la entidad de ReservaHabitacion del sistema
      */
     @Action(semantics = NON_IDEMPOTENT_ARE_YOU_SURE)
-    public void delete() {
+    public void eliminar() {
         final String title = titleService.titleOf(this);
         messageService.informUser(String.format("'%s' deleted", title));
 
