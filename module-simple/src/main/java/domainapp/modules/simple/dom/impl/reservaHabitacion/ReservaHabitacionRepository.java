@@ -434,23 +434,23 @@ public class ReservaHabitacionRepository {
      *
      * @param fechaInicio
      * @param fechaFin
-     * @param persona
+     * @param email
      *
      */
-    public ReservaHabitacion crearReservaDeHabitacion(
+    public void crearReservaDeHabitacion(
 
             final LocalDate fechaInicio,
             final LocalDate fechaFin,
             final String email
     )
     {
-        ReservaHabitacion reservaHabitacion=new ReservaHabitacion();
-
         Persona persona=new Persona();
 
         persona=recuperarPersonaPorEmail(email);
 
         if(persona!=null) {
+
+            ReservaHabitacion reservaHabitacion=new ReservaHabitacion();
 
             //Se obtiene la jerarquia que posse la persona ingresada
             String jerarquia = persona.getJerarquia().toString();
@@ -558,7 +558,6 @@ public class ReservaHabitacionRepository {
             String mensaje = "No hay usuario para el correo Ingresado";
             messageService.informUser(mensaje);
         }
-        return reservaHabitacion;
     }
 
 

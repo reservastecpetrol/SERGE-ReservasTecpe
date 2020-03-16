@@ -256,15 +256,15 @@ public class ReservaHabitacionMenu {
      *
      * @param fechaInicio
      * @param fechaFin
-     * @param persona
+     * @param email
      *
      */
-    public ReservaHabitacion crearReservaDeHabitacion(
+    public void crearReservaDeHabitacion(
             @ParameterLayout(named="Fecha Inicio")final LocalDate fechaInicio,
             @ParameterLayout(named="Fecha Fin")final LocalDate fechaFin,
             @ParameterLayout(named="Email")final String email
     ) {
-        return reservaHabitacionrepository.crearReservaDeHabitacion(fechaInicio,fechaFin,email);
+        reservaHabitacionrepository.crearReservaDeHabitacion(fechaInicio,fechaFin,email);
     }
 
     @Action(
