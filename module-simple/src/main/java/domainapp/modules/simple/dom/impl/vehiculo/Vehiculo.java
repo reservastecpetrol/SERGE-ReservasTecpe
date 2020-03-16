@@ -375,7 +375,7 @@ public class Vehiculo implements Comparable<Vehiculo> {
      * Este metodo permite eliminar la entidad de Vehiculo
      */
     @Action(semantics = NON_IDEMPOTENT_ARE_YOU_SURE)
-    public void delete() {
+    public void eliminar() {
         final String title = titleService.titleOf(this);
         messageService.informUser(String.format("'%s' FUE ELIMINADO", title));
         repositoryService.remove(this);
