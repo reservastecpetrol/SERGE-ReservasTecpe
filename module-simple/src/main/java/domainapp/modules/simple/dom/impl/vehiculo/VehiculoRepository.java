@@ -177,7 +177,7 @@ public class VehiculoRepository {
      *
      * @return Vehiculo
      */
-    public Vehiculo crearVehiculo(
+    public void crearVehiculo(
             final String matricula,
             final String marca,
             final String color,
@@ -187,9 +187,10 @@ public class VehiculoRepository {
             final String ubicacion
     )
     {
-        Vehiculo vehiculo=new Vehiculo();
-
         if (verificarVehiculo(matricula.toUpperCase())==null) {
+
+            Vehiculo vehiculo=new Vehiculo();
+
             EstadoVehiculo estado=EstadoVehiculo.DISPONIBLE;
 
             repositoryService.persist(vehiculo=new Vehiculo(matricula.toUpperCase(),marca.toUpperCase(),color.toUpperCase(),modelo.toUpperCase(),combustible,seguro,ubicacion.toUpperCase(),estado));
@@ -198,8 +199,6 @@ public class VehiculoRepository {
             String mensaje="Este Vehiculo ya se encuentra cargado en el sistema!";
             messageService.informUser(mensaje);
         }
-
-        return vehiculo;
     }
 
     //@Action(semantics = SemanticsOf.SAFE)

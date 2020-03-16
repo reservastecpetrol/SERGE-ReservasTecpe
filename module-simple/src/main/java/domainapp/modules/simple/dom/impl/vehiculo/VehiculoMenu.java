@@ -137,7 +137,7 @@ public class VehiculoMenu {
      *
      * @return Vehiculo
      */
-    public Vehiculo crearVehiculo(
+    public void crearVehiculo(
             @Parameter(
                     regexPattern = "[a-z]{2} [0-9]{3} [a-z]{2}",
                     regexPatternFlags = Pattern.CASE_INSENSITIVE,
@@ -161,8 +161,7 @@ public class VehiculoMenu {
             @ParameterLayout(named="Seguro") final boolean seguro,
             @ParameterLayout(named="Ubicacion")final String ubicacion
     ) {
-
-        return vehiculorepository.crearVehiculo(matricula,marca,color,modelo,combustible,seguro,ubicacion);
+        vehiculorepository.crearVehiculo(matricula,marca,color,modelo,combustible,seguro,ubicacion);
     }
 
 
