@@ -177,7 +177,7 @@ public class Persona implements Comparable<Persona> {
      * @return Persona
      */
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "nombre")
-    public Persona updateNombre(
+    public Persona editarNombre(
             @Parameter(maxLength = 40)
             @ParameterLayout(named = "Nombre")
             final String nombre) {
@@ -192,7 +192,7 @@ public class Persona implements Comparable<Persona> {
      * @return Persona
      */
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "apellido")
-    public Persona updateApellido(
+    public Persona editarApellido(
             @Parameter(maxLength = 40)
             @ParameterLayout(named = "Apellido")
             final String apellido) {
@@ -207,7 +207,7 @@ public class Persona implements Comparable<Persona> {
      * @return Persona
      */
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "direccion")
-    public Persona updateDireccion(
+    public Persona editarDireccion(
             @Parameter(maxLength = 40)
             @ParameterLayout(named = "Direccion")
             final String direccion) {
@@ -222,7 +222,7 @@ public class Persona implements Comparable<Persona> {
      * @return Persona
      */
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "telefono")
-    public Persona updateTelefono(
+    public Persona editarTelefono(
             @Parameter(maxLength = 40)
             @ParameterLayout(named = "Telefono")
             final String telefono) {
@@ -237,7 +237,7 @@ public class Persona implements Comparable<Persona> {
      * @return Persona
      */
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "email")
-    public Persona updateEmail(
+    public Persona editarEmail(
             @Parameter(maxLength = 40)
             @ParameterLayout(named = "Email")
             final String email) {
@@ -253,7 +253,7 @@ public class Persona implements Comparable<Persona> {
      * @return Persona
      */
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "dni")
-    public Persona updateDni(
+    public Persona editarDni(
             @Parameter(maxLength = 40)
             @ParameterLayout(named = "Dni")
             final String dni) {
@@ -268,7 +268,7 @@ public class Persona implements Comparable<Persona> {
      * @return Persona
      */
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "jerarquia")
-    public ListaJerarquias updateJerarquia(
+    public ListaJerarquias editarJerarquia(
             @Parameter(maxLength = 40)
             @ParameterLayout(named = "Jerarquias")
             final ListaJerarquias jerarquia) {
@@ -283,7 +283,7 @@ public class Persona implements Comparable<Persona> {
      * @return Persona
      */
     @Action(semantics = IDEMPOTENT, command = ENABLED, publishing = Publishing.ENABLED, associateWith = "sexo")
-    public TipoSexo updateSexo(
+    public TipoSexo editarSexo(
             @Parameter(maxLength = 40)
             @ParameterLayout(named = "Sexo")
             final TipoSexo sexo) {
@@ -292,7 +292,7 @@ public class Persona implements Comparable<Persona> {
     }
 
 
-    public String default0UpdateNombre() {
+    public String default0EditarNombre() {
         return getNombre();
     }
 
@@ -304,12 +304,12 @@ public class Persona implements Comparable<Persona> {
      * @param nombre
      * @return TranslatableString
      */
-    public TranslatableString validate0UpdateNombre(final String nombre) {
+    public TranslatableString validate0EditarNombre(final String nombre) {
         return nombre != null && nombre.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
     }
 
 
-    public String default0UpdateApellido() {
+    public String default0EditarApellido() {
         return getApellido();
     }
 
@@ -321,7 +321,7 @@ public class Persona implements Comparable<Persona> {
      * @param apellido
      * @return TranslatableString
      */
-    public TranslatableString validate0UpdateApellido(final String apellido) {
+    public TranslatableString validate0EditarApellido(final String apellido) {
         return apellido != null && apellido.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
     }
 
@@ -333,7 +333,7 @@ public class Persona implements Comparable<Persona> {
      * @param direccion
      * @return TranslatableString
      */
-    public TranslatableString validate0UpdateDireccion(final String direccion) {
+    public TranslatableString validate0EditarDireccion(final String direccion) {
         return direccion != null && direccion.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
     }
 
@@ -344,7 +344,7 @@ public class Persona implements Comparable<Persona> {
      * @param telefono
      * @return TranslatableString
      */
-    public TranslatableString validate0UpdateTelefono(final String telefono) {
+    public TranslatableString validate0EditarTelefono(final String telefono) {
         return telefono != null && telefono.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
     }
 
