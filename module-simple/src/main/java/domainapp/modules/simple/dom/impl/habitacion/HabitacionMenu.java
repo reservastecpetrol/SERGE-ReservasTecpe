@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
+import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
+import org.apache.isis.applib.annotation.SemanticsOf;
 
 import domainapp.modules.simple.dom.impl.enums.ListaHabitaciones;
 @DomainService(
@@ -32,10 +34,10 @@ import domainapp.modules.simple.dom.impl.enums.ListaHabitaciones;
 public class HabitacionMenu {
 
     @Action(
-            //semantics = SemanticsOf.SAFE
+            semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
-            //bookmarking = BookmarkPolicy.AS_ROOT,
+            bookmarking = BookmarkPolicy.AS_ROOT,
             named = "Listado de Habitaciones"
     )
     @MemberOrder(sequence = "1")
@@ -51,10 +53,10 @@ public class HabitacionMenu {
 
 
     @Action(
-            //semantics = SemanticsOf.SAFE
+            semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
-            //bookmarking = BookmarkPolicy.AS_ROOT,
+            bookmarking = BookmarkPolicy.AS_ROOT,
             named = "Listado de Habitaciones Disponibles"
     )
     @MemberOrder(sequence = "2")
@@ -69,10 +71,10 @@ public class HabitacionMenu {
     }
 
     @Action(
-            //semantics = SemanticsOf.SAFE
+            semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
-            //bookmarking = BookmarkPolicy.AS_ROOT,
+            bookmarking = BookmarkPolicy.AS_ROOT,
             named = "Listado de Habitaciones Ocupadas"
     )
     @MemberOrder(sequence = "3")
@@ -88,10 +90,10 @@ public class HabitacionMenu {
 
 
     @Action(
-            //semantics = SemanticsOf.SAFE
+            semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
-            //bookmarking = BookmarkPolicy.AS_ROOT,
+            bookmarking = BookmarkPolicy.AS_ROOT,
             named = "Listado de Habitaciones Simples"
     )
     @MemberOrder(sequence = "4")
@@ -107,10 +109,10 @@ public class HabitacionMenu {
 
 
     @Action(
-            //semantics = SemanticsOf.SAFE
+            semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
-            //bookmarking = BookmarkPolicy.AS_ROOT,
+            bookmarking = BookmarkPolicy.AS_ROOT,
             named = "Listado de Habitaciones Ejecutivas"
     )
     @MemberOrder(sequence = "5")
@@ -125,10 +127,10 @@ public class HabitacionMenu {
     }
 
     @Action(
-            //semantics = SemanticsOf.SAFE
+            semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
-            //bookmarking = BookmarkPolicy.AS_ROOT,
+            bookmarking = BookmarkPolicy.AS_ROOT,
             named = "Listado de Habitaciones Estandar"
     )
     @MemberOrder(sequence = "6")
