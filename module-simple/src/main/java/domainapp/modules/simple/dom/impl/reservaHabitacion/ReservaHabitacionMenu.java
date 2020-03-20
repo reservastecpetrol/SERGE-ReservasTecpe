@@ -7,12 +7,14 @@ import org.joda.time.LocalDate;
 
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
+import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Programmatic;
+import org.apache.isis.applib.annotation.SemanticsOf;
 
 import domainapp.modules.simple.dom.impl.habitacion.HabitacionRepository;
 import domainapp.modules.simple.dom.impl.persona.Persona;
@@ -38,11 +40,11 @@ import domainapp.modules.simple.dom.impl.persona.PersonaRepository;
 public class ReservaHabitacionMenu {
 
     @Action(
-            //semantics = SemanticsOf.SAFE,
+            semantics = SemanticsOf.SAFE
             //restrictTo = RestrictTo.PROTOTYPING
     )
     @ActionLayout(
-            //bookmarking = BookmarkPolicy.AS_ROOT,
+            bookmarking = BookmarkPolicy.AS_ROOT,
             named = "Listado de Reservas de Habitaciones"
     )
     @MemberOrder(sequence = "1")
@@ -57,10 +59,10 @@ public class ReservaHabitacionMenu {
     }
 
     @Action(
-            //semantics = SemanticsOf.SAFE
+            semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
-            //bookmarking = BookmarkPolicy.AS_ROOT,
+            bookmarking = BookmarkPolicy.AS_ROOT,
             named = "Listado de Reservas de Habitaciones Activas"
     )
     @MemberOrder(sequence = "2")
@@ -75,10 +77,10 @@ public class ReservaHabitacionMenu {
     }
 
     @Action(
-            //semantics = SemanticsOf.SAFE
+            semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
-            //bookmarking = BookmarkPolicy.AS_ROOT,
+            bookmarking = BookmarkPolicy.AS_ROOT,
             named = "Listado de Reservas de Habitaciones Canceladas"
     )
     @MemberOrder(sequence = "3")
@@ -129,10 +131,10 @@ public class ReservaHabitacionMenu {
 
 
     @Action(
-            //semantics = SemanticsOf.SAFE
+            semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
-            //bookmarking = BookmarkPolicy.AS_ROOT,
+            bookmarking = BookmarkPolicy.AS_ROOT,
             named = "Listado de Reservas de Habitaciones que Inician Hoy"
     )
     @MemberOrder(sequence = "5")
@@ -147,10 +149,10 @@ public class ReservaHabitacionMenu {
     }
 
     @Action(
-            //semantics = SemanticsOf.SAFE
+            semantics = SemanticsOf.SAFE
     )
     @ActionLayout(
-            //bookmarking = BookmarkPolicy.AS_ROOT,
+            bookmarking = BookmarkPolicy.AS_ROOT,
             named = "Listado de Reservas de Habitaciones que Finalizan Hoy"
     )
     @MemberOrder(sequence = "6")
