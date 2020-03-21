@@ -227,6 +227,36 @@ public class ReservaVehiculoRepository {
         return reservas;
     }
 
+    @Programmatic
+    public Persona recuperarPersonaPorEmail(String email){
+
+        Persona persona=new Persona();
+
+        boolean band=false;
+
+        List<Persona> listaPersonas=new ArrayList<Persona>();
+
+        listaPersonas=personaRepository.listarPersonas();
+
+        int i=0;
+
+        while(i<listaPersonas.size()&&(!band)){
+
+            Persona aux=listaPersonas.get(i);
+
+            if(aux.getEmail().equals(email)){
+                persona=aux;
+                band=true;
+            }
+            i++;
+        }
+
+        if(band==false){
+            persona=null;
+        }
+
+        return persona;
+    }
 
     public static class CreateDomainEvent extends ActionDomainEvent<SimpleObjects> {}
     //@Action(domainEvent = SimpleObjects.CreateDomainEvent.class)
@@ -238,36 +268,47 @@ public class ReservaVehiculoRepository {
      *
      * @param fechaInicio
      * @param fechaFin
-     * @param persona
+     * @param email
      *
      */
     public void crearReserva(
             final LocalDate fechaInicio,
             final LocalDate fechaFin,
-            final Persona persona
+            final String email
     )
     {
-        int i=vehiculoRepository.listarVehiculosPorEstado(EstadoVehiculo.DISPONIBLE).size();
+        Persona persona=new Persona();
 
-        if(i>=1) {
+        persona=recuperarPersonaPorEmail(email);
 
-            ReservaVehiculo reservaVehiculo=new ReservaVehiculo();
+        if(persona!=null) {
 
-            Vehiculo vehiculo = vehiculoRepository.listarVehiculosPorEstado(EstadoVehiculo.DISPONIBLE).get(0);
+           int i=vehiculoRepository.listarVehiculosPorEstado(EstadoVehiculo.DISPONIBLE).size();
 
-            vehiculo.setEstado(EstadoVehiculo.OCUPADO);
+           if(i>=1) {
 
-            reservaVehiculo.setFechaReserva(LocalDate.now());
-            reservaVehiculo.setFechaInicio(fechaInicio);
-            reservaVehiculo.setFechaFin(fechaFin);
-            reservaVehiculo.setPersona(persona);
-            reservaVehiculo.setVehiculo(vehiculo);
-            reservaVehiculo.setEstado(EstadoReserva.ACTIVA);
+                 ReservaVehiculo reservaVehiculo=new ReservaVehiculo();
 
-            repositoryService.persist(reservaVehiculo);
+                 Vehiculo vehiculo = vehiculoRepository.listarVehiculosPorEstado(EstadoVehiculo.DISPONIBLE).get(0);
 
-        }else {
-            String mensaje="No hay Vehiculos Disponibles";
+                 vehiculo.setEstado(EstadoVehiculo.OCUPADO);
+
+                 reservaVehiculo.setFechaReserva(LocalDate.now());
+                 reservaVehiculo.setFechaInicio(fechaInicio);
+                 reservaVehiculo.setFechaFin(fechaFin);
+                 reservaVehiculo.setPersona(persona);
+                 reservaVehiculo.setVehiculo(vehiculo);
+                 reservaVehiculo.setEstado(EstadoReserva.ACTIVA);
+
+                 repositoryService.persist(reservaVehiculo);
+
+           }else {
+                 String mensaje="No hay Vehiculos Disponibles";
+                 messageService.informUser(mensaje);
+                 }
+
+        }else{
+            String mensaje = "No hay usuario para el correo Ingresado";
             messageService.informUser(mensaje);
         }
     }

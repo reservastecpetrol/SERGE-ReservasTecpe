@@ -186,7 +186,8 @@ public class ReservaVehiculoMenu {
         return reservaVehiculorepository.buscarReservasPorFechaDeReserva(fechaReserva);
     }
 
-    @Programmatic
+
+    //@Programmatic
     /**
      * Este metodo lista todos los usuarios que hay en el sistema de
      * forma que el administrador seleccione a uno en especifico
@@ -194,9 +195,9 @@ public class ReservaVehiculoMenu {
      * @return Collection<Persona>
      *
      */
-    public Collection<Persona> choices2CrearReserva() {
-        return personaRepository.listarPersonas();
-    }
+    //public Collection<Persona> choices2CrearReserva() {
+    //    return personaRepository.listarPersonas();
+    //}
 
 
 
@@ -259,15 +260,15 @@ public class ReservaVehiculoMenu {
      *
      * @param fechaInicio
      * @param fechaFin
-     * @param persona
+     * @param email
      *
      */
     public void crearReserva(
             @ParameterLayout(named="Fecha Inicio")final LocalDate fechaInicio,
             @ParameterLayout(named="Fecha Fin")final LocalDate fechaFin,
-            @ParameterLayout(named="Persona")final Persona persona
+            @ParameterLayout(named="Email")final String email
     ) {
-        reservaVehiculorepository.crearReserva(fechaInicio,fechaFin,persona);
+        reservaVehiculorepository.crearReserva(fechaInicio,fechaFin,email);
     }
 
     @Action(
