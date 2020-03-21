@@ -221,7 +221,7 @@ public class ReservaVehiculo implements Comparable<ReservaVehiculo>, CalendarEve
     @Action(semantics = NON_IDEMPOTENT_ARE_YOU_SURE)
     public void eliminar() {
         final String title = titleService.titleOf(this);
-        messageService.informUser(String.format("'%s' deleted", title));
+        messageService.informUser(String.format("'%s' FUE ELIMINADA", title));
         this.vehiculo.setEstado(EstadoVehiculo.DISPONIBLE);
         repositoryService.remove(this);
     }
