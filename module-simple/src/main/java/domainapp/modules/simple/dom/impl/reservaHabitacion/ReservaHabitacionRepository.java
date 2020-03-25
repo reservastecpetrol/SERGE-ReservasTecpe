@@ -498,6 +498,9 @@ public class ReservaHabitacionRepository {
 
                         repositoryService.persist(reservaHabitacion);
 
+                        String mensaje="¡¡¡ LA OPERACIÓN DE LA RESERVA DE LA HABITACIÓN FUE REALIZADA CON EXITO !!!";
+                        messageService.informUser(mensaje);
+
                     } else {
                         if (listaEstandares.size() >= 1) {
 
@@ -521,13 +524,16 @@ public class ReservaHabitacionRepository {
 
                                 repositoryService.persist(reservaHabitacion);
 
-                            } else {
-                                String mensaje = "No hay Habitaciones Disponibles para realizar reservas";
+                                String mensaje="¡¡¡ LA OPERACIÓN DE LA RESERVA DE LA HABITACIÓN FUE REALIZADA CON EXITO !!!";
                                 messageService.informUser(mensaje);
+
+                            } else {
+                                String mensaje="¡¡¡ NO HAY HABITACIONES DISPONIBLES EN EL SISTEMA PARA REALIZAR LA RESERVA !!!";
+                                messageService.warnUser(mensaje);
                             }
                         } else {
-                            String mensaje = "No hay Habitaciones Disponibles para realizar reservas";
-                            messageService.informUser(mensaje);
+                            String mensaje="¡¡¡ NO HAY HABITACIONES DISPONIBLES EN EL SISTEMA PARA REALIZAR LA RESERVA !!!";
+                            messageService.warnUser(mensaje);
                         }
                     }
 
@@ -548,15 +554,19 @@ public class ReservaHabitacionRepository {
                     reservaHabitacion.setEstado(EstadoReserva.ACTIVA);
 
                     repositoryService.persist(reservaHabitacion);
+
+                    String mensaje="¡¡¡ LA OPERACIÓN DE LA RESERVA DE LA HABITACIÓN FUE REALIZADA CON EXITO !!!";
+                    messageService.informUser(mensaje);
+
                 }
             } else {
-                String mensaje = "No hay Habitaciones Disponibles";
-                messageService.informUser(mensaje);
+                String mensaje="¡¡¡ NO HAY HABITACIONES DISPONIBLES EN EL SISTEMA PARA REALIZAR LA RESERVA !!!";
+                messageService.warnUser(mensaje);
             }
 
         }else{
-            String mensaje = "No hay usuario para el correo Ingresado";
-            messageService.informUser(mensaje);
+            String mensaje = "¡¡¡ NO SE REGISTRA EN EL SISTEMA EL CORREO ELECTRONICO INGRESADO CORRESPONDIENTE A UN USUARIO !!!";
+            messageService.warnUser(mensaje);
         }
     }
 
