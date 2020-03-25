@@ -302,14 +302,17 @@ public class ReservaVehiculoRepository {
 
                  repositoryService.persist(reservaVehiculo);
 
+               String mensaje="¡¡¡ LA OPERACIÓN DE LA RESERVA DEL VEHÍCULO FUE REALIZADA CON EXITO !!!";
+               messageService.informUser(mensaje);
+
            }else {
-                 String mensaje="No hay Vehiculos Disponibles";
-                 messageService.informUser(mensaje);
+                 String mensaje="¡¡¡ NO HAY VEHÍCULOS DISPONIBLES EN EL SISTEMA PARA REALIZAR LA RESERVA !!!";
+                 messageService.warnUser(mensaje);
                  }
 
         }else{
-            String mensaje = "No hay usuario para el correo Ingresado";
-            messageService.informUser(mensaje);
+            String mensaje = "¡¡¡ NO SE REGISTRA EN EL SISTEMA EL CORREO ELECTRÓNICO INGRESADO CORRESPONDIENTE A UN USUARIO !!!";
+            messageService.warnUser(mensaje);
         }
     }
 
