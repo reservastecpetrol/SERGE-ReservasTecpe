@@ -3,6 +3,8 @@ package domainapp.modules.simple.dom.impl.vehiculo;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.datanucleus.query.typesafe.TypesafeQuery;
+
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
@@ -12,7 +14,9 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
+import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.SemanticsOf;
+import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
 
 @DomainService(
         nature = NatureOfService.VIEW_MENU_ONLY,
@@ -112,9 +116,34 @@ public class VehiculoMenu {
             final String matricula
     ) {
 
-        return vehiculorepository.buscarVehiculoPorMatricula(matricula);
+        return vehiculorepository.buscarVehiculoPorMatricula(matricula.toUpperCase());
     }
 
+    @Programmatic
+    public Vehiculo verificarVehiculo(String matricula){
+
+        TypesafeQuery<Vehiculo> q = isisJdoSupport.newTypesafeQuery(Vehiculo.class);
+        final QVehiculo cand = QVehiculo.candidate();
+
+        q= q.filter(
+                cand.matricula.eq(q.stringParameter("matriculaIngresada"))
+        );
+        return  q.setParameter("matriculaIngresada",matricula)
+                .executeUnique();
+    }
+
+    @Programmatic
+    public String validate0CrearVehiculo(final String matricula) {
+
+        Vehiculo vehiculo=verificarVehiculo(matricula.toUpperCase());
+
+        String validar="";
+
+        if(vehiculo!=null){
+            validar="EXISTE MATRICULA";
+        }
+        return validar;
+    }
 
     @Action(
             //semantics = SemanticsOf.SAFE
@@ -139,7 +168,7 @@ public class VehiculoMenu {
      *
      * @return Vehiculo
      */
-    public void crearVehiculo(
+    public Vehiculo crearVehiculo(
             @Parameter(
                     regexPattern = "[a-z]{2} [0-9]{3} [a-z]{2}",
                     regexPatternFlags = Pattern.CASE_INSENSITIVE,
@@ -163,9 +192,11 @@ public class VehiculoMenu {
             @ParameterLayout(named="Seguro") final boolean seguro,
             @ParameterLayout(named="Ubicacion")final String ubicacion
     ) {
-        vehiculorepository.crearVehiculo(matricula,marca,color,modelo,combustible,seguro,ubicacion);
+        return vehiculorepository.crearVehiculo(matricula.toUpperCase(),marca.toUpperCase(),color.toUpperCase(),modelo.toUpperCase(),combustible,seguro,ubicacion.toUpperCase());
     }
 
+    @javax.inject.Inject
+    IsisJdoSupport isisJdoSupport;
 
     @javax.inject.Inject
     VehiculoRepository vehiculorepository;

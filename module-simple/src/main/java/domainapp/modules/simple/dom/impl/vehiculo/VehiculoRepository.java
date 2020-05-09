@@ -145,19 +145,6 @@ public class VehiculoRepository {
         return vehiculos;
     }
 
-    @Programmatic
-    public Vehiculo verificarVehiculo(String matricula){
-
-        TypesafeQuery<Vehiculo> q = isisJdoSupport.newTypesafeQuery(Vehiculo.class);
-        final QVehiculo cand = QVehiculo.candidate();
-
-        q= q.filter(
-                cand.matricula.eq(q.stringParameter("matriculaIngresada"))
-        );
-        return  q.setParameter("matriculaIngresada",matricula)
-                .executeUnique();
-    }
-
     public static class CreateDomainEvent extends ActionDomainEvent<SimpleObjects> {}
     //@Action(domainEvent = SimpleObjects.CreateDomainEvent.class)
     //@MemberOrder(sequence = "5")
@@ -177,7 +164,7 @@ public class VehiculoRepository {
      *
      * @return Vehiculo
      */
-    public void crearVehiculo(
+    public Vehiculo crearVehiculo(
             final String matricula,
             final String marca,
             final String color,
@@ -187,18 +174,14 @@ public class VehiculoRepository {
             final String ubicacion
     )
     {
-        if (verificarVehiculo(matricula.toUpperCase())==null) {
-
-            Vehiculo vehiculo=new Vehiculo();
 
             EstadoVehiculo estado=EstadoVehiculo.DISPONIBLE;
 
-            repositoryService.persist(vehiculo=new Vehiculo(matricula.toUpperCase(),marca.toUpperCase(),color.toUpperCase(),modelo.toUpperCase(),combustible,seguro,ubicacion.toUpperCase(),estado));
+            final Vehiculo vehiculo=new Vehiculo(matricula,marca,color,modelo,combustible,seguro,ubicacion,estado);
 
-        }else{
-            String mensaje="Este Vehiculo ya se encuentra cargado en el sistema!";
-            messageService.informUser(mensaje);
-        }
+            repositoryService.persist(vehiculo);
+
+            return vehiculo;
     }
 
     //@Action(semantics = SemanticsOf.SAFE)
