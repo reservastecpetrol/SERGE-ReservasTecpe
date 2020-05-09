@@ -2,6 +2,8 @@ package domainapp.modules.simple.dom.impl.habitacion;
 
 import java.util.List;
 
+import org.datanucleus.query.typesafe.TypesafeQuery;
+
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
@@ -10,9 +12,12 @@ import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
+import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.SemanticsOf;
+import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
 
 import domainapp.modules.simple.dom.impl.enums.ListaHabitaciones;
+
 @DomainService(
         nature = NatureOfService.VIEW_MENU_ONLY,
         objectType = "Habitacion",
@@ -167,6 +172,32 @@ public class HabitacionMenu {
         return habitacionrepository.buscarHabitacionPorNombre(nombre);
     }
 
+    @Programmatic
+    public Habitacion verificarHabitacion(String nombre){
+
+        TypesafeQuery<Habitacion> q = isisJdoSupport.newTypesafeQuery(Habitacion.class);
+        final QHabitacion cand = QHabitacion.candidate();
+
+        q= q.filter(
+                cand.nombre.eq(q.stringParameter("nombreIngresado"))
+        );
+        return  q.setParameter("nombreIngresado",nombre)
+                .executeUnique();
+    }
+
+    @Programmatic
+    public String validate0CrearHabitacion(final String nombre) {
+
+        Habitacion habitacion=verificarHabitacion(nombre.toUpperCase());
+
+        String validar="";
+
+        if(habitacion!=null){
+            validar="EXISTE NUMERO";
+        }
+
+        return validar;
+    }
 
     @Action(
             //semantics = SemanticsOf.SAFE
@@ -187,14 +218,16 @@ public class HabitacionMenu {
      * @return Habitacion
      *
      */
-    public void crearHabitacion(
+    public Habitacion crearHabitacion(
             @ParameterLayout(named="Numero") final String nombre,
             @ParameterLayout(named="Ubicacion")final String ubicacion,
             @ParameterLayout(named="Categoria") ListaHabitaciones categoria
     ){
-        habitacionrepository.crearHabitacion(nombre,ubicacion,categoria);
+        return habitacionrepository.crearHabitacion(nombre.toUpperCase(),ubicacion.toUpperCase(),categoria);
     }
 
+    @javax.inject.Inject
+    IsisJdoSupport isisJdoSupport;
 
     @javax.inject.Inject
     HabitacionRepository habitacionrepository;

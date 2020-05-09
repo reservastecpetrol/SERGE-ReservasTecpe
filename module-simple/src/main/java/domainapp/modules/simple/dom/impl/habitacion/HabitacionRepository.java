@@ -214,18 +214,6 @@ public class HabitacionRepository {
         return habitacion;
     }
 
-    @Programmatic
-    public Habitacion verificarHabitacion(String nombre){
-
-        TypesafeQuery<Habitacion> q = isisJdoSupport.newTypesafeQuery(Habitacion.class);
-        final QHabitacion cand = QHabitacion.candidate();
-
-        q= q.filter(
-                cand.nombre.eq(q.stringParameter("nombreIngresado"))
-        );
-        return  q.setParameter("nombreIngresado",nombre)
-                .executeUnique();
-    }
 
     public static class CreateDomainEvent extends ActionDomainEvent<SimpleObjects> {}
     @Programmatic
@@ -242,7 +230,7 @@ public class HabitacionRepository {
      * @return Habitacion
      *
      */
-    public void crearHabitacion(
+    public Habitacion crearHabitacion(
            // @ParameterLayout(named="Nombre")
             final String nombre,
            // @ParameterLayout(named="Ubicacion")
@@ -252,22 +240,17 @@ public class HabitacionRepository {
     )
     {
 
-        if (verificarHabitacion(nombre.toUpperCase())==null) {
+           EstadoHabitacion estado=EstadoHabitacion.DISPONIBLE;
 
-            Habitacion habitacion=new Habitacion();
+           String ocupante="DESOCUPADA";
 
-            EstadoHabitacion estado=EstadoHabitacion.DISPONIBLE;
+           int cantidadOcupante=0;
 
-            String ocupante="DESOCUPADA";
+           final Habitacion habitacion=new Habitacion(nombre,ubicacion,categoria,estado,ocupante,cantidadOcupante);
 
-            int cantidadOcupante=0;
+           repositoryService.persist(habitacion);
 
-            repositoryService.persist(habitacion=new Habitacion(nombre.toUpperCase(),ubicacion.toUpperCase(),categoria,estado,ocupante,cantidadOcupante));
-
-        }else{
-            String mensaje="Esta Habitacion ya se encuentra cargada en el sistema!";
-            messageService.informUser(mensaje);
-        }
+           return habitacion;
     }
 
     //@Action(semantics = SemanticsOf.SAFE)
