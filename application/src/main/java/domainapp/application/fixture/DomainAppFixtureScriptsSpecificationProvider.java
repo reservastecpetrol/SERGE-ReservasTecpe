@@ -24,7 +24,9 @@ import org.apache.isis.applib.fixturescripts.FixtureScripts;
 import org.apache.isis.applib.services.fixturespec.FixtureScriptsSpecification;
 import org.apache.isis.applib.services.fixturespec.FixtureScriptsSpecificationProvider;
 
-import domainapp.application.fixture.scenarios.DomainAppDemo;
+import domainapp.application.fixture.scenarios.HabitacionRecreate;
+import domainapp.application.fixture.scenarios.PersonaRecreate;
+import domainapp.application.fixture.scenarios.VehiculoRecreate;
 
 /**
  * Specifies where to find fixtures, and other settings.
@@ -37,9 +39,10 @@ public class DomainAppFixtureScriptsSpecificationProvider implements FixtureScri
         return FixtureScriptsSpecification
                 .builder(DomainAppFixtureScriptsSpecificationProvider.class)
                 .with(FixtureScripts.MultipleExecutionStrategy.EXECUTE)
-                .withRunScriptDefault(DomainAppDemo.class)
+                .withRunScriptDefault(PersonaRecreate.class)
                 .withRunScriptDropDown(FixtureScriptsSpecification.DropDownPolicy.CHOICES)
-                .withRecreate(DomainAppDemo.class)
+                .withRecreate(HabitacionRecreate.class)
+                .withRecreate(VehiculoRecreate.class)
                 .build();
     }
 }
