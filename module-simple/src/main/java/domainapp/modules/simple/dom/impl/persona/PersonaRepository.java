@@ -156,18 +156,6 @@ public class PersonaRepository {
                 .executeList();
     }
 
-    @Programmatic
-    public Persona verificarUsuario(String dni) {
-
-        TypesafeQuery<Persona> q = isisJdoSupport.newTypesafeQuery(Persona.class);
-        final QPersona cand = QPersona.candidate();
-
-        q = q.filter(
-                cand.dni.eq(q.stringParameter("dniIngresado"))
-        );
-        return q.setParameter("dniIngresado", dni)
-                .executeUnique();
-    }
 
     public static class CreateDomainEvent extends ActionDomainEvent<SimpleObjects> {
     }
@@ -190,7 +178,7 @@ public class PersonaRepository {
      *
      * @return Persona
      */
-    public void crearPersona(
+    public Persona crearPersona(
             //@Parameter(
             //        regexPattern = "[A-Za-z ]+",
             //        regexPatternFlags = Pattern.CASE_INSENSITIVE,
@@ -239,19 +227,13 @@ public class PersonaRepository {
                     TipoSexo sexo
 
     ) {
-        if (verificarUsuario(dni) == null) {
 
-            Persona persona=new Persona();
-
-             persona=new Persona(nombre.toUpperCase(), apellido.toUpperCase(), direccion.toUpperCase(), telefono, email,
+             final  Persona persona=new Persona(nombre.toUpperCase(), apellido.toUpperCase(), direccion.toUpperCase(), telefono, email,
                     dni, jerarquias, sexo);
 
-            repositoryService.persist(persona);
+             repositoryService.persist(persona);
 
-        } else {
-            String mensaje = "Este Usuario ya se encuentra cargado en el sistema!";
-            messageService.informUser(mensaje);
-        }
+             return persona;
     }
 
     @Programmatic

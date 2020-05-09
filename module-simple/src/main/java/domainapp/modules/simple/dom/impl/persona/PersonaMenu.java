@@ -3,6 +3,8 @@ package domainapp.modules.simple.dom.impl.persona;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.datanucleus.query.typesafe.TypesafeQuery;
+
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
@@ -12,7 +14,9 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
+import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.SemanticsOf;
+import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
 
 import domainapp.modules.simple.dom.impl.enums.ListaJerarquias;
 import domainapp.modules.simple.dom.impl.enums.TipoSexo;
@@ -130,6 +134,34 @@ public class PersonaMenu {
         return personarepository.buscarPersonaPorNombre(nombre);
     }
 
+
+    @Programmatic
+    public Persona verificarUsuario(String dni) {
+
+        TypesafeQuery<Persona> q = isisJdoSupport.newTypesafeQuery(Persona.class);
+        final QPersona cand = QPersona.candidate();
+
+        q = q.filter(
+                cand.dni.eq(q.stringParameter("dniIngresado"))
+        );
+        return q.setParameter("dniIngresado", dni)
+                .executeUnique();
+    }
+
+    @Programmatic
+    public String validate5CrearPersona(final String dni) {
+
+        Persona persona=verificarUsuario(dni);
+
+        String validar="";
+
+        if(persona!=null){
+            validar="EXISTE DNI";
+        }
+
+        return validar;
+    }
+
     @Action(
             //semantics = SemanticsOf.SAFE
     )
@@ -154,7 +186,7 @@ public class PersonaMenu {
      *
      * @return Persona
      */
-    public void crearPersona(
+    public Persona crearPersona(
 
             @Parameter(
                     regexPattern = "[A-Za-z ]+",
@@ -197,9 +229,11 @@ public class PersonaMenu {
 
 
     ) {
-        personarepository.crearPersona(nombre,apellido,direccion,telefono,email,dni,jerarquias,sexo);
+        return personarepository.crearPersona(nombre,apellido,direccion,telefono,email,dni,jerarquias,sexo);
     }
 
+    @javax.inject.Inject
+    IsisJdoSupport isisJdoSupport;
 
     @javax.inject.Inject
     PersonaRepository personarepository;
