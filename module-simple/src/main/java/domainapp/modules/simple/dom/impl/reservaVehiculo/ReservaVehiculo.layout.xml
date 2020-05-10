@@ -25,6 +25,12 @@
                                 <cpt:action id="eliminar">
                                     <cpt:describedAs>Elimina la Reserva de la Base de Datos</cpt:describedAs>
                                 </cpt:action>
+                                <cpt:action id="reservaProximaPorMail">
+                                    <cpt:describedAs>Notifica por Email la proximidad del Inicio de la Reserva al Usuario</cpt:describedAs>
+                                </cpt:action>
+                                <cpt:action id="cancelarPorMail">
+                                    <cpt:describedAs>Notifica por Email la Cancelacion de la Reserva al Usuario</cpt:describedAs>
+                                </cpt:action>
                                 <cpt:property id="fechaReserva" namedEscaped="true">
                                 </cpt:property>
                                 <cpt:property id="fechaInicio" namedEscaped="true">

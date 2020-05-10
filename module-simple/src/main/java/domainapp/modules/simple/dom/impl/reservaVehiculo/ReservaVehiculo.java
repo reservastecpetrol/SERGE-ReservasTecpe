@@ -13,6 +13,7 @@ import javax.jdo.annotations.VersionStrategy;
 import org.joda.time.LocalDate;
 
 import org.apache.isis.applib.annotation.Action;
+import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.DomainObjectLayout;
@@ -29,9 +30,11 @@ import org.isisaddons.wicket.fullcalendar2.cpt.applib.CalendarEventable;
 
 import domainapp.modules.simple.dom.impl.enums.EstadoReserva;
 import domainapp.modules.simple.dom.impl.enums.EstadoVehiculo;
+import domainapp.modules.simple.dom.impl.mail.Mail;
 import domainapp.modules.simple.dom.impl.persona.Persona;
 import domainapp.modules.simple.dom.impl.vehiculo.Vehiculo;
 import lombok.AccessLevel;
+import static org.apache.isis.applib.annotation.SemanticsOf.IDEMPOTENT;
 import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE;
 
 @PersistenceCapable(
@@ -163,10 +166,44 @@ public class ReservaVehiculo implements Comparable<ReservaVehiculo>, CalendarEve
     }
 
     /**
+     * Este es el metodo que permite enviar un email al usuario notificandolo
+     * de la proximidad del Inicio de la Reserva
+     */
+    @Action()
+    @ActionLayout(
+            // bookmarking = BookmarkPolicy.AS_ROOT,
+            cssClassFa="fa-envelope",
+            named = "Mail Reserva"
+    )
+    public void reservaProximaPorMail(){
+        Mail.enviarMailReserva(this.persona);
+    }
+
+    /**
+     * Este es el metodo que permite enviar un email al usuario notificandolo
+     * de la CANCELACION de la Reserva
+     */
+    @Action()
+    @ActionLayout(
+            // bookmarking = BookmarkPolicy.AS_ROOT,
+            cssClassFa="fa-envelope",
+            named = "Mail Cancelar"
+    )
+    public void cancelarPorMail(){
+        Mail.enviarMailCancelacion(this.persona);
+    }
+
+    /**
      * Este es el metodo que cambia el valor del estado de la reserva a CANCELADA
      * en el caso que el usuario ya no quiera realizar la reserva
      */
-    @Action
+    @Action(
+              semantics = IDEMPOTENT
+    )
+    @ActionLayout(
+            // bookmarking = BookmarkPolicy.AS_ROOT,
+            named = "Cancelar"
+    )
     public void cancelar()
     {
         this.vehiculo.setEstado(EstadoVehiculo.DISPONIBLE);
