@@ -281,11 +281,9 @@ public class ReservaVehiculoRepository {
 
         persona=recuperarPersonaPorEmail(email);
 
-        if(persona!=null) {
+        int i=vehiculoRepository.listarVehiculosPorEstado(EstadoVehiculo.DISPONIBLE).size();
 
-           int i=vehiculoRepository.listarVehiculosPorEstado(EstadoVehiculo.DISPONIBLE).size();
-
-           if(i>=1) {
+        if(i>=1) {
 
                  ReservaVehiculo reservaVehiculo=new ReservaVehiculo();
 
@@ -305,13 +303,8 @@ public class ReservaVehiculoRepository {
                String mensaje="¡¡¡ LA OPERACIÓN DE LA RESERVA DEL VEHÍCULO FUE REALIZADA CON EXITO !!!";
                messageService.informUser(mensaje);
 
-           }else {
-                 String mensaje="¡¡¡ NO HAY VEHÍCULOS DISPONIBLES EN EL SISTEMA PARA REALIZAR LA RESERVA !!!";
-                 messageService.warnUser(mensaje);
-                 }
-
-        }else{
-            String mensaje = "¡¡¡ NO SE REGISTRA EN EL SISTEMA EL CORREO ELECTRÓNICO INGRESADO CORRESPONDIENTE A UN USUARIO !!!";
+        }else {
+            String mensaje="¡¡¡ NO HAY VEHÍCULOS DISPONIBLES EN EL SISTEMA PARA REALIZAR LA RESERVA !!!";
             messageService.warnUser(mensaje);
         }
     }
@@ -360,6 +353,7 @@ public class ReservaVehiculoRepository {
                 .executeList();
         return reservas;
     }
+
 
     @javax.inject.Inject
     EjecutarReportes ejecutarReportes;

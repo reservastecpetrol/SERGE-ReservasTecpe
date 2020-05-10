@@ -245,6 +245,18 @@ public class ReservaVehiculoMenu {
         return validacion;
     }
 
+    @Programmatic
+    public String validate2CrearReserva(final String email) {
+
+        Persona persona=reservaVehiculorepository.recuperarPersonaPorEmail(email);
+
+        String validar="";
+
+        if(persona==null){
+            validar="NO EXISTE PERSONA CON ESE EMAIL";
+        }
+        return validar;
+    }
 
     @Action(
           //  semantics = SemanticsOf.SAFE
@@ -289,7 +301,6 @@ public class ReservaVehiculoMenu {
 
         return reservaVehiculorepository.actualizarVehiculosDisponibles();
     }
-
 
     @javax.inject.Inject
     VehiculoRepository vehiculoRepository;
