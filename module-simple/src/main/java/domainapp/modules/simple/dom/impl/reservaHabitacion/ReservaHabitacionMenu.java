@@ -244,6 +244,21 @@ public class ReservaHabitacionMenu {
         return validacion;
     }
 
+
+    @Programmatic
+    public String validate2CrearReservaDeHabitacion(final String email) {
+
+        Persona persona=reservaHabitacionrepository.recuperarPersonaPorEmail(email);
+
+        String validar="";
+
+        if(persona==null){
+            validar="NO EXISTE PERSONA CON ESE EMAIL";
+        }
+        return validar;
+    }
+
+
     @Action(
        //     semantics = SemanticsOf.SAFE
     )

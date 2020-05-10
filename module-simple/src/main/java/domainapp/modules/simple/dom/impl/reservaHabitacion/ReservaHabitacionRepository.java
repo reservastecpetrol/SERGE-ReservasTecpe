@@ -392,7 +392,6 @@ public class ReservaHabitacionRepository {
 
         return habitacion;
     }
-
     @Programmatic
     public Persona recuperarPersonaPorEmail(String email){
 
@@ -448,30 +447,28 @@ public class ReservaHabitacionRepository {
 
         persona=recuperarPersonaPorEmail(email);
 
-        if(persona!=null) {
+        ReservaHabitacion reservaHabitacion=new ReservaHabitacion();
 
-            ReservaHabitacion reservaHabitacion=new ReservaHabitacion();
+        //Se obtiene la jerarquia que posse la persona ingresada
+        String jerarquia = persona.getJerarquia().toString();
 
-            //Se obtiene la jerarquia que posse la persona ingresada
-            String jerarquia = persona.getJerarquia().toString();
+        //Se obtiene el sexo de la Persona ingresada
+        TipoSexo sexo = persona.getSexo();
+        //Se crea una lista de tipo habitacion
+        List<Habitacion> lista = new ArrayList<Habitacion>();
 
-            //Se obtiene el sexo de la Persona ingresada
-            TipoSexo sexo = persona.getSexo();
-            //Se crea una lista de tipo habitacion
-            List<Habitacion> lista = new ArrayList<Habitacion>();
+        List<Habitacion> listaSimples = new ArrayList<Habitacion>();
 
-            List<Habitacion> listaSimples = new ArrayList<Habitacion>();
+        List<Habitacion> listaEstandares = new ArrayList<Habitacion>();
 
-            List<Habitacion> listaEstandares = new ArrayList<Habitacion>();
+        Habitacion habitacion = new Habitacion();
 
-            Habitacion habitacion = new Habitacion();
+        //Se recupera la lista de habitaciones correspondientes a una jerarquia en particular
+        lista = this.listaHabitacionesPorJerarquia(jerarquia);
 
-            //Se recupera la lista de habitaciones correspondientes a una jerarquia en particular
-            lista = this.listaHabitacionesPorJerarquia(jerarquia);
+        int dimension = lista.size();
 
-            int dimension = lista.size();
-
-            if (dimension >= 1) {
+        if (dimension >= 1) {
 
                 if ((jerarquia == "Supervisores") || (jerarquia == "Operadores")) {
 
@@ -559,15 +556,11 @@ public class ReservaHabitacionRepository {
                     messageService.informUser(mensaje);
 
                 }
-            } else {
-                String mensaje="¡¡¡ NO HAY HABITACIONES DISPONIBLES EN EL SISTEMA PARA REALIZAR LA RESERVA !!!";
-                messageService.warnUser(mensaje);
-            }
-
-        }else{
-            String mensaje = "¡¡¡ NO SE REGISTRA EN EL SISTEMA EL CORREO ELECTRONICO INGRESADO CORRESPONDIENTE A UN USUARIO !!!";
+        } else {
+            String mensaje="¡¡¡ NO HAY HABITACIONES DISPONIBLES EN EL SISTEMA PARA REALIZAR LA RESERVA !!!";
             messageService.warnUser(mensaje);
         }
+
     }
 
 
