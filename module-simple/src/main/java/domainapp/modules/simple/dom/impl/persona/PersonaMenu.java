@@ -134,6 +134,26 @@ public class PersonaMenu {
         return personarepository.buscarPersonaPorNombre(nombre);
     }
 
+    @Action(
+            //semantics = SemanticsOf.SAFE
+    )
+    @ActionLayout(
+            //bookmarking = BookmarkPolicy.AS_ROOT,
+            named = "Buscar Persona por DNI"
+    )
+    @MemberOrder(sequence = "6")
+    /**
+     * Este metodo permite encontrar una Persona en particular
+     * dado un DNI
+     *
+     * @param dni
+     * @return List<Persona>
+     */
+    public Persona buscarPersonaPorDni(
+            @ParameterLayout(named = "DNI") final String dni
+    ) {
+        return this.verificarUsuario(dni);
+    }
 
     @Programmatic
     public Persona verificarUsuario(String dni) {
@@ -169,7 +189,7 @@ public class PersonaMenu {
             //bookmarking = BookmarkPolicy.AS_ROOT,
             named = "Crear Persona"
     )
-    @MemberOrder(sequence = "6")
+    @MemberOrder(sequence = "7")
     /**
      * Este metodo permite crear la entidad de dominio Persona
      * con los datos que va a ingresar el usuario
