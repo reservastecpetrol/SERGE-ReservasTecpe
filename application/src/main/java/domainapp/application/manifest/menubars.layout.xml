@@ -53,6 +53,9 @@
             <mb3:serviceAction objectType="Persona" id="buscarPersonaPorNombre">
                 <cpt:named>Buscar Persona por Nombre</cpt:named>
             </mb3:serviceAction>
+            <mb3:serviceAction objectType="Persona" id="buscarPersonaPorDni">
+                <cpt:named>Buscar Persona por DNI</cpt:named>
+            </mb3:serviceAction>
             <mb3:serviceAction objectType="Persona" id="crearPersona">
                 <cpt:named>Crear Persona</cpt:named>
             </mb3:serviceAction>
