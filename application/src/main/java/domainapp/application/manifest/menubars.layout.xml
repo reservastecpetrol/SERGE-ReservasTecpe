@@ -194,6 +194,17 @@
                 </mb3:serviceAction>
             </mb3:section>
         </mb3:menu>
+        <mb3:menu>
+            <mb3:named>Mail</mb3:named>
+            <mb3:section>
+                <mb3:serviceAction objectType="MailMenu" id="verMail">
+                    <cpt:named>Listar Mails</cpt:named>
+                </mb3:serviceAction>
+                <mb3:serviceAction objectType="MailMenu" id="crear">
+                    <cpt:named>Crear Mail</cpt:named>
+                </mb3:serviceAction>
+            </mb3:section>
+        </mb3:menu>
         <mb3:menu unreferencedActions="true">
             <mb3:named>Otros</mb3:named>
         </mb3:menu>
