@@ -145,7 +145,7 @@ public class VehiculoRepository {
 
         List<Vehiculo> vehiculos = tq.filter(
                 cand.estado.eq(tq.stringParameter("estado")))
-                .setParameter("estado",estado).executeList();
+                .setParameter("estado",estado).orderBy(cand.matricula.asc()).executeList();
 
         return vehiculos;
     }
