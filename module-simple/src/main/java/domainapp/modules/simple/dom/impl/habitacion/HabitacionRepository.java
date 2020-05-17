@@ -165,7 +165,7 @@ public class HabitacionRepository {
 
         List<Habitacion> habitacion = tq.filter(
                 cand.categoria.eq(tq.stringParameter("categoria")))
-                .setParameter("categoria",categoria).executeList();
+                .setParameter("categoria",categoria).orderBy(cand.nombre.asc()).executeList();
 
         return habitacion;
     }
