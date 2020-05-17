@@ -167,7 +167,7 @@ public class HabitacionMenu {
      * @return List<Habitacion>
      */
     public List<Habitacion> buscarHabitacionPorNombre(
-            @ParameterLayout(named="Nombre")
+            @ParameterLayout(named="Numero")
             final String nombre){
         return habitacionrepository.buscarHabitacionPorNombre(nombre);
     }
