@@ -49,7 +49,8 @@ import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_Y
         @Query(
                 name = "find", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.modules.simple.dom.impl.vehiculo.Vehiculo "),
+                        + "FROM domainapp.modules.simple.dom.impl.vehiculo.Vehiculo "
+                        + "ORDER BY matricula ASC"),
         @Query(
                 name = "findByMatriculaContains", language = "JDOQL",
                 value = "SELECT "
