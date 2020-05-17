@@ -10,6 +10,7 @@ import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Programmatic;
+import org.apache.isis.applib.query.QueryDefault;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
 import org.apache.isis.applib.services.message.MessageService;
@@ -63,7 +64,10 @@ public class PersonaRepository {
     //@MemberOrder(sequence = "1")
     @Programmatic
     public List<Persona> listarPersonas() {
-        return repositoryService.allInstances(Persona.class);
+        return repositoryService.allMatches(
+                new QueryDefault<>(
+                        Persona.class,
+                        "find"));
     }
 
     /**
