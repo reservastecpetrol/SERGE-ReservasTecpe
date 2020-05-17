@@ -11,6 +11,7 @@ import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Programmatic;
+import org.apache.isis.applib.query.QueryDefault;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
 import org.apache.isis.applib.services.message.MessageService;
@@ -63,7 +64,11 @@ public class VehiculoRepository {
     //@MemberOrder(sequence = "1")
     @Programmatic
     public List<Vehiculo> listarVehiculos() {
-        return repositoryService.allInstances(Vehiculo.class);
+
+        return repositoryService.allMatches(
+                new QueryDefault<>(
+                        Vehiculo.class,
+                        "find"));
     }
 
 
