@@ -52,7 +52,8 @@ import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_Y
         @Query(
                 name = "find", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.modules.simple.dom.impl.reservaHabitacion.ReservaHabitacion "),
+                        + "FROM domainapp.modules.simple.dom.impl.reservaHabitacion.ReservaHabitacion "
+                        + "ORDER BY fechaInicio ASC "),
         @Query(
                 name = "findByFechaReservaContains", language = "JDOQL",
                 value = "SELECT "
