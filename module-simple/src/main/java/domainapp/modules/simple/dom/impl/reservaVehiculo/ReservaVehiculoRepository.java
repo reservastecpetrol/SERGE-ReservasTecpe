@@ -12,6 +12,7 @@ import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Programmatic;
+import org.apache.isis.applib.query.QueryDefault;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
 import org.apache.isis.applib.services.message.MessageService;
@@ -67,7 +68,11 @@ public class ReservaVehiculoRepository {
      * @return List<ReservaVehiculo>
      */
     public List<ReservaVehiculo> listarReservasDeVehiculos() {
-        return container.allInstances(ReservaVehiculo.class);
+
+        return repositoryService.allMatches(
+                new QueryDefault<>(
+                        ReservaVehiculo.class,
+                        "find"));
     }
 
     //@Action(semantics = SemanticsOf.SAFE)
