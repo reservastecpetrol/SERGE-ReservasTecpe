@@ -12,6 +12,7 @@ import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Programmatic;
+import org.apache.isis.applib.query.QueryDefault;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
 import org.apache.isis.applib.services.message.MessageService;
@@ -71,7 +72,10 @@ public class ReservaHabitacionRepository {
      * @return List<ReservaHabitacion>
      */
     public java.util.List<ReservaHabitacion> listarReservasDeHabitaciones() {
-        return container.allInstances(ReservaHabitacion.class);
+        return repositoryService.allMatches(
+                new QueryDefault<>(
+                        ReservaHabitacion.class,
+                        "find"));
     }
 
     //@Action(semantics = SemanticsOf.SAFE)
