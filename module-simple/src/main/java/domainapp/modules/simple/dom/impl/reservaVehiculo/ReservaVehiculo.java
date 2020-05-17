@@ -34,7 +34,6 @@ import domainapp.modules.simple.dom.impl.mail.Mail;
 import domainapp.modules.simple.dom.impl.persona.Persona;
 import domainapp.modules.simple.dom.impl.vehiculo.Vehiculo;
 import lombok.AccessLevel;
-import static org.apache.isis.applib.annotation.SemanticsOf.IDEMPOTENT;
 import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE;
 
 @PersistenceCapable(
@@ -198,7 +197,7 @@ public class ReservaVehiculo implements Comparable<ReservaVehiculo>, CalendarEve
      * en el caso que el usuario ya no quiera realizar la reserva
      */
     @Action(
-              semantics = IDEMPOTENT
+              //semantics = IDEMPOTENT
     )
     @ActionLayout(
             // bookmarking = BookmarkPolicy.AS_ROOT,
