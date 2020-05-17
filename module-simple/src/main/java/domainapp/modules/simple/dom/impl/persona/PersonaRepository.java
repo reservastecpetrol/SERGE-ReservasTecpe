@@ -131,7 +131,7 @@ public class PersonaRepository {
 
         List<Persona> personas = tq.filter(
                 cand.jerarquia.eq(tq.stringParameter("jerarquia")))
-                .setParameter("jerarquia", jerarquia).executeList();
+                .setParameter("jerarquia", jerarquia).orderBy(cand.apellido.asc()).executeList();
 
         return personas;
     }
