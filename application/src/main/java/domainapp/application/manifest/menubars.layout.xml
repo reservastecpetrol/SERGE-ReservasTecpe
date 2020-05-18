@@ -206,12 +206,12 @@
             </mb3:section>
         </mb3:menu>
         <mb3:menu unreferencedActions="true">
-            <mb3:named>Otros</mb3:named>
+            <mb3:named>Otras Opciones</mb3:named>
         </mb3:menu>
     </mb3:primary>
     <mb3:secondary>
         <mb3:menu>
-            <mb3:named>Prototyping</mb3:named>
+            <mb3:named>Prototipos</mb3:named>
             <mb3:section>
                 <mb3:serviceAction objectType="isisApplib.FixtureScriptsDefault" id="runFixtureScript">
                     <cpt:named>Run Fixture Script</cpt:named>
@@ -276,7 +276,7 @@
             <mb3:named>Configuration Service Menu</mb3:named>
             <mb3:section>
                 <mb3:serviceAction objectType="isisApplib.ConfigurationServiceMenu" id="configuration">
-                    <cpt:named>Configuration</cpt:named>
+                    <cpt:named>Configuracion</cpt:named>
                 </mb3:serviceAction>
             </mb3:section>
         </mb3:menu>
