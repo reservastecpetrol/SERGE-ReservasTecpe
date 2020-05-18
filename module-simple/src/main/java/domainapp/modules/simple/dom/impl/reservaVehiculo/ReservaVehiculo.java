@@ -213,7 +213,7 @@ public class ReservaVehiculo implements Comparable<ReservaVehiculo>, CalendarEve
      * Este es el metodo que cambia el valor del estado de la reserva a FINALIZADA
      * una vez que la reserva haya culminado
      */
-    @Action
+    @Action(semantics = NON_IDEMPOTENT_ARE_YOU_SURE)
     public void finalizar()
     {
         this.vehiculo.setEstado(EstadoVehiculo.DISPONIBLE);
