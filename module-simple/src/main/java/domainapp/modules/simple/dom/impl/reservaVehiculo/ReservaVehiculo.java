@@ -197,9 +197,7 @@ public class ReservaVehiculo implements Comparable<ReservaVehiculo>, CalendarEve
      * Este es el metodo que cambia el valor del estado de la reserva a CANCELADA
      * en el caso que el usuario ya no quiera realizar la reserva
      */
-    @Action(
-              //semantics = IDEMPOTENT
-    )
+    @Action(semantics = NON_IDEMPOTENT_ARE_YOU_SURE)
     @ActionLayout(
             // bookmarking = BookmarkPolicy.AS_ROOT,
             named = "Cancelar"
