@@ -129,6 +129,14 @@
             <version>42.2.5</version>
         </dependency>
 
+        <!-- WebServer -->
+        <dependency>
+            <groupId>org.apache.isis.core</groupId>
+            <artifactId>isis-core-webserver</artifactId>
+            <version>1.17.0</version>
+            <scope>runtime</scope>
+        </dependency>
+
         <!-- Plugin para evitar CORS con Swagger -->
         <dependency>
             <groupId>org.ebaysf.web</groupId>
