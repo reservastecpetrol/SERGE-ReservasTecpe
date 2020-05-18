@@ -171,7 +171,7 @@ public class ReservaHabitacion implements Comparable<ReservaHabitacion>,Calendar
      * Este es el metodo que permite enviar un email al usuario notificandolo
      * de la proximidad del Inicio de la Reserva
      */
-    @Action()
+    @Action(semantics = NON_IDEMPOTENT_ARE_YOU_SURE)
     @ActionLayout(
             cssClassFa="fa-envelope",
             named = "Mail Reserva"
@@ -185,7 +185,7 @@ public class ReservaHabitacion implements Comparable<ReservaHabitacion>,Calendar
      * Este es el metodo que permite enviar un email al usuario notificandolo
      * de la CANCELACION de la Reserva
      */
-    @Action()
+    @Action(semantics = NON_IDEMPOTENT_ARE_YOU_SURE)
     @ActionLayout(
             cssClassFa="fa-envelope",
             named = "Mail Cancelar"
