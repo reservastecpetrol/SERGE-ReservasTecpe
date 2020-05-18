@@ -169,7 +169,7 @@ public class ReservaVehiculo implements Comparable<ReservaVehiculo>, CalendarEve
      * Este es el metodo que permite enviar un email al usuario notificandolo
      * de la proximidad del Inicio de la Reserva
      */
-    @Action()
+    @Action(semantics = NON_IDEMPOTENT_ARE_YOU_SURE)
     @ActionLayout(
             // bookmarking = BookmarkPolicy.AS_ROOT,
             cssClassFa="fa-envelope",
@@ -183,7 +183,7 @@ public class ReservaVehiculo implements Comparable<ReservaVehiculo>, CalendarEve
      * Este es el metodo que permite enviar un email al usuario notificandolo
      * de la CANCELACION de la Reserva
      */
-    @Action()
+    @Action(semantics = NON_IDEMPOTENT_ARE_YOU_SURE)
     @ActionLayout(
             // bookmarking = BookmarkPolicy.AS_ROOT,
             cssClassFa="fa-envelope",
