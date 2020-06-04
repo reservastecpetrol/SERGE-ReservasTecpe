@@ -38,6 +38,8 @@ import domainapp.modules.simple.dom.impl.vehiculo.VehiculoRepository;
  */
 public class ReservaVehiculoMenu {
 
+    public LocalDate fechaIngresada;
+
     @Action(
             semantics = SemanticsOf.SAFE
     )
@@ -216,6 +218,8 @@ public class ReservaVehiculoMenu {
             validacion="Una Reserva no puede empezar en el pasado";
         }
 
+        this.fechaIngresada=fechaInicio;
+
         return validacion;
     }
 
@@ -230,16 +234,12 @@ public class ReservaVehiculoMenu {
      * @return String
      *
      */
-    public String validate1CrearReserva(final LocalDate fechaInicio,final LocalDate fechaFin){
+    public String validate1CrearReserva(final LocalDate fechaFin){
 
         String validacion="";
 
-        if (fechaFin.isBefore(LocalDate.now())) {
-            validacion="Una Reserva no puede finalizar en el pasado";
-        }else {
-            if (fechaFin.isBefore(fechaInicio)) {
-                validacion = "Una Reserva no puede finalizar antes de la fecha de Inicio";
-            }
+        if (this.fechaIngresada.isAfter(fechaFin)) {
+            validacion = "Una Reserva no puede finalizar antes de la fecha de Inicio";
         }
 
         return validacion;
