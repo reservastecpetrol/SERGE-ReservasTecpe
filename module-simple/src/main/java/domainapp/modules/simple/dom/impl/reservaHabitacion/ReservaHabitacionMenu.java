@@ -39,6 +39,8 @@ import domainapp.modules.simple.dom.impl.persona.PersonaRepository;
 
 public class ReservaHabitacionMenu {
 
+    public LocalDate fechaIngresada;
+
     @Action(
             semantics = SemanticsOf.SAFE
             //restrictTo = RestrictTo.PROTOTYPING
@@ -215,6 +217,8 @@ public class ReservaHabitacionMenu {
             validacion="Una Reserva no puede empezar en el pasado";
         }
 
+        this.fechaIngresada=fechaInicio;
+
         return validacion;
     }
 
@@ -229,16 +233,12 @@ public class ReservaHabitacionMenu {
      * @return String
      *
      */
-    public String validate1CrearReservaDeHabitacion(final LocalDate fechaInicio,final LocalDate fechaFin){
+    public String validate1CrearReservaDeHabitacion(final LocalDate fechaFin){
 
         String validacion="";
 
-        if (fechaFin.isBefore(LocalDate.now())) {
-            validacion="Una Reserva no puede finalizar en el pasado";
-        }else {
-            if (fechaFin.isBefore(fechaInicio)) {
-                validacion = "Una Reserva no puede finalizar antes de la fecha de Inicio";
-            }
+        if (this.fechaIngresada.isAfter(fechaFin)) {
+            validacion = "Una Reserva no puede finalizar antes de la fecha de Inicio";
         }
 
         return validacion;
@@ -281,6 +281,7 @@ public class ReservaHabitacionMenu {
             @ParameterLayout(named="Fecha Fin")final LocalDate fechaFin,
             @ParameterLayout(named="Email")final String email
     ) {
+
         reservaHabitacionrepository.crearReservaDeHabitacion(fechaInicio,fechaFin,email);
     }
 
