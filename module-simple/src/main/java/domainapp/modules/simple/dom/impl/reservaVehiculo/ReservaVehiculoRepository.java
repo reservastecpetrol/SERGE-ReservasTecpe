@@ -154,6 +154,46 @@ public class ReservaVehiculoRepository {
         return reservas;
     }
 
+    @Programmatic
+    public List<ReservaVehiculo> listarReservasPorDni(
+            final String dni
+    ) {
+
+        List<ReservaVehiculo> reservas;
+
+        TypesafeQuery<ReservaVehiculo> q = isisJdoSupport.newTypesafeQuery(ReservaVehiculo.class);
+
+        final QReservaVehiculo cand = QReservaVehiculo.candidate();
+
+        reservas= q.filter(
+                cand.persona.dni.eq(q.stringParameter("dniIngresado")))
+                .setParameter("dniIngresado",dni)
+                .executeList();
+
+        return reservas;
+    }
+
+
+    @Programmatic
+    public List<ReservaVehiculo> listarReservasPorMatricula(
+            final String matricula
+    ) {
+
+        List<ReservaVehiculo> reservas;
+
+        TypesafeQuery<ReservaVehiculo> q = isisJdoSupport.newTypesafeQuery(ReservaVehiculo.class);
+
+        final QReservaVehiculo cand = QReservaVehiculo.candidate();
+
+        reservas= q.filter(
+                cand.vehiculo.matricula.eq(q.stringParameter("matriculaIngresado")))
+                .setParameter("matriculaIngresado",matricula)
+                .executeList();
+
+        return reservas;
+    }
+
+
 
     //@Action(semantics = SemanticsOf.SAFE)
     //@ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
