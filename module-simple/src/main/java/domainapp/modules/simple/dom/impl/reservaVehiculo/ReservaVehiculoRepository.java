@@ -154,6 +154,13 @@ public class ReservaVehiculoRepository {
         return reservas;
     }
 
+    /**
+     * Este metodo permite encontrar todas las reservas
+     * realizadas por un usuario en particular dado su dni
+     *
+     * @param dni
+     * @return List<ReservaVehiculo>
+     */
     @Programmatic
     public List<ReservaVehiculo> listarReservasPorDni(
             final String dni
@@ -174,6 +181,13 @@ public class ReservaVehiculoRepository {
     }
 
 
+    /**
+     * Este metodo permite encontrar todas las reservas
+     * realizadas dado un numero en particular
+     *
+     * @param matricula
+     * @return List<ReservaVehiculo>
+     */
     @Programmatic
     public List<ReservaVehiculo> listarReservasPorMatricula(
             final String matricula
