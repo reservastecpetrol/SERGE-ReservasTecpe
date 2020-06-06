@@ -9,6 +9,7 @@
             <cpt:domainObject bookmarking="AS_ROOT"/>
         </bs3:col>
     </bs3:row>
+    <!--
     <bs3:row>
         <bs3:col span="6">
             <bs3:tabGroup>
@@ -65,6 +66,82 @@
             </bs3:tabGroup>
         </bs3:col>
         <bs3:col span="8">
+            <bs3:tabGroup unreferencedCollections="true"/>
+        </bs3:col>
+    </bs3:row>
+-->
+
+
+    <bs3:row>
+        <bs3:col span="6">
+            <bs3:tabGroup>
+                <bs3:tab name="General">
+                    <bs3:row>
+                        <bs3:col span="12">
+                            <cpt:fieldSet name="General">
+                                <cpt:action id="eliminar">
+                                    <cpt:describedAs>Elimina el Vehiculo de la Base de Datos</cpt:describedAs>
+                                </cpt:action>
+                                <cpt:property id="matricula" namedEscaped="true">
+                                    <cpt:action id="editarMatricula" promptStyle="INLINE"/>
+                                </cpt:property>
+                                <cpt:property id="marca" namedEscaped="true">
+                                    <cpt:action id="editarMarca" promptStyle="INLINE"/>
+                                </cpt:property>
+                                <cpt:property id="color" namedEscaped="true">
+                                    <cpt:action id="editarColor" promptStyle="INLINE"/>
+                                </cpt:property>
+                                <cpt:property id="modelo" namedEscaped="true">
+                                    <cpt:action id="editarModelo" promptStyle="INLINE"/>
+                                </cpt:property>
+                                <cpt:property id="combustible" namedEscaped="true">
+                                    <cpt:action id="editarCombustible" promptStyle="INLINE"/>
+                                </cpt:property>
+                                <cpt:property id="seguro" namedEscaped="true">
+                                    <cpt:action id="editarSeguro" promptStyle="INLINE"/>
+                                </cpt:property>
+                                <cpt:property id="ubicacion" namedEscaped="true">
+                                    <cpt:action id="editarUbicacion" promptStyle="INLINE"/>
+                                </cpt:property>
+                                <cpt:property id="estado" namedEscaped="true">
+                                    <cpt:action id="editarEstado" promptStyle="INLINE"/>
+                                </cpt:property>
+                            </cpt:fieldSet>
+                        </bs3:col>
+                    </bs3:row>
+                </bs3:tab>
+            </bs3:tabGroup>
+        </bs3:col>
+        <bs3:col span="6">
+            <bs3:tabGroup>
+                <bs3:tab name="Listado Reservas Realizadas con este Vehiculo">
+                    <bs3:row>
+                        <bs3:col span="12" size="XS">
+                            <cpt:collection defaultView="calendar" id="reservasVehiculos"/>
+                        </bs3:col>
+                    </bs3:row>
+                </bs3:tab>
+            </bs3:tabGroup>
+        </bs3:col>
+        <bs3:col>
+            <bs3:tabGroup>
+                <bs3:tab name="Metadata">
+                    <bs3:row>
+                        <bs3:col span="12">
+                            <cpt:fieldSet name="Metadata"/>
+                        </bs3:col>
+                    </bs3:row>
+                </bs3:tab>
+                <bs3:tab name="Other">
+                    <bs3:row>
+                        <bs3:col span="12">
+                            <cpt:fieldSet name="Other" unreferencedProperties="true"/>
+                        </bs3:col>
+                    </bs3:row>
+                </bs3:tab>
+            </bs3:tabGroup>
+        </bs3:col>
+        <bs3:col>
             <bs3:tabGroup unreferencedCollections="true"/>
         </bs3:col>
     </bs3:row>
