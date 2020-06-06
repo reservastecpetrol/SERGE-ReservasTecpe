@@ -357,12 +357,22 @@ public class Persona implements Comparable<Persona> {
         return telefono != null && telefono.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
     }
 
+    /**
+     * Este metodo permite generar el listado de reservas de habitaciones dado un dni
+     *
+     * @return List<ReservaHabitacion>
+     */
     @NotPersistent
     @CollectionLayout(named = "Reservas Habitaciones Realizadas")
     public List<ReservaHabitacion> getReservasHabitacion(){
         return reservaHabitacionRepository.listarReservasPorDni(this.getDni());
     }
 
+    /**
+     * Este metodo permite generar el listado de reservas de vehiculos dado un dni
+     *
+     * @return List<ReservaVehiculo>
+     */
     @NotPersistent
     @CollectionLayout(named = "Reservas Vehiculos Realizadas")
     public List<ReservaVehiculo> getReservasVehiculos(){
