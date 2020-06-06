@@ -156,6 +156,13 @@ public class ReservaHabitacionRepository {
         return reservas;
     }
 
+    /**
+     * Este metodo permite encontrar todas las reservas
+     * realizadas por un usuario en particular dado su dni
+     *
+     * @param dni
+     * @return List<ReservaHabitacion>
+     */
     @Programmatic
     public List<ReservaHabitacion> listarReservasPorDni(
             final String dni
@@ -175,6 +182,13 @@ public class ReservaHabitacionRepository {
         return reservas;
     }
 
+    /**
+     * Este metodo permite encontrar todas las reservas
+     * realizadas dado un numero en particular
+     *
+     * @param numero
+     * @return List<ReservaHabitacion>
+     */
     @Programmatic
     public List<ReservaHabitacion> listarReservasPorNumeroDeHabitacion(
             final String numero
