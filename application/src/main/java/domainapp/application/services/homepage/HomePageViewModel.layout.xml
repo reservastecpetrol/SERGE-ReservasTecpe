@@ -34,10 +34,10 @@
         <bs3:col span="12" unreferencedCollections="true">
             <bs3:row>
                 <bs3:col span="6">
-                    <collection id="reservasHabitaciones" defaultView="table"/>
+                    <collection id="reservasHabitaciones" defaultView="calendar"/>
                 </bs3:col>
                 <bs3:col span="6">
-                    <collection id="reservasVehiculos" defaultView="table"/>
+                    <collection id="reservasVehiculos" defaultView="calendar"/>
                 </bs3:col>
             </bs3:row>
         </bs3:col>
