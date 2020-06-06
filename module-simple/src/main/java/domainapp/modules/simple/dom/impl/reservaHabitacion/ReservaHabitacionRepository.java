@@ -29,7 +29,6 @@ import domainapp.modules.simple.dom.impl.habitacion.HabitacionRepository;
 import domainapp.modules.simple.dom.impl.persona.Persona;
 import domainapp.modules.simple.dom.impl.persona.PersonaRepository;
 import domainapp.modules.simple.dom.impl.reportes.EjecutarReportes;
-import domainapp.modules.simple.dom.impl.reservaVehiculo.QReservaVehiculo;
 import lombok.AccessLevel;
 import net.sf.jasperreports.engine.JRException;
 
@@ -119,7 +118,7 @@ public class ReservaHabitacionRepository {
             final EstadoReserva estado
     ) {
         TypesafeQuery<ReservaHabitacion> tq = isisJdoSupport.newTypesafeQuery(ReservaHabitacion.class);
-        final QReservaVehiculo cand = QReservaVehiculo.candidate();
+        final QReservaHabitacion cand = QReservaHabitacion.candidate();
 
         List<ReservaHabitacion> reservas = tq.filter(
                 cand.estado.eq(tq.stringParameter("estado")))
@@ -147,7 +146,7 @@ public class ReservaHabitacionRepository {
 
         TypesafeQuery<ReservaHabitacion> q = isisJdoSupport.newTypesafeQuery(ReservaHabitacion.class);
 
-        final QReservaVehiculo cand = QReservaVehiculo.candidate();
+        final QReservaHabitacion cand = QReservaHabitacion.candidate();
 
         reservas= q.filter(
                 cand.persona.dni.eq(q.stringParameter("dniIngresado")))
@@ -157,6 +156,43 @@ public class ReservaHabitacionRepository {
         return reservas;
     }
 
+    @Programmatic
+    public List<ReservaHabitacion> listarReservasPorDni(
+            final String dni
+    ) {
+
+        List<ReservaHabitacion> reservas;
+
+        TypesafeQuery<ReservaHabitacion> q = isisJdoSupport.newTypesafeQuery(ReservaHabitacion.class);
+
+        final QReservaHabitacion cand = QReservaHabitacion.candidate();
+
+        reservas= q.filter(
+                cand.persona.dni.eq(q.stringParameter("dniIngresado")))
+                .setParameter("dniIngresado",dni)
+                .executeList();
+
+        return reservas;
+    }
+
+    @Programmatic
+    public List<ReservaHabitacion> listarReservasPorNumeroDeHabitacion(
+            final String numero
+    ) {
+
+        List<ReservaHabitacion> reservas;
+
+        TypesafeQuery<ReservaHabitacion> q = isisJdoSupport.newTypesafeQuery(ReservaHabitacion.class);
+
+        final QReservaHabitacion cand = QReservaHabitacion.candidate();
+
+        reservas= q.filter(
+                cand.habitacion.nombre.eq(q.stringParameter("numeroIngresado")))
+                .setParameter("numeroIngresado",numero)
+                .executeList();
+
+        return reservas;
+    }
 
     //@Action(semantics = SemanticsOf.SAFE)
     //@ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
