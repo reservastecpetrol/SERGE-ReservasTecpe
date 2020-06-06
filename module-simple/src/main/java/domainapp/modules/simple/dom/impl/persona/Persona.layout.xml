@@ -47,6 +47,30 @@
                         </bs3:col>
                     </bs3:row>
                 </bs3:tab>
+            </bs3:tabGroup>
+        </bs3:col>
+        <bs3:col span="6">
+            <bs3:tabGroup>
+                <bs3:tab name="Listado Reservas Habitaciones Realizadas">
+                    <bs3:row>
+                        <bs3:col span="12" size="XS">
+                            <cpt:collection defaultView="table" id="reservasHabitacion"/>
+                        </bs3:col>
+                    </bs3:row>
+                </bs3:tab>
+            </bs3:tabGroup>
+            <bs3:tabGroup>
+                <bs3:tab name="Listado Reservas Vehiculos Realizadas">
+                    <bs3:row>
+                        <bs3:col span="12" size="XS">
+                            <cpt:collection defaultView="table" id="reservasVehiculos"/>
+                        </bs3:col>
+                    </bs3:row>
+                </bs3:tab>
+            </bs3:tabGroup>
+        </bs3:col>
+        <bs3:col>
+            <bs3:tabGroup>
                 <bs3:tab name="Metadata">
                     <bs3:row>
                         <bs3:col span="12">
@@ -63,7 +87,7 @@
                 </bs3:tab>
             </bs3:tabGroup>
         </bs3:col>
-        <bs3:col span="8">
+        <bs3:col>
             <bs3:tabGroup unreferencedCollections="true"/>
         </bs3:col>
     </bs3:row>
