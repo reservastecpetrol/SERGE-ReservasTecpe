@@ -1,8 +1,11 @@
 package domainapp.modules.simple.dom.impl.persona;
 
+import java.util.List;
+
 import javax.jdo.annotations.DatastoreIdentity;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Queries;
 import javax.jdo.annotations.Query;
@@ -13,6 +16,7 @@ import com.google.common.collect.ComparisonChain;
 
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
+import org.apache.isis.applib.annotation.CollectionLayout;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.DomainObjectLayout;
 import org.apache.isis.applib.annotation.Editing;
@@ -28,6 +32,10 @@ import org.apache.isis.applib.services.title.TitleService;
 
 import domainapp.modules.simple.dom.impl.enums.ListaJerarquias;
 import domainapp.modules.simple.dom.impl.enums.TipoSexo;
+import domainapp.modules.simple.dom.impl.reservaHabitacion.ReservaHabitacion;
+import domainapp.modules.simple.dom.impl.reservaHabitacion.ReservaHabitacionRepository;
+import domainapp.modules.simple.dom.impl.reservaVehiculo.ReservaVehiculo;
+import domainapp.modules.simple.dom.impl.reservaVehiculo.ReservaVehiculoRepository;
 import lombok.AccessLevel;
 import static org.apache.isis.applib.annotation.CommandReification.ENABLED;
 import static org.apache.isis.applib.annotation.SemanticsOf.IDEMPOTENT;
@@ -349,6 +357,19 @@ public class Persona implements Comparable<Persona> {
         return telefono != null && telefono.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
     }
 
+    @NotPersistent
+    @CollectionLayout(named = "Reservas Habitaciones Realizadas")
+    public List<ReservaHabitacion> getReservasHabitacion(){
+        return reservaHabitacionRepository.listarReservasPorDni(this.getDni());
+    }
+
+    @NotPersistent
+    @CollectionLayout(named = "Reservas Vehiculos Realizadas")
+    public List<ReservaVehiculo> getReservasVehiculos(){
+        return reservaVehiculoRepository.listarReservasPorDni(this.getDni());
+    }
+
+
     /**
      * Este metodo permite eliminar la entidad de Persona
      */
@@ -386,5 +407,14 @@ public class Persona implements Comparable<Persona> {
     @lombok.Getter(AccessLevel.NONE) @lombok.Setter(AccessLevel.NONE)
     MessageService messageService;
 
+    @javax.inject.Inject
+    @javax.jdo.annotations.NotPersistent
+    @lombok.Getter(AccessLevel.NONE) @lombok.Setter(AccessLevel.NONE)
+    ReservaVehiculoRepository reservaVehiculoRepository;
+
+    @javax.inject.Inject
+    @javax.jdo.annotations.NotPersistent
+    @lombok.Getter(AccessLevel.NONE) @lombok.Setter(AccessLevel.NONE)
+    ReservaHabitacionRepository reservaHabitacionRepository;
 
 }
