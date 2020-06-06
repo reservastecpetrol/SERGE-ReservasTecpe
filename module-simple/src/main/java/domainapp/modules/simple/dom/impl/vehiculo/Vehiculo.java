@@ -1,8 +1,11 @@
 package domainapp.modules.simple.dom.impl.vehiculo;
 
+import java.util.List;
+
 import javax.jdo.annotations.DatastoreIdentity;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Queries;
 import javax.jdo.annotations.Query;
@@ -14,6 +17,7 @@ import com.google.common.collect.ComparisonChain;
 
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
+import org.apache.isis.applib.annotation.CollectionLayout;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.DomainObjectLayout;
 import org.apache.isis.applib.annotation.Editing;
@@ -28,6 +32,8 @@ import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 
 import domainapp.modules.simple.dom.impl.enums.EstadoVehiculo;
+import domainapp.modules.simple.dom.impl.reservaVehiculo.ReservaVehiculo;
+import domainapp.modules.simple.dom.impl.reservaVehiculo.ReservaVehiculoRepository;
 import lombok.AccessLevel;
 import static org.apache.isis.applib.annotation.CommandReification.ENABLED;
 import static org.apache.isis.applib.annotation.SemanticsOf.IDEMPOTENT;
@@ -373,6 +379,17 @@ public class Vehiculo implements Comparable<Vehiculo> {
     }
 
     /**
+     * Este metodo permite generar el listado de reservas de vehiculos dada una matricula
+     *
+     * @return List<ReservaVehiculo>
+     */
+    @NotPersistent
+    @CollectionLayout(named = "Reservas Realizadas con este Vehiculo")
+    public List<ReservaVehiculo> getReservasVehiculos(){
+        return reservaVehiculoRepository.listarReservasPorMatricula(this.getMatricula());
+    }
+
+    /**
      * Este metodo permite eliminar la entidad de Vehiculo
      */
     @Action(semantics = NON_IDEMPOTENT_ARE_YOU_SURE)
@@ -411,4 +428,8 @@ public class Vehiculo implements Comparable<Vehiculo> {
     @lombok.Getter(AccessLevel.NONE) @lombok.Setter(AccessLevel.NONE)
     MessageService messageService;
 
+    @javax.inject.Inject
+    @javax.jdo.annotations.NotPersistent
+    @lombok.Getter(AccessLevel.NONE) @lombok.Setter(AccessLevel.NONE)
+    ReservaVehiculoRepository reservaVehiculoRepository;
 }
