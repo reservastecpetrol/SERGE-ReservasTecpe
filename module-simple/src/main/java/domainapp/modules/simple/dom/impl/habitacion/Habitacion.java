@@ -297,6 +297,11 @@ public class Habitacion implements Comparable<Habitacion> {
         return ubicacion != null && ubicacion.contains("!") ? TranslatableString.tr("Exclamation mark is not allowed") : null;
     }
 
+    /**
+     * Este metodo permite generar el listado de reservas de habitaciones dado un nombre de habitacion
+     *
+     * @return List<ReservaHabitacion>
+     */
     @NotPersistent
     @CollectionLayout(named = "Reservas Realizadas con esta Habitacion")
     public List<ReservaHabitacion> getReservasHabitacion(){
